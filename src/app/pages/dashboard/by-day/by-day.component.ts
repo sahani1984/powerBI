@@ -41,8 +41,7 @@ export class ByDayComponent implements OnInit {
         this.createBarChart(this.totalBoundInboundData['data'], this.totalBoundInboundData['category']);
         this.createStackedChart(this.fuelAndLabourCostData['data'], this.fuelAndLabourCostData['category']);
       }
-    });
-
+    });  
   }
 
   ngOnInit(): void {
