@@ -1,0 +1,10 @@
+<div  class="hold-transition sidebar-mini"
+[class.sidebar-open]="isMobileSize && sidebarcollapse"
+[class.sidebar-close]="isMobileSize && !sidebarcollapse"
+[class.sidebar-collapse]="sidebarcollapse">
+  <div class="wrapper">    
+ <router-outlet></router-outlet>
+  </div>
+</div>
+<!-- <router-outlet></router-outlet>
+<app-filter [filterCase]="'bydate'"></app-filter> -->

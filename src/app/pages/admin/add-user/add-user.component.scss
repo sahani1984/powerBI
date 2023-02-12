@@ -1,0 +1,23 @@
+input.ng-touched.ng-invalid{
+    border: 1px solid red;
+    box-shadow: 0 0 10px inset rgba(255,0,0,0.2);
+}
+
+.card-footer{display: flex;
+    .btn{display: block;position: relative;padding:6px 19px;}
+    .spinner-border{
+        position: absolute;
+        margin-top:8px;
+        margin-left: 299px;
+        height: 15px;
+        width: 15px;
+        border-width:1px 2px 1px 0;
+        border-style:solid;
+        border-color:#FFF; 
+        .sr-only{
+        display: flex;
+        justify-content: center;
+        align-items:center;
+        margin: 0 auto;}
+    }   
+}

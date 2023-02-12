@@ -1,0 +1,14 @@
+mat-form-field {
+    margin-right: 12px;
+}
+  .box{
+    mat-card{height: 400px;}
+  }
+  .body_wrapper{background-color:#f0f0f0;}
+  .filters{
+  mat-card{height:180px;}
+  }
+  input.ng-touched.ng-invalid{
+    border: 1px solid red;
+    box-shadow: 0 0 10px inset rgba(255,0,0,0.2);
+}

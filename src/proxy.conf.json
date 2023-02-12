@@ -1,0 +1,14 @@
+{
+    "/airlines": {
+      "target": "https://app.countifi.com/api/v2/reports",
+      "secure": false,
+      "changeOrigin": true,
+       "logLevel": "debug"
+    },
+    "/default": {
+      "target": "https://m97vyvor6e.execute-api.us-east-1.amazonaws.com",
+      "secure": false,
+      "changeOrigin": true,
+       "logLevel": "debug"
+    }
+  }

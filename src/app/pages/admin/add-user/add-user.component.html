@@ -1,0 +1,133 @@
+<app-title-bar [titledata]="title_data"></app-title-bar>
+
+<section class="content ">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Add User</h3>
+                    </div>
+                    <form  [formGroup]="registerForm" autocomplete="off"  (ngSubmit)="register(registerForm.value)" class="mt-4">
+                        <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <label>Client ID</label>
+                            <select class="form-control select2"  formControlName="clientID">
+                                <option value="">Select Client</option>
+                                <option *ngFor="let item of this.clientList" [value]="item._id">{{item.name | titlecase}}</option>             
+                                >
+                            </select>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Email address</label>
+                              <input type="email" class="form-control mb-0" placeholder="Enter email" formControlName="email">
+                              <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-danger">
+                                <small *ngIf="registerForm.get('email')?.hasError('required')">This field is required</small>
+                                <small *ngIf="registerForm.get('email')?.hasError('email')">Please enter valid email</small>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                       
+                        
+                        <div class="row">
+                        <div class="form-group col-md-6">
+                          <label>Password</label>
+                          <input type="password" class="form-control mb-0"  placeholder="Password" formControlName="password">
+                          <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-danger">
+                          <small *ngIf="registerForm.get('password')?.hasError('required')">This field is required</small>
+                        </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label>Confrom Password</label>
+                          <input type="password" class="form-control mb-0"  placeholder="Confrom Password" formControlName="confrom_password">
+                          <div *ngIf="registerForm.get('confrom_password')?.invalid && registerForm.get('confrom_password')?.touched" class="text-danger">
+                          <small *ngIf="registerForm.get('confrom_password')?.hasError('required')">This field is required</small>
+                        </div>
+                        </div>                                  
+                      </div>
+
+                          <div class="row mb-2">
+                        <div class="form-group col-md-6">
+                          <label for="exampleInputFile">Logo URL</label>
+                          <input type="text" class="form-control mb-0" placeholder="Enter logo url" formControlName="logo">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label>Type</label>
+                          <select class="form-control select2"  formControlName="type">
+                              <option value="hospital">Hospital</option>
+                              <option value="airline">Airline</option>
+                          </select>
+                      </div>
+                    </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" [disabled]="registerForm.invalid" class="btn  bg-gradient-primary mr-3">
+                               Submit 
+                                <div *ngIf="loading" class="spinner-border ml-1" role="status">
+                                  <span class="sr-only">Loading...</span>
+                                  </div></button>                          
+                            <button type="reset" class="btn bg-gradient-secondary " [disabled]="registerForm.valid" >Cancel</button>
+                        </div>
+                      </form>
+                    <!--<form [formGroup]="addUser" (ngSubmit)="onSubmit(addUser.value)">
+                        <div class="card-body">
+                            <div class="col-md-12 user form-group d-flex">
+                                <div class="col-md-6 user">
+                                    <label for="ClientID">ClientID</label>
+                                    <input type="text" class="form-control" placeholder="ClientID" formControlName="client" autocomplete="off">
+                                    <div *ngIf="addUser.get('client')?.invalid && addUser.get('client')?.touched" class="text-danger">
+                                    <small *ngIf="addUser.get('client')?.hasError('required')">This field is required</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 user">
+                                    <label for="exampleInputEmail1">Email address</label>
+                                    <input type="email" class="form-control" placeholder="Enter email" formControlName="email" autocomplete="off">
+                                    <div *ngIf="addUser.get('email')?.invalid && addUser.get('email')?.touched" class="text-danger">
+                                    <small *ngIf="addUser.get('email')?.hasError('required')">This field is required</small>
+                                    <small *ngIf="addUser.get('email')?.hasError('email')">Please enter valid email</small>
+                                    </div>
+                                </div>
+                                </div>
+
+                               <div class="col-md-12 user form-group d-flex">
+                                  <div class="col-md-6 user">
+                                    <label for="Name">First Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter First Name" formControlName="first_name" autocomplete="off" maxlength="15">
+                                    <div *ngIf="addUser.get('first_name')?.invalid && addUser.get('first_name')?.touched" class="text-danger">
+                                    <small *ngIf="addUser.get('first_name')?.hasError('required')">This field is required</small>
+                                    <small *ngIf="addUser.get('first_name')?.hasError('minlength')">First name can be min 3 characters</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 user">
+                                    <label for="Name">Last Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter Last Name" formControlName="last_name" maxlength="15" autocomplete="off">
+                                    <div *ngIf="addUser.get('last_name')?.invalid && addUser.get('last_name')?.touched" class="text-danger">
+                                        <small *ngIf="addUser.get('last_name')?.hasError('minlength')">Last name can be min 3 characters</small>
+                                    <small *ngIf="addUser.get('last_name')?.hasError('required')">This field is required</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 form-group">
+                                <div class="col-md-6 user">
+                                    <label for="Name">User Industry</label>
+                                    <input type="text" class="form-control" placeholder="User Industry" formControlName="user_insdustry" autocomplete="off">
+                                    <div *ngIf="addUser.get('user_insdustry')?.invalid && addUser.get('user_insdustry')?.touched" class="text-danger">
+                                    <small *ngIf="addUser.get('user_insdustry')?.hasError('required')">This field is required</small>
+                                    </div>
+                                </div>
+                            </div>                          
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" [disabled]="addUser.invalid" class="btn btn-primary mr-1">Submit</button>
+                            <button type="reset" class="btn btn-danger" >Cancel</button>
+                        </div>
+                    </form> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

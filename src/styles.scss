@@ -1,0 +1,113 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('./assets/plugins/fontawesome-free/css/all.min.css');
+@import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
+@import url('./assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css');
+@import url('./assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css');
+@import url('./assets/plugins/jqvmap/jqvmap.min.css');
+@import url('./assets/dist/css/adminlte.min.css');
+@import url('./assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css');
+@import url('./assets/plugins/daterangepicker/daterangepicker.css');
+@import url('./assets/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css');
+@import url('./assets/plugins/summernote/summernote-bs4.min.css');
+@import url('./assets/plugins/dropzone/min/dropzone.min.css');
+@import url('./assets/plugins/bs-stepper/css/bs-stepper.min.css');
+@import url('./assets/css/responsive.scss');
+html,
+body {
+    margin: 0;
+    height: 100%;
+}
+
+body, .highcharts-title {  
+    font-family:"Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"
+}
+
+.sidebar-mini{
+    &.sidebar-collapse{
+        .main-sidebar{
+            .nav-sidebar{padding-left:0;
+                >.nav-item{max-width:100%;}
+               
+            }
+        }
+    }
+}
+.sidebar-mini .main-sidebar .nav-link,
+.sidebar-collapse.sidebar-mini .main-sidebar .nav-link{max-width:100%; width:100% !important;}
+.sidebar-collapse.sidebar-mini .main-sidebar.sidebar-focused:not(.sidebar-no-expand) .nav-link, .sidebar-collapse.sidebar-mini .main-sidebar:hover:not(.sidebar-no-expand) .nav-link, .sidebar-collapse.sidebar-mini-md .main-sidebar.sidebar-focused:not(.sidebar-no-expand) .nav-link, .sidebar-collapse.sidebar-mini-md .main-sidebar:hover:not(.sidebar-no-expand) .nav-link, .sidebar-collapse.sidebar-mini-xs .main-sidebar.sidebar-focused:not(.sidebar-no-expand) .nav-link, .sidebar-collapse.sidebar-mini-xs .main-sidebar:hover:not(.sidebar-no-expand) .nav-link{width:100%;}
+// .sidebar-collapse.sidebar-mini .main-sidebar .nav-sidebar .nav-link, .sidebar-collapse.sidebar-mini-md .main-sidebar .nav-sidebar .nav-link, .sidebar-collapse.sidebar-mini-xs .main-sidebar .nav-sidebar .nav-link
+.content-wrapper{
+    .content-header{padding:.5rem;
+    h1{font-size:1.5rem;}
+    .breadcrumb  .breadcrumb-item{font-size:.8rem;}
+    }
+    .content{padding:0 .5rem;
+        .content-header{padding:.5rem;  }
+        .small-box > .inner{ padding:15px 10px;
+            > .titleSet{display: flex; align-items:center; 
+                &:first-child{margin-bottom:10px;}
+                h3{padding-right:10px;}
+           p, h3 {margin-bottom:0;}
+             }
+        }
+    .highcharts-container, .highcharts-container svg{max-width:100%;}
+    .card{
+        highcharts-chart, .highcharts-root{display:block; width:100%;
+        .highcharts-title{font-size:.9rem !important; font-weight:600;}
+        .highcharts-scrolling{            
+            &::-webkit-scrollbar-track {
+                -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0);
+                border-radius: 10px;
+                background-color:transparent;              
+            }
+        
+            &::-webkit-scrollbar {
+                width: 8px;
+                height: 5px;
+                background-color:transparent;             
+            }
+        
+            &::-webkit-scrollbar-thumb {
+                background-color: transparent;
+                width: 4px;
+                border-radius: 10px;              
+            }
+        
+            &.search_profile_dialog::-webkit-scrollbar {
+                width: 8px;               
+            }
+            &:hover{
+                &::-webkit-scrollbar{background-color: #F5F5F5;}
+                &::-webkit-scrollbar-track{background-color: #F5F5F5;-webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3)}
+                &::-webkit-scrollbar-thumb{background-color: #646c9a;}
+            }
+        }
+        
+        }
+      } 
+    }
+}
+.client_logo{display:flex; align-items:center;
+    img{display:block;height:30px;}
+   }
+
+.filter{background-color: #fff;}
+
+.loading{width:100%; color:#007bff; display: flex; align-items:center; justify-content:center; padding:50px; min-height:200px;
+    .loaderbox{width:100px; height:100px; position:relative; display:flex; align-items:center; justify-content:center;
+    &::before{content:""; position:absolute; width:100%; height:100%;  border-radius:100%;
+        border-width:1px 2px 1px 0; border-style:solid; border-color:rgb(18, 35, 158); 
+        animation:1s loaderAnimate linear infinite;}
+    }  
+  &.small{padding:5px; min-height:10px; color:#fff; font-size:.5rem;
+    .loaderbox{width:30px; height:30px;
+        &::before{border-color:#fff;}
+    }
+  } 
+}
+
+@keyframes loaderAnimate{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}    
+}
+a{cursor: pointer;}

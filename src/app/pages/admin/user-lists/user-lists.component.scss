@@ -1,0 +1,12 @@
+.btn{border: 0;border-radius: 4px;}
+button{background-color: none;}
+.add_user{border-radius: 4px; color: #fff;border: 0;}
+.search{border-radius: 0 4px 4px 0;border: 0;}
+.table{
+    th:first-child, td:first-child{width:5%;}
+    th:nth-child(2), td:nth-child(2){width:40%;}
+    th:nth-child(3), td:nth-child(3){width:20%;}
+    th:nth-child(4), td:nth-child(4){width:25%;}
+    th:nth-child(5), td:nth-child(5){width:10%;}
+}
+.pageChange_control{width: 100%;display: flex;margin: 10px 0 0  ;justify-content: flex-end;}

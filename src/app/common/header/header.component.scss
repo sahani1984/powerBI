@@ -1,0 +1,46 @@
+label{font-size: 12px;}
+.form-group {margin: 0;}
+.form-control{
+    height: 30px;
+    font-size: 11px;}
+
+.filter_form{
+   
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.custom_datepicker{
+    .mat-datepicker-toggle{height:30px;
+        .mat-icon-button{
+            height:30px;    
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ccc;
+            border-radius:4px 0 0 4px;
+            border-right-color: transparent;}
+    }
+   input[type="text"]{border-left-color:transparent;}    
+}
+.dropdown-menu .dropdown-item{cursor:pointer;}
+
+.res_767{display: none;}
+
+@media screen and (max-width:767px){
+.res_767{
+    display: flex;
+    .filter_form{display: flex;width: auto;}
+
+    .client_logo{margin-bottom: 15px;}
+    .card_body{display: flex;margin:10px 0;
+        .style{width: auto;display: flex;}}
+    .form-control{width: 100px;margin-bottom: 15px;}
+}
+.navbar-nav{
+    .client_logo{
+        display: none;
+    }
+}
+    } 
+

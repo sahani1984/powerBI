@@ -1,0 +1,44 @@
+<app-title-bar [titledata]="title_data"></app-title-bar>
+
+<section class="content">
+  <data-filter-form [filterCase]="'noflight'"></data-filter-form>
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <highcharts-chart *ngIf="rateChartData.length" [Highcharts]="Highcharts"
+              [options]="rateChartOptions">
+            </highcharts-chart>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <highcharts-chart *ngIf="costChartData.length"  [Highcharts]="Highcharts"
+              [options]="costChartOptions">
+            </highcharts-chart>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <highcharts-chart *ngIf="returnedChartData.length"
+             [Highcharts]="Highcharts"[options]="returnedChartOptions">
+            </highcharts-chart>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body ">
+        <highcharts-chart *ngIf="inboundChartData.length"
+        [Highcharts]="Highcharts"[options]="inboundChartOptions">
+       </highcharts-chart>
+      </div>
+    </div>
+  </div>
+</section>
+

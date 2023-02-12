@@ -1,0 +1,104 @@
+
+<!--<section class="sign-in-page">
+    <div class="container-fluid p-0 ">
+      <div class="row no-gutters height-self-center">
+        <div class="col-sm-12 align-self-center bg-primary rounded">
+          <div class="row m-0">
+            <div class="col-md-6 text-center sign-in-page-image">
+              <div class="sign-in-detail text-white"> 
+                <div class="logo">
+                <img src="./assets/images/countify-logo.jpg" class="img-fluid" alt="logo">
+              </div>           
+                <div class="owl-carousel" data-autoplay="true" data-loop="true" data-nav="false" data-dots="true"
+                  data-items="1" data-items-laptop="1" data-items-tab="1" data-items-mobile="1" data-items-mobile-sm="1"
+                  data-margin="0">
+                  <div class="item">
+                    <img src="./assets/images/logo img.png" class="img-fluid mb-4" alt="logo">
+                    <h4 class="mb-1 text-white">Find new friends</h4>
+                    <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 bg-white sign-in-page-data pt-4">
+              <div class="sign-in-from">
+                <h1 class="mb-0 text-left w-100">Register In</h1>
+                <form  [formGroup]="registerForm" autocomplete="off"  (ngSubmit)="register(registerForm.value)" class="mt-4">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label>Client ID</label>
+                      <select class="form-control select2"  formControlName="clientID">
+                          <option value="">Select Client</option>
+                          <option *ngFor="let item of this.clientList" [value]="item._id">{{item.name}}</option>             
+                          >
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" class="form-control mb-0" placeholder="Enter email" formControlName="email">
+                        <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-danger">
+                          <small *ngIf="registerForm.get('email')?.hasError('required')">This field is required</small>
+                          <small *ngIf="registerForm.get('email')?.hasError('email')">Please enter valid email</small>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                 
+                  <div class="col-md-12">
+                    <div class="row">
+                  <div class="form-group col-md-6">
+                    <label>Password</label>
+                    <input type="password" class="form-control mb-0"  placeholder="Password" formControlName="password">
+                    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-danger">
+                    <small *ngIf="registerForm.get('password')?.hasError('required')">This field is required</small>
+                  </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Confrom Password</label>
+                    <input type="password" class="form-control mb-0"  placeholder="Confrom Password" formControlName="confrom_password">
+                    <div *ngIf="registerForm.get('confrom_password')?.invalid && registerForm.get('confrom_password')?.touched" class="text-danger">
+                    <small *ngIf="registerForm.get('confrom_password')?.hasError('required')">This field is required</small>
+                  </div>
+                  </div>                                  
+                </div>
+              </div>
+                  <div class="col-md-12">
+                    <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="exampleInputFile">Logo URL</label>
+                    <input type="text" class="form-control mb-0" placeholder="Enter logo url" formControlName="logo">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Type</label>
+                    <select class="form-control select2"  formControlName="type">
+                        <option value="hospital">Hospital</option>
+                        <option value="airline">Airline</option>
+                    </select>
+                </div>
+              </div>
+            </div>
+                 <div class="sign-info text-center">
+                    <button type="submit" [disabled]="registerForm.invalid" class="btn btn-primary d-block w-100 mb-2 p-2">
+                      <i class="fas fa-share-square mr-1"></i>
+                      Register 
+                      <div *ngIf="loading" class="spinner-border ml-1" role="status">
+                        <span class="sr-only">Loading...</span>
+                        </div> </button>
+                 </div>
+                  <div class="form-group1 m-b-10">
+                    <div class="col-sm-12 text-center">
+                      <small class="text-12px">
+                       You have already an acount?
+                        <a routerLink="/login"><b class="text-primary">Sign In</b></a>
+                      </small>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>-->

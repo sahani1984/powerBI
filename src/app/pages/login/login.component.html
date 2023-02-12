@@ -1,0 +1,66 @@
+
+<section class="sign-in-page">
+  <div class="container-fluid p-0 ">
+    <div class="row no-gutters height-self-center">
+      <div class="col-sm-12 align-self-center bg-primary rounded">
+        <div class="row m-0">
+          <div class="col-md-6 text-center sign-in-page-image">
+            <div class="sign-in-detail text-white"> 
+              <div class="logo">
+              <img src="./assets/images/countify-logo.jpg" class="img-fluid" alt="logo">
+            </div>           
+              <div class="owl-carousel" data-autoplay="true" data-loop="true" data-nav="false" data-dots="true"
+                data-items="1" data-items-laptop="1" data-items-tab="1" data-items-mobile="1" data-items-mobile-sm="1"
+                data-margin="0">
+                <div class="item">
+                  <img src="./assets/images/logo img.png" class="img-fluid mb-4" alt="logo">
+                  <h4 class="mb-1 text-white">Find new friends</h4>
+                  <p>It is a long established fact that a reader will be distracted by the readable content.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 bg-white sign-in-page-data pt-4">
+            <div class="sign-in-from">
+              <h1 class="mb-0 text-left w-100">Login in</h1>
+              <form  [formGroup]="loginForm"  (ngSubmit)="login(loginForm.value)" class="mt-4">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email address</label>
+                  <input type="email" class="form-control mb-0" placeholder="Enter email" formControlName="email">
+                  <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger">
+                    <small *ngIf="loginForm.get('email')?.hasError('required')">This field is required</small>
+                    <small *ngIf="loginForm.get('email')?.hasError('email')">Please enter valid email</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label>Password</label>
+                  <input type="password" class="form-control mb-0"  placeholder="Password" formControlName="password">
+                  <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
+                  <small *ngIf="loginForm.get('password')?.hasError('required')">This field is required</small>
+                </div>
+                </div>
+               <div class="sign-info text-center">
+                <button type="submit" [disabled]="loginForm.invalid"  class="btn btn-primary d-block w-100 mb-2 p-2">
+                  <i class="fas fa-sign-in-alt mr-1 mt-1"></i>
+                  Login
+                  <div *ngIf="loading" class="spinner-border ml-1" role="status">
+                    <span class="sr-only">Loading...</span>         
+                   </div>
+                </button>
+                </div>
+                <!-- <div class="form-group1 m-b-10">
+                  <div class="col-sm-12 text-center">
+                    <small class="text-12px">
+                      Don't have an acount?
+                      <a routerLink="/register"><b class="text-primary">Register Now</b></a>
+                    </small>
+                  </div>
+                </div> -->
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,76 @@
+<app-title-bar [titledata]="title_data"></app-title-bar>
+
+<section class="content">
+    <app-major-info [pageName]="'extraCostWidthFlight'"></app-major-info>
+    <data-filter-form [filterCase]="'extracostwithflight'"></data-filter-form>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card_body">
+                <div class="row">
+                    <div class="col-md-6 ">
+                        <div class="card">
+                            <div class="card-body p-0">
+                                <highcharts-chart *ngIf="rateChartData.length" [Highcharts]="Highcharts"
+                                    [options]="rateChartOptions">
+                                </highcharts-chart>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body p-0">
+                                <highcharts-chart *ngIf="carryChartData.length" [Highcharts]="Highcharts"
+                                    [options]="carryChartOptions">
+                                </highcharts-chart>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <highcharts-chart *ngIf="tradeChartData.length" [Highcharts]="Highcharts"
+                                    [options]="tradeChartOptions">
+                                </highcharts-chart>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="info-box  bg-warning">
+                <div class="info-box-content" style="height: 97px; overflow: hidden">
+                    <span class="info-box-number text-center">
+                        <h2>15,567</h2>
+                    </span>
+                    <span class="info-box-text">Weight of Product Returned to Kitchen(lbs)</span>
+                </div>
+            </div>
+            <div class="info-box mb-3 bg-success">
+                <div class="info-box-content" style="height: 97px; overflow: hidden">
+                    <span class="info-box-number text-center">
+                        <h2>$880</h2>
+                    </span>
+                    <span class="info-box-text text-center">Fiel CTC With Flight #</span>
+                </div>
+            </div>
+            <div class="info-box mb-3 bg-danger">
+                <div class="info-box-content" style="height: 97px; overflow: hidden">
+                    <span class="info-box-number text-center">
+                        <h2>2,388</h2>
+                    </span>
+                    <span class="info-box-text text-center">Emission (lbs) With Flight #</span>
+                </div>
+            </div>
+            <div class="info-box mb-3 bg-info w-125px">
+                <div class="info-box-content" style="height: 97px; overflow: hidden">
+                    <span class="info-box-number text-center">
+                        <h2>$740</h2>
+                    </span>
+                    <span class="info-box-text text-center">Labor Cost </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

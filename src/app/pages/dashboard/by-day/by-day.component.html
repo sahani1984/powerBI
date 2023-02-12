@@ -1,0 +1,35 @@
+<app-title-bar [titledata]="title_data"></app-title-bar>
+
+<section class="content byday_content">
+  <data-filter-form [filterCase]="'byday'"></data-filter-form>  
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <highcharts-chart *ngIf="totalBoundInboundData.data?.length"
+           [Highcharts]="Highcharts"[options]="barChartOptions">
+          </highcharts-chart>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <highcharts-chart *ngIf="weightChartData.length"          
+           [Highcharts]="Highcharts"[options]="weightChartOptions">
+          </highcharts-chart>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <highcharts-chart *ngIf="fuelAndLabourCostData.data?.length"  [Highcharts]="Highcharts"
+            [options]="stackedChartOptions">
+          </highcharts-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

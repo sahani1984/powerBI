@@ -1,0 +1,85 @@
+ <!-- Main Sidebar Container -->
+ <aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <span (click)="sidebarclose()" class="close fa fa-times"></span>
+    <!-- Brand Logo -->
+    <a href="javascript:void(0)" class="brand-link">
+      <span class="logo">
+      <img src="./assets/images/small_logo.jpg" alt="Power BI" class="brand-image img-circle elevation-3" >
+    </span>
+      <span class="brand-text font-weight-light">PowerBI</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      
+
+      
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+           <li class="nav-item menu-open">            
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a routerLink="by-day" routerLinkActive="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>By Days</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a routerLink="details" routerLinkActive="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Details</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a routerLink="extra-cost-no-flight" routerLinkActive="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Extra Cost no Flight</p>
+                </a>
+              </li>
+              
+              <li class="nav-item">
+                <a routerLink="extra-cost-with-flight" routerLinkActive="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Extra Cost with Flight</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a routerLink="no-flight" routerLinkActive="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>No Flight</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a routerLink="summary" routerLinkActive="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Summary</p>
+                </a>
+              </li>
+            </ul>
+          </li>  
+          <li class="nav-item" [class.menu-is-opening]="dropDownToggle" [class.menu-open]="dropDownToggle">
+            <a href="javascript:void(0)" (click)="dropDownToggle = !dropDownToggle" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>Admin <i class="fas fa-angle-left right"></i> </p>
+            </a>
+             <ul class="nav nav-treeview" [class.d-block]="dropDownToggle">
+              <li class="nav-item">
+                <a routerLink="add-user" routerLinkActive="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add User</p>                 
+                </a>
+              </li>
+              <li class="nav-item">
+                <a routerLink="user-list" routerLinkActive="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>User List</p>                  
+                </a>
+              </li>
+              </ul>
+          </li>                                      
+        </ul>
+      </nav>
+      </div>
+  </aside>

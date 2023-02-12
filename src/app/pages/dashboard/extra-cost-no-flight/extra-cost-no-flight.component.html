@@ -1,0 +1,52 @@
+<app-title-bar [titledata]="title_data"></app-title-bar>
+
+<section class="content">
+  <app-major-info [pageName]="'extraCostNoFlight'"></app-major-info>
+  <data-filter-form [filterCase]="'extracostnoflight'"></data-filter-form>
+    
+  <div class="row">
+    <div class="col-md-8 chart_wrapper">
+      <div class="card">
+        <div class="card-body">
+          <highcharts-chart *ngIf="TotalOBSCostToCarry.length"  [Highcharts]="Highcharts"
+            [options]="columnChartOptions">
+          </highcharts-chart>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 box_info_wrapper">
+      <div class="info-box mb-3 bg-warning">
+        <div class="info-box-content">
+          <span class="info-box-number text-center">
+            <h2>226,988</h2>
+          </span>
+          <span class="info-box-text">Weight of Product Returned to Kitchen No Flight(lbs)</span>
+        </div>
+      </div>
+      <div class="info-box mb-3 bg-success">
+        <div class="info-box-content">
+          <span class="info-box-number text-center">
+            <h2>$15,889</h2>
+          </span>
+          <span class="info-box-text text-center">Fiel CTC No Flight</span>
+        </div>
+      </div>
+      <div class="info-box mb-3 bg-danger">
+         <div class="info-box-content">
+          <span class="info-box-number text-center">
+            <h2>43,128</h2>
+          </span>
+          <span class="info-box-text text-center">Emission (lbs) No Flight #</span>
+        </div>
+      </div>
+      <div class="info-box bg-info">
+        <div class="info-box-content">
+          <span class="info-box-number text-center">
+            <h2>$15,414</h2>
+          </span>
+          <span class="info-box-text text-center">Labor Cost Without Flight #</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

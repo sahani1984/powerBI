@@ -1,0 +1,16 @@
+.box{
+    mat-card{height: 250px;}
+  }
+  .filters{
+    mat-card{height:200px;}
+    mat-select{border:solid 1px #555;padding: 15px 20px ;border-radius: 10px;}
+    }
+
+    
+  .body_wrapper{background-color:#f0f0f0;}
+  .box_info_wrapper{
+    .info-box{padding:1rem .5rem;}
+  }
+  .chart_wrapper{
+    .card{display:flex; height: 100%;}
+  }
