@@ -16,6 +16,7 @@ export class FilterComponent implements OnInit {
   productList: any[] = [];
   originList: any[] = [];
   destinationList: any[] = [];
+  flightList:any[]=[];
   airlineFltBevDataListOriginal:any[]=[];
   alirlineBevDataListOriginal:any[]=[];
 
@@ -33,6 +34,7 @@ export class FilterComponent implements OnInit {
       this.productList = res["product"];
       this.originList = res["origin"];
       this.destinationList = res["destination"];
+      this.flightList = res["flight"];
     })
 
 
@@ -43,11 +45,22 @@ export class FilterComponent implements OnInit {
     })
 
     this.filterform.valueChanges.subscribe((res: any) => {    
-      let data = JSON.parse(JSON.stringify(this.airlineFltBevDataListOriginal));     
-      // data = data.filter((d: any) => moment(d.departure).format('DD/MM/YYYY') >= moment(res["start_date"]).format('DD/MM/YYYY'));
-      // data = data.filter((d: any) => moment(d.departure).format('DD/MM/YYYY') <= moment(res["end_date"]).format('DD/MM/YYYY'));
-      // data.forEach((d: any) =>d.items = (d.items.filter((s: any) => s.name == res["product"])));
-      this.communication.dataAirlineFlightBeverage.next(data);     
+      let data = JSON.parse(JSON.stringify(this.airlineFltBevDataListOriginal));  
+      console.log(data);  
+      let result: any[] = []
+      result = data.filter((item: any) => new Date(item.departure).getTime() >= res["start_date"].getTime());
+      result = result.filter((item: any) => new Date(item.departure).getTime() <= res["end_date"].getTime());
+      if (res['week'] !== "") {
+        result = result.filter((item: any) => moment(item.departure).format('dddd').toLowerCase() === res["week"].toLowerCase())
+      }
+      if (res['product'] !== "") {
+        result.forEach((item: any) => item.items = item.items.filter((d: any) => d.name.toLowerCase() == res['product'].toLowerCase()));
+      }
+      if (res['flight'] !== "") {
+        result = result.filter((item: any) => item.number === res["flight"]);
+      }     
+    
+      this.communication.dataAirlineFlightBeverage.next(result);     
     })
   }
 

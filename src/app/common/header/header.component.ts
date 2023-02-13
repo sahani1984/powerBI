@@ -88,14 +88,17 @@ export class HeaderComponent implements OnInit {
     let origin =  [...new Set(data.map((d:any)=> d.origin))];
     let destination = [...new Set(data.map((d:any)=> d.destination))];
     let product = [...new Set(data.map((d:any)=> d.items).flat(1).map((d:any)=> d.name))];
+    let flight = [...new Set(data.map((d: any) => d.number))]; 
     let obj:any={};
     obj["origin"]= origin;
     obj["destination"]= destination;
     obj["product"]= product;
+    obj["flight"]= flight;
     return obj;
   }
 
   makeData(data:any){
+    console.log(data);
     let datalist = JSON.parse(JSON.stringify(data));
     this.comunicationServices.totalFlight = datalist.length;
     this.comunicationServices.totalDrawers = datalist.map((d:any)=> d.drawers).map((x:any)=> x.inbound).reduce((a:any,b:any)=> a+b);    
@@ -156,7 +159,6 @@ export class HeaderComponent implements OnInit {
     obj["clientId"] = this.activeClient;
     this.powerbiDb.getFlightBeverages(obj).subscribe({
       next: (res: any) => {
-        console.log(res);
         this.makeData(res["match"]);
         this.comunicationServices.apiDataLoading.next(false);   
         this.comunicationServices.filterOptions.next(this.createFilterOptions(res["match"]))    
