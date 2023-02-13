@@ -12,50 +12,30 @@ highcharts3D(Highcharts);
 })
 export class ExtraCostNoFlightComponent implements OnInit {
   title_data:string="Extra Cost No Flight";
-  isCardCollapse:boolean=false;
-  cardCollapse:boolean=false
   Highcharts: typeof Highcharts = Highcharts;
   columnChartOptions!: Highcharts.Options;
   columnChartData:any[]=[];
-  extra_cost_no!:FormGroup;
   TotalOBSCostToCarryData:any[]=[];
+  fuelCTCnoFlightdata:any[]=[];
+  constructor(public communication:CommunicationService) {
+    // this.columnChartData = this.createColumnChartData();   
 
-  constructor(private fb:FormBuilder,
-    public communication:CommunicationService) {
-    this.columnChartData = this.createColumnChartData();
-    this.initform();
-    this.communication.dataAirlineFlightBeverage
-    .subscribe((res:any)=>{
-      if(res && res.length){
-  let CostCarry = this.TotalOBSCostToCarry(res);
-  this.TotalOBSCostToCarryData;
-  this.createColumnChart(this.TotalOBSCostToCarryData);
-      }
-    })
+    this.communication.dataAirlineBeverage.subscribe((res:any)=>{
+      this.fuelCTCnoFlightdata = this.createFuelCTCnoFlightdata(res);
+      this.createColumnChart(this.fuelCTCnoFlightdata); 
+      console.log(res);
+    })   
    }
 
-// makeData(data:any){
-//   let datalist = JSON.parse(JSON.stringify(data));
-//   this.communication.totalDrawersNoFlight =datalist.length;
-//   console.log(data);
-// }
+
  
-TotalOBSCostToCarry(data:any){
-let CostData =JSON.parse(JSON.stringify(data));
-let CostDataList =CostData.map((item:any)=>item.items).flat(1);
-let CostCarry=[...new Set(CostDataList.map((a:any)=>a.name))];
-let costCarry:any=[];
-CostCarry.forEach((item:any)=>{
-  let CostValue =CostDataList.filter((d:any)=>d.name==item).map((e:any)=>e.cost).map((f:any)=>f.value).reduce((g:any,h:any)=>g+h,0);
-  costCarry.push([item,CostValue]);
-})
-let outbound ={
-  name:"Total Boarded Weight",
-  data:this.createColumnChartData,
-  color:"#118dff"
-}
-return outbound;
-}
+
+   ngOnInit(): void {
+    // this.createColumnChart(this.columnChartData);  
+    }
+   
+
+
   createColumnChart(data:any[]){
     this.columnChartOptions = {
       chart: {
@@ -102,9 +82,25 @@ return outbound;
     series:data
     }
   }
+
+  createFuelCTCnoFlightdata(data:any){
+    let dataLists = JSON.parse(JSON.stringify(data));
+    let productItems = [...new Set(dataLists.map((m:any)=>m.label))];
+    let fuelCTCdata:any=[];
+    productItems.forEach((item:any)=>{
+        let data = dataLists.filter((m:any)=> m.label.toLowerCase() == item.toLowerCase())
+        .map((n:any)=> (n.count * n.weight.value) * 0.07).reduce((m: any, n: any) => m + n, 0);
+        data = Number(data.toFixed(1))
+        fuelCTCdata.push([item, data]);
+    })  
+    return [{color:"#118dff", data:fuelCTCdata}] 
+  }
+
+
+ 
+
   createColumnChartData(){
-    return  [{
-      name: 'Population',
+    return  [{     
       color:"#118dff",
       data: [
           ['Diet Coke',3266],
@@ -126,17 +122,4 @@ return outbound;
   }
 
   
-  ngOnInit(): void {
-    this.createColumnChart(this.columnChartData);  
-    }
-    initform(){
-      let d = new Date();
-      this.extra_cost_no = this.fb.group({
-        product:[""],
-        week:["tuesday"],
-        start_date:[new Date(d.setDate(1))],
-        end_date:[new Date()],
-        time:[""]
-      })
-    }
 }

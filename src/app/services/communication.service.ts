@@ -14,7 +14,7 @@ export class CommunicationService {
   public filterOptions = new BehaviorSubject<any>([]);
   public apiDataLoading = new BehaviorSubject<boolean>(false)
 
-  /*summary date*/
+  /*AIRLINE FLIGHT BEVERAGE INFO*/
   public totalFlight:number=0;
   public totalDrawers:number=0;
   public totalBoardedQuantity:number=0;
@@ -22,14 +22,19 @@ export class CommunicationService {
   public totalBoardedWeight:number=0;
   public totalInboundWeight:number=0;
 
-  /* extra Cost no Flight*/
+  /*AIRLINE BEVERAGE INFO*/
   public totalDrawersWithFlight:number=0;
+  public weightOfProductReturnToKitchenNoFlight:number=0;
+  public fuelCTCnoFlight:number=0;
+  public emission_lbs_noFlight:number=0;
+  public labourCostWithoutFlight:number=0;
+
  
   constructor() { }
   
   setStartDate(date:any){
-    date.setMonth(date.getMonth() - 6);
-    // date.setDate(1);
+    date.setMonth(date.getMonth() - 6)   
+    date.setDate(1);
     return date;
   }
 

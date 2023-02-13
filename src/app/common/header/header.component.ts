@@ -18,16 +18,16 @@ export class HeaderComponent implements OnInit {
   showUserDropdown: boolean = false;
   sidebarcollapse: boolean = false;
   activeClient: any = "3f6a2bc4-d190-411f-a41c-21c6d0e54855";
-  start_date: Date= this.comunicationServices.setStartDate(new Date());
+  start_date: Date= this.comunication.setStartDate(new Date());
   end_date: Date = new Date();
 
   constructor(
     private fb: FormBuilder,
-    private comunicationServices: CommunicationService,
+    private comunication: CommunicationService,
     private powerbiDb: PowerbiDbService,
     private router: Router) {
     this.initform();
-    this.comunicationServices.sidebarCollapse.subscribe((res: any) => this.sidebarcollapse = res);
+    this.comunication.sidebarCollapse.subscribe((res: any) => this.sidebarcollapse = res);
     this.searchform.valueChanges.subscribe((res: any) => this.activeClient = res["client"])
   }
 
@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit {
         this.activeClient = res["client"];
         this.start_date = res["start_date"];
         this.end_date = res["end_date"];
-        this.comunicationServices.mainFilterData.next(res);
+        this.comunication.mainFilterData.next(res);
         this.getBeverage();
         this.getFlightBeverage();
       }
@@ -66,7 +66,7 @@ export class HeaderComponent implements OnInit {
   }
 
   sidebarToggle(){
-    this.comunicationServices.sidebarCollapse.next(!this.sidebarcollapse);
+    this.comunication.sidebarCollapse.next(!this.sidebarcollapse);
   }
 
   logout(){
@@ -97,18 +97,17 @@ export class HeaderComponent implements OnInit {
     return obj;
   }
 
-  makeData(data:any){
-    console.log(data);
+  makeData(data:any){   
     let datalist = JSON.parse(JSON.stringify(data));
-    this.comunicationServices.totalFlight = datalist.length;
-    this.comunicationServices.totalDrawers = datalist.map((d:any)=> d.drawers).map((x:any)=> x.inbound).reduce((a:any,b:any)=> a+b);    
+    this.comunication.totalFlight = datalist.length;
+    this.comunication.totalDrawers = datalist.map((d:any)=> d.drawers).map((x:any)=> x.inbound).reduce((a:any,b:any)=> a+b);    
 
      let boardQty:any = [];
      let inboundQty:any=[];
      datalist.forEach((d:any) =>  boardQty.push(...d.items.map((s:any)=> s.quantity).map((m:any)=> m.outbound)));
      datalist.forEach((d:any) =>  inboundQty.push(...d.items.map((s:any)=> s.quantity).map((m:any)=> m.inbound)));
-     this.comunicationServices.totalBoardedQuantity = boardQty.reduce((a:any, b:any)=>a+b)
-     this.comunicationServices.totalInboundQuantity = inboundQty.reduce((a:any, b:any)=>a+b);
+     this.comunication.totalBoardedQuantity = boardQty.reduce((a:any, b:any)=>a+b)
+     this.comunication.totalInboundQuantity = inboundQty.reduce((a:any, b:any)=>a+b);
 
       let boardedWeight:any = [];
       datalist.forEach((d:any) => {
@@ -120,7 +119,7 @@ export class HeaderComponent implements OnInit {
         })  
         boardedWeight.push(...result);   
        });
-     this.comunicationServices.totalBoardedWeight =
+     this.comunication.totalBoardedWeight =
      boardedWeight.reduce((x:any,y:any)=> Number(x)+ Number(y)).toFixed(0)
     
      let inboundWeight:any = [];
@@ -133,8 +132,17 @@ export class HeaderComponent implements OnInit {
         })  
         inboundWeight.push(...result);   
        });
-     this.comunicationServices.totalInboundWeight  = inboundWeight.reduce((x:any,y:any)=> Number(x)+ Number(y)).toFixed(0);
-    
+     this.comunication.totalInboundWeight  = inboundWeight.reduce((x:any,y:any)=> Number(x)+ Number(y)).toFixed(0);
+  }
+
+
+  makeInfoDeltaNoFlight(data:any){
+    let datalist = JSON.parse(JSON.stringify(data));
+    let result = datalist.map((k:any)=> k.count * k.weight.value).reduce((m:any,n:any)=> m+n,0);
+    this.comunication.weightOfProductReturnToKitchenNoFlight = Number(result.toFixed(0));
+   
+   
+    console.log(result);
   }
 
   getBeverage(){
@@ -143,16 +151,19 @@ export class HeaderComponent implements OnInit {
     obj["endDate"] = moment(this.end_date).format('YYYY-MM-DD');
     obj["clientId"] = this.activeClient;
     this.powerbiDb.getBeverages(obj).subscribe({
-      next: (res: any)=>{
-        this.comunicationServices.dataAirlineBeverageOriginal.next(res);    
-        this.comunicationServices.dataAirlineBeverage.next(res);    
+      next: (res: any)=>{      
+        this.comunication.dataAirlineBeverageOriginal.next(res);    
+        this.comunication.dataAirlineBeverage.next(res);
+        this.makeInfoDeltaNoFlight(res);    
       },
       error: (err) => console.log(err)
     })
   }
 
+
+
   getFlightBeverage(){
-    this.comunicationServices.apiDataLoading.next(true);
+    this.comunication.apiDataLoading.next(true);
     let obj: any = {};
     obj["startDate"] = moment(this.start_date).format('YYYY-MM-DD');
     obj["endDate"] = moment(this.end_date).format('YYYY-MM-DD');
@@ -160,13 +171,13 @@ export class HeaderComponent implements OnInit {
     this.powerbiDb.getFlightBeverages(obj).subscribe({
       next: (res: any) => {
         this.makeData(res["match"]);
-        this.comunicationServices.apiDataLoading.next(false);   
-        this.comunicationServices.filterOptions.next(this.createFilterOptions(res["match"]))    
-        this.comunicationServices.dataAirlineFlightBeverageOriginal.next(res["match"]);
-        this.comunicationServices.dataAirlineFlightBeverage.next(res["match"]);
+        this.comunication.apiDataLoading.next(false);   
+        this.comunication.filterOptions.next(this.createFilterOptions(res["match"]))    
+        this.comunication.dataAirlineFlightBeverageOriginal.next(res["match"]);
+        this.comunication.dataAirlineFlightBeverage.next(res["match"]);
         },
       error: (err) => {
-        this.comunicationServices.apiDataLoading.next(false);
+        this.comunication.apiDataLoading.next(false);
         console.log(err)
       }
     })
@@ -179,6 +190,6 @@ export class HeaderComponent implements OnInit {
       start_date: [this.start_date],
       end_date: [this.end_date]
     })
-    this.comunicationServices.mainFilterData.next(this.searchform.value);
+    this.comunication.mainFilterData.next(this.searchform.value);
   }
 }

@@ -32,8 +32,8 @@ export class DetailsComponent implements OnInit {
   public communication:CommunicationService) {
     this.tradeChartData = this.createTradeChartData();
     this.rainChartData = this.createRainChartData();
-    this.rateChartData = this.createRateChartData();
-    this.weightChartData = this.createWeightChartData();
+    // this.rateChartData = this.createRateChartData();
+    //  this.weightChartData = this.createWeightChartData();
      this.initform();
      this.communication.dataAirlineFlightBeverage
     .subscribe((res:any)=>{
@@ -124,12 +124,13 @@ export class DetailsComponent implements OnInit {
         bar: {
           dataLabels: {
             enabled: true,
-            format: '{point.y:,.1f}K',
-            align: "left"
+            formatter: function () {            
+              return Highcharts.numberFormat (this.y!/1000, 1)+"K";
+            },
           },
           pointWidth: 10,
           pointPadding: 0.1,
-          groupPadding: 0.05,
+          groupPadding: 0.06,
         },
       },
       credits: { enabled: false },

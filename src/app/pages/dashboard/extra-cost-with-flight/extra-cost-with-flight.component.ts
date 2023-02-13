@@ -11,57 +11,42 @@ highcharts3D(Highcharts);
   styleUrls: ['./extra-cost-with-flight.component.scss']
 })
 export class ExtraCostWithFlightComponent implements OnInit {
-  isCardCollapse:boolean=false;
-  cardCollapse:boolean=false;
   title_data:string="Extra Cost With Flight"
   Highcharts: typeof Highcharts = Highcharts;
   rateChartOptions!: Highcharts.Options;
-  rateChartData:  any[] = [];
   carryChartOptions!: Highcharts.Options;
-  carryChartData:  any[] = [];
   tradeChartOptions!: Highcharts.Options;
+  rateChartData:  any[] = [];
+  carryChartData:  any[] = [];
   tradeChartData:  any[] = [];
-  extra_cost_with_flight!:FormGroup;
+  fuelCTCWithFlight:any=[];
 
-  constructor(private fb:FormBuilder,
-    public communication:CommunicationService) {
+  constructor(public communication:CommunicationService) {
     this.rateChartData = this.createRateChartData(); 
-    this.carryChartData = this.createCarryChartData(); 
+   // this.fuelCTCWithFlight = this.createCarryChartData(); 
     this.tradeChartData = this.createTradeChartData();
-  this.initform();
-  this.communication.dataAirlineFlightBeverage
-    //  .subscribe((res:any)=>{
-    //    if(res && res.length){
-    //      this.makeData(res);
-    //    }
-    //  })
+  
+  
+  this.communication.dataAirlineFlightBeverage.subscribe((res:any)=>{
+       if(res && res.length){
+         this.makeData(res);
+          this.fuelCTCWithFlight = this.fuelCTCWithFlightProduct(res);
+          this.createcarryChart (this.fuelCTCWithFlight['data'], this.fuelCTCWithFlight['category']);
+       }
+     })
   }
 
   ngOnInit(): void {
     this.createTradeChart(this.tradeChartData);
     this.createrateChart(this.rateChartData);
-    this.createcarryChart(this.carryChartData);
+    // this.createcarryChart(this.fuelCTCWithFlight);
   }
 
   makeData(data:any){
       let datalist = JSON.parse(JSON.stringify(data));
       this.communication.totalDrawersWithFlight = datalist.map((d:any)=> d.drawers)
       .map((x:any)=> x.inbound).reduce((a:any,b:any)=> a+b);    
-    }
-  
-
-  initform(){
-    let d = new Date();
-    this.extra_cost_with_flight = this.fb.group({
-      product:[""],
-      week:["tuesday"],
-      start_date:[new Date(d.setDate(1))],
-      end_date:[new Date()],
-      time:[""],
-    })
-
   }
-  
   createrateChart(data:any[]){
     this.rateChartOptions = {
       chart: {
@@ -106,8 +91,8 @@ yAxis: {
   credits:{enabled:false},
    series:data
     }
-   }
-   createcarryChart(data:any[]){
+  }
+   createcarryChart(data:any[], category:any[]){
     this.carryChartOptions = {
       chart: {
         type: 'bar',
@@ -123,8 +108,7 @@ yAxis: {
        align: 'left'
    },
    xAxis: {
-    categories: [ 'Diet Coke','Coke','Ginger Ale', 'Sprit','Red Wine','Tip Top Marg..', 'Woodford W..',
-       'Coke Zero','Tip Top Old Fa..', 'Du Nord Vodka', ],
+    categories: category,
     type: 'category',
     title: {text: 'Product'},
     labels: {
@@ -149,7 +133,7 @@ yAxis: {
   credits:{enabled:false},
    series:data
     }
-   }
+  }
    createTradeChart(data:any[]){
     this.tradeChartOptions =  {
       chart: {
@@ -213,8 +197,22 @@ yAxis: {
           credits: {
             enabled: false
           }
-    } }
-  createTradeChartData(){    
+  }}
+    
+  fuelCTCWithFlightProduct(data:any){   
+    let dataList = JSON.parse(JSON.stringify(data));   
+    let productItem = [...new Set(dataList.map((d:any)=> d.items).flat(1).map((m:any)=> m.name))];
+    let fuelcost: any = [];      
+    productItem.forEach((item: any) => {
+     let x =  dataList.map((a:any)=> a.items).flat(1).filter((b:any)=> b.name == item)
+     .map((c:any)=> (c.weight.value * c.quantity.inbound)* 0.07).reduce((r: any, y: any) => r + y, 0);
+       fuelcost.push(Number(x.toFixed(1)));     
+    })
+   let chartdata =  [{name: 'Fuel CTC with Flight', color:"#118dff",data: fuelcost}]
+   return {data:chartdata, category:productItem};
+  }
+
+  createTradeChartData(){
     return [
         [865,25,150,36,98,105,119,236,450,146,50,202,350,66,210,256,
           352,9,47,274,35,308,125],
@@ -241,6 +239,8 @@ yAxis: {
         showInLegend: false
     }]
   }
+
+ 
 }
  
 

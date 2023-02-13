@@ -94,7 +94,7 @@ export class FilterComponent implements OnInit {
       origin: [""],
       destinaton: [""],
       flight: [""],
-      week: ["tuesday"],
+      week: [""],
       start_date: [new Date(d.setDate(1))],
       end_date: [new Date()],
       time: [""]
