@@ -226,9 +226,6 @@ yAxis: {
     }
   }
 
-<<<<<<< HEAD
-  createRateChartData(){
-=======
 
 
    createCountByProductData(data: any[]) {
@@ -259,7 +256,6 @@ yAxis: {
 
 
    createRateChartData(){
->>>>>>> 6ee37ae62de57ac1d7f3ee369db459b6cad43f7f
     return [{
       type: 'bar',
         name: 'Unemployed',
