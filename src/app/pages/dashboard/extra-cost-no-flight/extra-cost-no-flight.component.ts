@@ -12,35 +12,30 @@ highcharts3D(Highcharts);
 })
 export class ExtraCostNoFlightComponent implements OnInit {
   title_data:string="Extra Cost No Flight";
+  showLoader:boolean=false;
   Highcharts: typeof Highcharts = Highcharts;
   columnChartOptions!: Highcharts.Options;
   columnChartData:any[]=[];
   TotalOBSCostToCarryData:any[]=[];
   fuelCTCnoFlightdata:any[]=[];
-  constructor(public communication:CommunicationService) {
-    // this.columnChartData = this.createColumnChartData();   
-
+  constructor(public communication:CommunicationService,
+    ) {
+    this.communication.deltaNoFlightLoading.subscribe((res:any)=> this.showLoader = res);
     this.communication.dataAirlineBeverage.subscribe((res:any)=>{
       this.fuelCTCnoFlightdata = this.createFuelCTCnoFlightdata(res);
       this.createColumnChart(this.fuelCTCnoFlightdata); 
       console.log(res);
     })   
-   }
-
-
- 
-
-   ngOnInit(): void {
-    // this.createColumnChart(this.columnChartData);  
-    }
+  }
+  ngOnInit(): void {
+  }
    
-
-
   createColumnChart(data:any[]){
     this.columnChartOptions = {
       chart: {
         type: 'bar',
         inverted: true,
+        height:465  ,
     },
     title: {
         text: 'Total OBS cost to carry',
@@ -60,7 +55,8 @@ export class ExtraCostNoFlightComponent implements OnInit {
         min: 0,
         title: {
             text: 'Fuel CTC No Flight #'
-        }
+        },
+        margin:0
     },
     legend: {
         enabled: false
@@ -75,7 +71,7 @@ export class ExtraCostNoFlightComponent implements OnInit {
             format: '${point.y:,.1f}',
             align:"left"
           },
-          pointWidth:20,
+          pointWidth:18,
          },      
       },
       credits:{enabled:false},
@@ -95,31 +91,27 @@ export class ExtraCostNoFlightComponent implements OnInit {
     })  
     return [{color:"#118dff", data:fuelCTCdata}] 
   }
-
-
- 
-
-  createColumnChartData(){
-    return  [{     
-      color:"#118dff",
-      data: [
-          ['Diet Coke',3266],
-          ['Coke', 2891],
-          ['Ginger Ale', 2613],
-          ['Sprite', 1779],
-          ['Coke Zero', 1202],
-          ['Red Wine', 822],
-          ['Tip Top Margarita',750],
-          ['Woodford Whiskey', 620],
-          ['Do Nord Vodka', 508],
-          ['Bombay Sapphire Gin', 498],
-          ['Tip Top Old Fashioned', 485],
-          ['Jack Daniels Whiskey', 236],
-          ['Bacardi Rum', 218]                 
-      ],
+  // createColumnChartData(){
+  //   return  [{     
+  //     color:"#118dff",
+  //     data: [
+  //         ['Diet Coke',3266],
+  //         ['Coke', 2891],
+  //         ['Ginger Ale', 2613],
+  //         ['Sprite', 1779],
+  //         ['Coke Zero', 1202],
+  //         ['Red Wine', 822],
+  //         ['Tip Top Margarita',750],
+  //         ['Woodford Whiskey', 620],
+  //         ['Do Nord Vodka', 508],
+  //         ['Bombay Sapphire Gin', 498],
+  //         ['Tip Top Old Fashioned', 485],
+  //         ['Jack Daniels Whiskey', 236],
+  //         ['Bacardi Rum', 218]                 
+  //     ],
      
-  }]
-  }
+  // }]
+  // }
 
   
 }

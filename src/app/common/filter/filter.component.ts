@@ -46,7 +46,6 @@ export class FilterComponent implements OnInit {
 
     this.filterform.valueChanges.subscribe((res: any) => {    
       let data = JSON.parse(JSON.stringify(this.airlineFltBevDataListOriginal));  
-      console.log(data);  
       let result: any[] = []
       result = data.filter((item: any) => new Date(item.departure).getTime() >= res["start_date"].getTime());
       result = result.filter((item: any) => new Date(item.departure).getTime() <= res["end_date"].getTime());

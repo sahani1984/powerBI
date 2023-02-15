@@ -22,7 +22,7 @@
         </div>
         <div *ngIf="showDestinationfilter" class="col-md-3">
           <div class="form-group">
-            <label>Destinaton</label>
+            <label>Destination</label>
             <select class="form-control select2" formControlName="destinaton">
               <option value="">All</option>
               <option *ngFor="let item of destinationList" [value]="item">{{item}}</option>

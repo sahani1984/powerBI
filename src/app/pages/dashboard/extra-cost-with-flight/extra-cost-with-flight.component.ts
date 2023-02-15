@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import * as Highcharts from 'highcharts';
 import highcharts3D from 'highcharts/highcharts-3d';
+import * as moment from 'moment';
 import { CommunicationService } from 'src/app/services/communication.service';
 highcharts3D(Highcharts);
 
@@ -11,7 +11,8 @@ highcharts3D(Highcharts);
   styleUrls: ['./extra-cost-with-flight.component.scss']
 })
 export class ExtraCostWithFlightComponent implements OnInit {
-  title_data:string="Extra Cost With Flight"
+  title_data:string="Extra Cost With Flight";
+  showLoader:boolean=false;
   Highcharts: typeof Highcharts = Highcharts;
   rateChartOptions!: Highcharts.Options;
   carryChartOptions!: Highcharts.Options;
@@ -23,11 +24,9 @@ export class ExtraCostWithFlightComponent implements OnInit {
 
   constructor(public communication:CommunicationService) {
     this.rateChartData = this.createRateChartData(); 
-   // this.fuelCTCWithFlight = this.createCarryChartData(); 
     this.tradeChartData = this.createTradeChartData();
-  
-  
-  this.communication.dataAirlineFlightBeverage.subscribe((res:any)=>{
+    this.communication.apiDataLoading.subscribe((res:any)=> this.showLoader = res);
+   this.communication.dataAirlineFlightBeverage.subscribe((res:any)=>{
        if(res && res.length){
          this.makeData(res);
           this.fuelCTCWithFlight = this.fuelCTCWithFlightProduct(res);
@@ -39,14 +38,24 @@ export class ExtraCostWithFlightComponent implements OnInit {
   ngOnInit(): void {
     this.createTradeChart(this.tradeChartData);
     this.createrateChart(this.rateChartData);
-    // this.createcarryChart(this.fuelCTCWithFlight);
   }
 
   makeData(data:any){
-      let datalist = JSON.parse(JSON.stringify(data));
-      this.communication.totalDrawersWithFlight = datalist.map((d:any)=> d.drawers)
-      .map((x:any)=> x.inbound).reduce((a:any,b:any)=> a+b);    
-  }
+   
+      let dataList: any = JSON.parse(JSON.stringify(data));
+      let dates = [...new Set(dataList.map((d: any) => d.departure.split('T')[0]))];  
+      let labourcost:any=[];
+      dates.forEach((item: any) => {
+        let l = dataList.filter((x: any) => x.departure.split('T')[0] == item).map((d:any)=> d.drawers).map((d:any)=> d.inbound *0.62).reduce((r: any, y: any) => r + y, 0); 
+        labourcost.push(Number(l.toFixed(1)));
+      })
+      let  dateInshort = dates.map((d:any)=> moment(d).format('MMM DD')); 
+      let chartData = [
+        { name: 'Labor Cost', data: labourcost, color: "#12239e" },    
+      ]
+      return { category: dateInshort, data: chartData }
+    }    
+  
   createrateChart(data:any[]){
     this.rateChartOptions = {
       chart: {
@@ -98,7 +107,7 @@ yAxis: {
         type: 'bar',
         inverted: true,
         scrollablePlotArea: {
-            minHeight: 250        
+            minHeight: 360        
         },
         height:250,
         marginRight: 30
@@ -118,13 +127,13 @@ yAxis: {
 yAxis: {
     min: 0,
     title: {
-        text:  'Fuel CTC No Flight #'
+        text:  ''
     }
 },
    plotOptions: {
     bar: {
       dataLabels: {
-        enabled: true
+        enabled: false
       },
       pointWidth:14,
       groupPadding:.1
@@ -161,20 +170,17 @@ yAxis: {
           yAxis: [
             {          
               title: {
-                text: "Consumption/Pax"
+                text: ''
               }
             },
-            {            
-              min: 0,
-              opposite: true
-            }
+           
           ],
           plotOptions: {
             column: {
               dataLabels: {
                 enabled: true
               },
-              pointWidth:18,
+              pointWidth:24,
               groupPadding:.1
              },      
           },

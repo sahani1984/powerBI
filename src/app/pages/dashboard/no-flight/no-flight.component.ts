@@ -12,7 +12,7 @@ highcharts3D(Highcharts);
 })
 export class NoFlightComponent implements OnInit {
   title_data:string="No Flight";
-  isCardCollapse:boolean=false;
+  showLoader:boolean=false;
   Highcharts: typeof Highcharts = Highcharts;
   rateChartOptions!: Highcharts.Options;
   rateChartData: any[] = [];
@@ -22,38 +22,26 @@ export class NoFlightComponent implements OnInit {
   returnedChartData: any[] = [];
   inboundChartOptions!: Highcharts.Options;
   inboundChartData:  any[] = [];
-  no_flight!:FormGroup;
   productOption_filter:any=[];
 
   constructor(private fb:FormBuilder,
     public communication:CommunicationService) { 
+    this. communication.apiDataLoading.subscribe((res:any)=> this.showLoader = res);
     this. rateChartData = this.createRateChartData();
     this. costChartData = this.createCostChartData();
     this. returnedChartData = this.createreturnedChartData();
     this. inboundChartData = this.createInboundChartData();
-    this.initform();
-    this.communication.filterOptions.subscribe((res:any)=> this.productOption_filter = res["product"])
+    this. communication.filterOptions.subscribe((res:any)=> this.productOption_filter = res["product"])
   }
 
   ngOnInit(): void {
-    this.createrateChart(this.rateChartData);
-    this.createcostChart(this.costChartData);
-    this.createreturnedChart(this.returnedChartData);
-    this.createinboundChart(this.inboundChartData);
+    this. createrateChart(this.rateChartData);
+    this. createcostChart(this.costChartData);
+    this. createreturnedChart(this.returnedChartData);
+    this. createinboundChart(this.inboundChartData);
   }
 
-  initform(){
-    let d = new Date();
-    this.no_flight = this.fb.group({
-      product:[""],
-      start_date:[new Date(d.setDate(1))],
-      end_date:[new Date()],
-      time:[""]
-    })
-
-  }
-
-   createrateChart(data:any[]){
+  createrateChart(data:any[]){
    this.rateChartOptions = {
     chart: {
       type: "bar",
@@ -95,8 +83,8 @@ yAxis: {
   credits:{enabled:false},
   series:data
    }
-   }
-   createcostChart(data:any[]){
+  }
+  createcostChart(data:any[]){
     this.costChartOptions = {
       chart: {
         type: "bar",
@@ -141,8 +129,8 @@ yAxis: {
   credits:{enabled:false},
    series:data
     }
-   }
-   createreturnedChart(data:any[]){
+  }
+  createreturnedChart(data:any[]){
     this.returnedChartOptions = {
 
       chart: {
@@ -186,8 +174,8 @@ yAxis: {
   credits:{enabled:false},
    series:data
     }
-   }
-   createinboundChart(data:any[]){
+  }
+  createinboundChart(data:any[]){
     this.inboundChartOptions ={
       chart: {
         scrollablePlotArea: {
@@ -206,12 +194,13 @@ yAxis: {
   yAxis: [
     {
       title: {
-        text: "Consumption/Pax"
+        text: "Inbound and Outbound"
       }
     },
     {
       title:{
-        text: "Flight # Count", 
+        text: "% returned", 
+        textAlign:'right'
       }
     }
     ],
@@ -235,9 +224,9 @@ yAxis: {
   credits:{enabled:false},
         series:data
     }
-   }
+  }
 
-   createRateChartData(){
+  createRateChartData(){
     return [{
       type: 'bar',
         name: 'Unemployed',
@@ -253,8 +242,8 @@ yAxis: {
           ['Tip Top Old Fas..',26636]],
         showInLegend: false
     }]
-   }
-   createCostChartData(){
+  }
+  createCostChartData(){
     return [{
       type: 'bar',
         name: 'Unemployed',
@@ -270,8 +259,8 @@ yAxis: {
         ['Ginger Ale',13658]],
         showInLegend: false
     }]
-   }
-   createreturnedChartData(){
+  }
+  createreturnedChartData(){
     return [{
       type: 'bar',
         name: 'Unemployed',
@@ -287,8 +276,8 @@ yAxis: {
            ['Woodford Whi..',72]],
         showInLegend: false
     }]
-   }
-   createInboundChartData(){
+  }
+  createInboundChartData(){
     return [{
       type: 'spline',
       name: '% returned',
@@ -314,6 +303,6 @@ yAxis: {
     },
      ]
     
-   }
+  }
 }  
 

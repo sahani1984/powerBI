@@ -2,32 +2,46 @@
 
 <section class="content byday_content">
   <data-filter-form [filterCase]="'byday'"></data-filter-form>  
-
   <div class="row">
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
-          <highcharts-chart *ngIf="totalBoundInboundData.data?.length"
+          <div *ngIf="showLoader" class="loading">
+            <div class="loaderbox">Loading...</div>
+          </div>
+          <highcharts-chart *ngIf="!showLoader && totalBoundInboundData.data?.length"
            [Highcharts]="Highcharts"[options]="barChartOptions">
           </highcharts-chart>
+          <div *ngIf="!showLoader && totalBoundInboundData.length" class="xAsixlabel"> 
+          </div>
         </div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
-          <highcharts-chart *ngIf="totalBoundInboundWeight.data?.length"          
+          <div *ngIf="showLoader" class="loading">
+            <div class="loaderbox">Loading...</div>
+          </div>
+          <highcharts-chart *ngIf="!showLoader && totalBoundInboundWeight.data?.length"          
            [Highcharts]="Highcharts"[options]="weightChartOptions">
           </highcharts-chart>
+          <div *ngIf="!showLoader && totalBoundInboundData.length" class="xAsixlabel"> 
+          </div>
         </div>
       </div>
     </div>
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
-          <highcharts-chart *ngIf="fuelAndLabourCostData.data?.length"  [Highcharts]="Highcharts"
+          <div *ngIf="showLoader" class="loading">
+            <div class="loaderbox">Loading...</div>
+          </div>
+          <highcharts-chart *ngIf="!showLoader && fuelAndLabourCostData.data?.length"  [Highcharts]="Highcharts"
             [options]="stackedChartOptions">
           </highcharts-chart>
+          <div *ngIf="!showLoader && totalBoundInboundData.length" class="xAsixlabel"> 
+          </div>
         </div>
       </div>
     </div>

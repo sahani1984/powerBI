@@ -15,6 +15,7 @@ declare var $: any;
 })
 export class ByDayComponent implements OnInit {
   title_data: string = "By Day";
+  showLoader:boolean=false
   Highcharts: typeof Highcharts = Highcharts;
   barChartOptions!: Highcharts.Options;
   stackedChartOptions!: Highcharts.Options;
@@ -23,16 +24,9 @@ export class ByDayComponent implements OnInit {
   totalBoundInboundWeight: any = [];
   fuelAndLabourCostData:any=[];
 
-
-
   constructor(private powerbidb: PowerbiDbService,
     private communication: CommunicationService) {
-    // this.totalBoundInboundData = this.createBarChartData();
-   // this.weightChartData = this.createWeightChartData();
-    // this.stackedChartData = this.createStackedChartData();
-
-
-
+    this.communication.apiDataLoading.subscribe((res:any)=> this.showLoader = res);
     this.communication.dataAirlineBeverage.subscribe((res: any) => console.log(res));
     this.communication.dataAirlineFlightBeverage.subscribe((res: any) => {
       if (res && res.length) {
@@ -49,40 +43,38 @@ export class ByDayComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   createBarChart(data: any[], category: any) {
     this.barChartOptions = {
       chart: {
         type: 'column',
         inverted: true,
-        scrollablePlotArea: {
-            minHeight: 1400        
+        scrollablePlotArea:{
+        minHeight: 1400        
         },
         height:465,
-        marginRight: 30,
-      
+        marginRight: 30, 
     },
       title: {
-        text: ''
+      text: ''
       },
       xAxis: {
         categories: category,
         title: {
-          text: "Dates"
+        text: "Dates"
         }
       },
       yAxis: {
         min: 0,
         title: {
-          align: 'high'
+        align: 'high'
         },
         labels: {
-          format: '${text}',
+        format: '${text}',
         }
 
       },
       tooltip: {
-        valueSuffix: ' Thousands'
+      valueSuffix: ' Thousands'
       },
 
       plotOptions: {
@@ -90,7 +82,7 @@ export class ByDayComponent implements OnInit {
           dataLabels: {
             enabled: true,
             formatter: function () {            
-              return Highcharts.numberFormat (this.y!/1000, 1)+"K";
+            return Highcharts.numberFormat (this.y!/1000, 1)+"K";
             },
           },
           pointWidth: 16,
@@ -106,7 +98,7 @@ export class ByDayComponent implements OnInit {
         x: -10
       },
       credits: {
-        enabled: false
+      enabled: false
       },
       series: data
     }
@@ -117,7 +109,7 @@ export class ByDayComponent implements OnInit {
         type: 'column',
         inverted: true,
         scrollablePlotArea: {
-          minHeight: 1400        
+          minHeight: 1400 ,       
       },
       height:465,
       marginRight: 30,
@@ -238,6 +230,7 @@ export class ByDayComponent implements OnInit {
     boardedActualData.forEach((d: any, i: number) => {
       let x = Number((d - inboundActualData[i]).toFixed(1))
       cosumedCost.push(x);
+      console.log(x)
     });
 
     let  dateInshort = dates.map((d:any)=> moment(d).format('MMM DD'));
@@ -249,7 +242,6 @@ export class ByDayComponent implements OnInit {
     ]
     return { category: dateInshort, data: chartData }
   }
-
   totalBoardedAndInboundWeigthDate(data:any){    
     let dataList: any = JSON.parse(JSON.stringify(data));
     let dates = [...new Set(dataList.map((d: any) => d.departure.split('T')[0]))];
@@ -278,7 +270,6 @@ export class ByDayComponent implements OnInit {
     ]
     return { category: dateInshort, data: chartData }
   }
-
   createFuelAndLabourCostData(data:any){
     let dataList: any = JSON.parse(JSON.stringify(data));
     let dates = [...new Set(dataList.map((d: any) => d.departure.split('T')[0]))];  

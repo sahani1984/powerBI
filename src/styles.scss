@@ -35,7 +35,6 @@ body, .highcharts-title {
 .sidebar-mini .main-sidebar .nav-link,
 .sidebar-collapse.sidebar-mini .main-sidebar .nav-link{max-width:100%; width:100% !important;}
 .sidebar-collapse.sidebar-mini .main-sidebar.sidebar-focused:not(.sidebar-no-expand) .nav-link, .sidebar-collapse.sidebar-mini .main-sidebar:hover:not(.sidebar-no-expand) .nav-link, .sidebar-collapse.sidebar-mini-md .main-sidebar.sidebar-focused:not(.sidebar-no-expand) .nav-link, .sidebar-collapse.sidebar-mini-md .main-sidebar:hover:not(.sidebar-no-expand) .nav-link, .sidebar-collapse.sidebar-mini-xs .main-sidebar.sidebar-focused:not(.sidebar-no-expand) .nav-link, .sidebar-collapse.sidebar-mini-xs .main-sidebar:hover:not(.sidebar-no-expand) .nav-link{width:100%;}
-// .sidebar-collapse.sidebar-mini .main-sidebar .nav-sidebar .nav-link, .sidebar-collapse.sidebar-mini-md .main-sidebar .nav-sidebar .nav-link, .sidebar-collapse.sidebar-mini-xs .main-sidebar .nav-sidebar .nav-link
 .content-wrapper{
     .content-header{padding:.5rem;
     h1{font-size:1.5rem;}
@@ -89,8 +88,7 @@ body, .highcharts-title {
 }
 .client_logo{display:flex; align-items:center;
     img{display:block;height:30px;}
-   }
-
+}
 .filter{background-color: #fff;}
 
 .loading{width:100%; color:#007bff; display: flex; align-items:center; justify-content:center; padding:50px; min-height:200px;
@@ -105,9 +103,17 @@ body, .highcharts-title {
     }
   } 
 }
-
 @keyframes loaderAnimate{
     0%{transform:rotate(0deg);}
     100%{transform:rotate(360deg);}    
+}
+
+.info-box .info-box-text, .info-box .progress-description {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    text-align: center;
 }
 a{cursor: pointer;}

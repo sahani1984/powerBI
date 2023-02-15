@@ -21,7 +21,7 @@
         <div class="titleSet">
           <h3>
             <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-            <span *ngIf="!showLoader">{{communication.totalFlight}}</span>
+            <span *ngIf="!showLoader">{{communication.totalFlight }}</span>
             </h3>
           <p># Flight</p>
         </div>
@@ -90,7 +90,10 @@
 <div *ngIf="showTotalDrawersNoFlight" class="col-md-4">
   <div class="small-box bg-info">
     <div class="inner">              
-        <h3>24,861</h3>
+        <h3>
+          <div *ngIf="ShowLoader" class="loading small"><div class="loaderbox">loading...</div></div>
+          <span *ngIf="!ShowLoader">{{communication.totalDrawersNoFlight}}</span>
+        </h3>
         <p>#Total Drawers No Flight</p>            
     </div>
     <div class="icon">

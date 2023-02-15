@@ -35,12 +35,12 @@ export class PowerbiDbService {
 
   getFlightBeverages(data:any):Observable<any>{
     let queryparams = `/${data.clientId}?startDate=${data.startDate}&endDate=${data.endDate}`
-    return this.http.get<any>('http://localhost:3000/match');
+   return this.http.get<any>(' http://localhost:3000/match');
   }
 
   getBeverages(data:any):Observable<any>{
     let queryparams = `/${data.clientId}?startDate=${data.startDate}&endDate=${data.endDate}`
-    // return this.http.get<any>(Apis.beverages+queryparams);
+  // return this.http.get<any>(Apis.beverages+queryparams);
     return this.http.get<any>('http://localhost:3000/data');
   }
 }

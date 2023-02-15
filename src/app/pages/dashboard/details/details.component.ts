@@ -1,7 +1,9 @@
+import { TemplateLiteral } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import * as Highcharts from 'highcharts';
 import highcharts3D from 'highcharts/highcharts-3d';
+import * as moment from 'moment';
 import { CommunicationService } from 'src/app/services/communication.service';
 highcharts3D(Highcharts);
 
@@ -12,8 +14,7 @@ highcharts3D(Highcharts);
 })
 export class DetailsComponent implements OnInit {
   title_data: string = "Details";
-  isCardCollapse: boolean = false;
-  cardCollapse:boolean=false;
+  showLoader:boolean=false;
   Highcharts: typeof Highcharts = Highcharts;
   tradeChartOptions!: Highcharts.Options;
   tradeChartData: any[] = [];
@@ -24,17 +25,16 @@ export class DetailsComponent implements OnInit {
   rainChartOptions!: Highcharts.Options;
   rainChartData: any[] = [];
   details!:FormGroup;
-  totalBoardedAndInboundQtyData:any[]=[]
-  totalBoardedAndInboundWeightData:any[]=[]
+  totalBoardedAndInboundQtyData:any[]=[];
+  totalBoundInboundWeight:any=[];
+  flightCountData:any=[];
 
   constructor(
   private fb:FormBuilder,
   public communication:CommunicationService) {
     this.tradeChartData = this.createTradeChartData();
     this.rainChartData = this.createRainChartData();
-    // this.rateChartData = this.createRateChartData();
-    //  this.weightChartData = this.createWeightChartData();
-     this.initform();
+    this.communication.apiDataLoading.subscribe((res:any)=> this.showLoader = res);
      this.communication.dataAirlineFlightBeverage
     .subscribe((res:any)=>{
       if(res && res.length){
@@ -42,41 +42,24 @@ export class DetailsComponent implements OnInit {
           let BIQty = this.totalBoardedAndInboundQtyByProduct(res);
           this.totalBoardedAndInboundQtyData = BIQty;
            this.createrateChart(this.totalBoardedAndInboundQtyData);
-           let BIWeight=  this.totalBoardedAndInboundWeightDataProduct(res);
-           this.totalBoardedAndInboundWeightData =BIWeight;
-             this.createweightChart(this.totalBoardedAndInboundWeightData);
+           this.totalBoundInboundWeight = this.totalBoardedAndInboundWeigthDate(res);
+          this.createweightChart(this.totalBoundInboundWeight);
+          this.flightCountData = this.flightCount(res);  
+          this.createRainChart(this.flightCountData);
       }
     })
   }
 
   ngOnInit(): void {
-   this.createTradeChart(this.tradeChartData);
-   this.createRainChart(this.rainChartData);
-   this.createrateChart(this.totalBoardedAndInboundQtyData);
-   this.createweightChart(this.weightChartData);
-  }
-
-   
+    this.createTradeChart(this.tradeChartData);
+   //this.createrateChart(this.totalBoardedAndInboundQtyData);
+   this.createweightChart(this.totalBoundInboundWeight);
+  } 
   filterData(data:any){
     let datalist = JSON.parse(JSON.stringify(data));
     this.communication.totalFlight = datalist.length;
     this.communication.totalDrawers = datalist.map((d:any)=> d.drawers)
     .map((x:any)=> x.inbound).reduce((a:any,b:any)=> a+b);    
-  }
-
-
-  initform(){
-    let d = new Date();
-    this.details = this.fb.group({
-      origin:[""],
-      flight:[""],
-      product:[""],
-      week:["tuesday"],
-      start_date:[new Date(d.setDate(1))],
-      end_date:[new Date()],
-      time:[""]
-    })
-
   }
 
   createrateChart(data: any[]) {
@@ -87,8 +70,8 @@ export class DetailsComponent implements OnInit {
         scrollablePlotArea: {
           minHeight:420 
       },
-      height:320,
-        marginBottom: 40,
+      height:330,
+        marginBottom: 60,
         marginRight:30
         },
       title: {
@@ -109,7 +92,8 @@ export class DetailsComponent implements OnInit {
       yAxis: [
         {
           title: {
-            text: "Consumption/Pax"
+            text: "Total Boarded and Inbound Quantity",
+          textAlign:'right'
           }
         },
       ],
@@ -130,7 +114,7 @@ export class DetailsComponent implements OnInit {
           },
           pointWidth: 10,
           pointPadding: 0.1,
-          groupPadding: 0.06,
+          groupPadding: 0.04,
         },
       },
       credits: { enabled: false },
@@ -142,9 +126,13 @@ export class DetailsComponent implements OnInit {
       chart: {
         type: "bar",
         inverted: true,
-        marginBottom: 40,
-        height: 320,
+        scrollablePlotArea: {
+          minHeight:420 
       },
+      height:330,
+        marginBottom: 60,
+        marginRight:30
+        },
       title: {
         text: "",
         align: 'center',
@@ -196,7 +184,7 @@ export class DetailsComponent implements OnInit {
       chart: {
         type: 'bar',
         marginBottom: 40,
-        height: 320,
+        height: 330,
       },
 
       tooltip: {
@@ -314,10 +302,9 @@ export class DetailsComponent implements OnInit {
       }
     }
   }
-  totalBoardedAndInboundQtyByProduct(data:any){   
+  totalBoardedAndInboundQtyByProduct(data:any){
     let datalist = JSON.parse(JSON.stringify(data));
     let dd = datalist.map((item:any)=> item.items).flat(1);
-    console.log(dd)
     let productItem = [...new Set(dd.map((d:any)=> d.name))];
     let boardedData:any=[];
     let inboundData:any=[];
@@ -339,32 +326,45 @@ export class DetailsComponent implements OnInit {
     }
     return [bound, inboud];
   }
-  totalBoardedAndInboundWeightDataProduct(data:any){
-    console.log(data)
-    let weightdata=JSON.parse(JSON.stringify(data));
-    let weightDataList=weightdata.map((item:any)=>item.items).flat(1);
-    console.log(weightDataList)
-    let productWeight=[...new Set(weightDataList.map((a:any)=>a.name))];
-    let boardedWeight:any=[];
-    let inboundWeight:any=[];
-    productWeight.forEach((item:any)=>{
-      let  outWeight = weightDataList.filter((d:any)=>d.name==item).map((e:any)=>e.weight).map((f:any)=>f.value).reduce((g:any,h:any)=>g+h,0);
-      boardedWeight.push([item,outWeight]); 
-      let  inbWeight = weightDataList.filter((d:any)=>d.name==item).map((e:any)=>e.weight).map((f:any)=>f.value).reduce((g:any,h:any)=>g+h,0);
-      inboundWeight.push([item,inbWeight]);
+  totalBoardedAndInboundWeigthDate(data:any){
+    let dataList = JSON.parse(JSON.stringify(data));
+    let productItem = [...new Set(dataList.map((d:any)=> d.items).flat(1).map((m:any)=> m.name))];
+    let boardedData:any=[];
+    let inboundData:any=[];
+    productItem.forEach((item:any)=>{
+      let x =  dataList.map((a:any)=> a.items).flat(1).filter((b:any)=> b.name == item)
+      .map((c:any)=> (c.quantity.outbound * c.weight.value)).reduce((r: any, y: any) => r + y, 0);
+      let y =  dataList.map((a:any)=> a.items).flat(1).filter((b:any)=> b.name == item)
+      .map((c:any)=> (c.quantity.inbound * c.weight.value)).reduce((r: any, y: any) => r + y, 0);
+       boardedData.push([item,Number(x.toFixed(0))]);
+       inboundData.push([item,Number(y.toFixed(0))]);
     })
-    let outbound ={
-      name:"Total Boarded Weight",
-      data:boardedWeight,
-      color:"#118dff"
+     let bound = {
+      name: "Total Boarded Weight",
+      data:boardedData,
+      color: "#118dff"
     }
-    let inbound ={
-      name:"Total Inbound Weight",
-      data:inboundWeight,
-      color:"#12239e"
+    let inboud = {
+      name: "Total Inbounded Weight",
+      data:inboundData,
+      color: "#12239e"
     }
-    return [outbound,inbound];
+    return [bound, inboud];
   }
+  flightCount(data:any){
+    let dataList: any = JSON.parse(JSON.stringify(data));
+    let boardedData:any=[]
+    let dates = [...new Set(dataList.map((a:any)=>a.number))];  
+    boardedData.push(dates);
+    let flight ={
+      name:"Flight  Count",
+      data:boardedData,
+      color:"#118dff"
+    };  
+    return [flight]
+  }
+  
+
   createRateChartData() {
     return [{
       name: "Total Boarded Quantity",

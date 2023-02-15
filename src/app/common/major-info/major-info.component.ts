@@ -8,10 +8,14 @@ import { CommunicationService } from 'src/app/services/communication.service';
 })
 export class MajorInfoComponent implements OnInit {
   showLoader:boolean=false;
+  ShowLoader:boolean=false;
   cardCollapse:boolean=false;
 
   @Input('pageName') pagename:any;
-  constructor(public communication:CommunicationService) { }
+  constructor(public communication:CommunicationService) { 
+    this.communication.apiDataLoading.subscribe((res:any)=> this.showLoader = res);   
+    this.communication.apiDataLoading.subscribe((res:any)=> this.ShowLoader = res);   
+  }
 
   ngOnInit(): void {
     this.showInfoWidgit(this.pagename);

@@ -191,7 +191,6 @@ export class SummaryComponent implements OnInit {
     }
   }
  
-
   createDataForAllFlightByDate(data:any){
     let datalist = JSON.parse(JSON.stringify(data));
     let dateLists = datalist.map((d:any)=> d.departure);
@@ -264,92 +263,5 @@ export class SummaryComponent implements OnInit {
      return obj;
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // createColumnChartData(){
-  //   return  [{
-  //     name: 'Days',
-  //     data: [
-  //         ['2 Aug', 9],
-  //         ['3 Aug', 5],
-  //         ['4 Aug', 4],
-  //         ['5 Aug', 5],
-  //         ['6 Aug', 1],
-  //         ['7 Aug', 3],
-  //         ['8 Aug', 8],
-  //         ['9 Aug', 4],
-  //         ['10 Aug', 5],
-  //         ['11 Aug', 9],
-  //         ['12 Aug', 3],
-  //         ['13 Aug', 2],
-  //         ['14 Aug', 11],
-  //         ['15 Aug', 6],
-  //         ['16 Aug', 5],
-  //         ['17 Aug', 5],
-  //         ['18 Aug', 1],
-  //         ['19 Aug', 4],
-  //         ['20 Aug', 2],
-  //         ['21 Aug', 2],
-  //         ['22 Aug', 1],
-  //     ],
-  //     dataLabels: {
-  //         enabled: true,
-  //         color: '#66728E',
-  //         crop: false,
-  //         overflow: 'none',
-  //         align: 'center',
-  //         style: {
-  //             fontSize: '14px'
-  //         }
-  //     }
-  // }]
-  // }
-  // createRateChartData(){
-  //   return [{
-      
-  //       name: "Total Boarded Quantity",
-  //       data: [70, 69, 95, 145, 188, 255, 
-  //           222, 260, 233, 183, 139, 96],
-  //           color:"#118dff"
-  //   },
-  //   {
-  //       name: "Total Inbound Quantity",
-  //       data: [60, 57, 85, 130, 195, 215, 
-  //           172, 210, 143, 233, 179, 200],
-  //           color:"#12239e"
-  //   }]
-  // }
-  // createWeightChartData(){
-  //   return [{
-      
-  //     name: "Total Boarded Weight",
-  //       data: [70, 69, 95, 145, 188, 255, 
-  //           222, 260, 233, 183, 139, 96],
-  //           color:"#118dff"
-  //   },
-  //   {
-  //     name: "Total Inbound Weight",
-  //       data: [60, 57, 85, 130, 195, 215, 
-  //           172, 210, 143, 233, 179, 200],
-  //           color:"#12239e"
-  //   }]
-  // }
-
-
-
-
-}
+ }
 

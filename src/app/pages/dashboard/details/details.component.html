@@ -14,38 +14,56 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <highcharts-chart *ngIf="totalBoardedAndInboundQtyData.length"
+            <div *ngIf="showLoader" class="loading">
+              <div class="loaderbox">Loading...</div>
+            </div>
+            <highcharts-chart *ngIf="!showLoader && totalBoardedAndInboundQtyData.length"
             [Highcharts]="Highcharts"[options]="rateChartOptions">
             </highcharts-chart>
+            <div *ngIf="!showLoader && totalBoardedAndInboundQtyData.length" class="xAsixlabel"> 
+            </div>
           </div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <highcharts-chart *ngIf="totalBoardedAndInboundWeightData.length" 
+            <div *ngIf="showLoader" class="loading">
+              <div class="loaderbox">Loading...</div>
+            </div>
+            <highcharts-chart *ngIf="!showLoader && totalBoundInboundWeight.length" 
             [Highcharts]="Highcharts"[options]="weigthChartOptions">
             </highcharts-chart>
+            <div *ngIf="!showLoader && totalBoundInboundWeight.length" class="xAsixlabel"> 
+            </div>
           </div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <highcharts-chart *ngIf="tradeChartData.length" 
+            <div *ngIf="showLoader" class="loading">
+              <div class="loaderbox">Loading...</div>
+            </div>
+            <highcharts-chart *ngIf="!showLoader && tradeChartData.length" 
             [Highcharts]="Highcharts"[options]="tradeChartOptions">
             </highcharts-chart>
+            <div *ngIf="!showLoader && tradeChartData.length" class="xAsixlabel"> 
+            </div>
           </div>
         </div>
       </div>
-
-
       <div class="col-md-12">
         <div class="card">
           <div class="card-body">
-            <highcharts-chart *ngIf="rainChartData.length"
+            <div *ngIf="showLoader" class="loading">
+              <div class="loaderbox">Loading...</div>
+            </div>
+            <highcharts-chart *ngIf="!showLoader && flightCountData.length"
             [Highcharts]="Highcharts"[options]="rainChartOptions">
             </highcharts-chart>
+            <div *ngIf="!showLoader && flightCountData.length" class="xAsixlabel"> 
+            </div>
           </div>
         </div>
       </div>             
