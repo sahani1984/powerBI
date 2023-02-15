@@ -237,6 +237,35 @@ yAxis: {
     }
    }
 
+
+
+   createCountByProductData(data: any[]) {
+    let dataList = JSON.parse(JSON.stringify(data));
+    let productItems = [...new Set(dataList.map((k: any) => k.label))];
+    let countByProduct: any = [];
+    productItems.forEach((item: any) => {
+      let itemCount = dataList.filter((d: any) => d.label.toLowerCase() === item.toLowerCase()).map((l: any) => l.count);
+      countByProduct.push([item, itemCount.reduce((m: any, n: any) => m + n, 0)]);
+    })
+    return [{ color: "#12239e", data: countByProduct }]
+  }
+
+  createCostByProductData(data: any[]) {
+    let dataList = JSON.parse(JSON.stringify(data));
+    let productItems = [...new Set(dataList.map((k: any) => k.label))];
+    let costByProduct: any = [];
+    productItems.forEach((item: any) => {
+      let itemCount = dataList.filter((d: any) => d.label.toLowerCase() === item.toLowerCase())
+      let itemCost = itemCount.map((r: any) => (r.cost.value * r.count)).reduce((m: any, n: any) => m + n, 0);  
+      costByProduct.push([item, Number(itemCost.toFixed(1))]);
+    })
+    return [{ color: "#12239e", data: costByProduct }]
+  }
+
+
+
+
+
    createRateChartData(){
     return [{
       type: 'bar',
