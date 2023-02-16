@@ -10,10 +10,10 @@
             <div *ngIf="showLoader" class="loading">
               <div class="loaderbox">Loading...</div>
             </div>
-            <highcharts-chart *ngIf=" !showLoader && rateChartData.length" [Highcharts]="Highcharts"
+            <highcharts-chart *ngIf=" !showLoader && countByProductData.length" [Highcharts]="Highcharts"
               [options]="rateChartOptions">
             </highcharts-chart>
-            <div *ngIf="!showLoader && rateChartData.length" class="xAsixlabel"></div> 
+            <div *ngIf="!showLoader && countByProductData.length" class="xAsixlabel"></div> 
           </div>
         </div>
       </div>
@@ -23,10 +23,10 @@
             <div *ngIf="showLoader" class="loading">
               <div class="loaderbox">Loading...</div>
             </div>
-            <highcharts-chart *ngIf="!showLoader && costChartData.length"  [Highcharts]="Highcharts"
+            <highcharts-chart *ngIf="!showLoader && costByProductData.length"  [Highcharts]="Highcharts"
               [options]="costChartOptions">
             </highcharts-chart>
-            <div *ngIf="!showLoader && costChartData.length" class="xAsixlabel"></div> 
+            <div *ngIf="!showLoader && costByProductData.length" class="xAsixlabel"></div> 
           </div>
         </div>
       </div>
@@ -36,10 +36,10 @@
             <div *ngIf="showLoader" class="loading">
               <div class="loaderbox">Loading...</div>
             </div>
-            <highcharts-chart *ngIf="!showLoader && returnedChartData.length"
+            <highcharts-chart *ngIf="!showLoader && returnByProductData.length"
              [Highcharts]="Highcharts"[options]="returnedChartOptions">
             </highcharts-chart>
-            <div *ngIf="!showLoader && returnedChartData.length" class="xAsixlabel"></div> 
+            <div *ngIf="!showLoader && returnByProductData.length" class="xAsixlabel"></div> 
           </div>
         </div>
       </div>
@@ -49,10 +49,10 @@
         <div *ngIf="showLoader" class="loading">
           <div class="loaderbox">Loading...</div>
         </div>
-        <highcharts-chart *ngIf="!showLoader && inboundChartData.length"
+        <highcharts-chart *ngIf="!showLoader && IORByMonthDayData.data.length"
         [Highcharts]="Highcharts"[options]="inboundChartOptions">
        </highcharts-chart>
-       <div *ngIf="!showLoader && inboundChartData.length" class="xAsixlabel"></div> 
+       <div *ngIf="!showLoader && IORByMonthDayData.data.length" class="xAsixlabel"></div> 
       </div>
     </div>
   </div>

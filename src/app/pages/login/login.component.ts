@@ -25,6 +25,8 @@ export class LoginComponent implements OnInit {
 
 
   login(data: any) {
+    this.authService.setUserLoggedIn();   
+    this.router.navigate(['/dashboard/by-day']);  
     let obj: any = {};
     this.loading = true;
     obj["data"] = {}

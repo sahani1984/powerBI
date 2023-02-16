@@ -45,10 +45,10 @@
             <div *ngIf="showLoader" class="loading">
               <div class="loaderbox">Loading...</div>
             </div>
-            <highcharts-chart *ngIf="!showLoader && tradeChartData.length" 
+            <highcharts-chart *ngIf="!showLoader && consumptionPaxByProductData.length" 
             [Highcharts]="Highcharts"[options]="tradeChartOptions">
             </highcharts-chart>
-            <div *ngIf="!showLoader && tradeChartData.length" class="xAsixlabel"> 
+            <div *ngIf="!showLoader && consumptionPaxByProductData.length" class="xAsixlabel"> 
             </div>
           </div>
         </div>
@@ -59,10 +59,10 @@
             <div *ngIf="showLoader" class="loading">
               <div class="loaderbox">Loading...</div>
             </div>
-            <highcharts-chart *ngIf="!showLoader && flightCountData.length"
+            <highcharts-chart *ngIf="!showLoader && CPFcountByFlightData.length"
             [Highcharts]="Highcharts"[options]="rainChartOptions">
             </highcharts-chart>
-            <div *ngIf="!showLoader && flightCountData.length" class="xAsixlabel"> 
+            <div *ngIf="!showLoader && CPFcountByFlightData.length" class="xAsixlabel"> 
             </div>
           </div>
         </div>

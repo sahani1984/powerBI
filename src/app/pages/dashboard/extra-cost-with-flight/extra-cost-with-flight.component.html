@@ -14,10 +14,10 @@
                                 <div *ngIf="showLoader" class="loading">
                                     <div class="loaderbox">Loading...</div>
                                   </div>
-                                <highcharts-chart *ngIf="!showLoader && rateChartData.length" [Highcharts]="Highcharts"
-                                    [options]="rateChartOptions">
+                                <highcharts-chart *ngIf="!showLoader && consumptionPaxByProductData.length" [Highcharts]="Highcharts"
+                                    [options]="consumptionPaxByProductOptions">
                                 </highcharts-chart>
-                                <div *ngIf="!showLoader && tradeChartData.length" class="xAsixlabel"></div>
+                                <div *ngIf="!showLoader && consumptionPaxByProductData.length" class="xAsixlabel"></div>
                             </div>
                         </div>
                     </div>
@@ -28,9 +28,9 @@
                                     <div class="loaderbox">Loading...</div>
                                   </div>
                                 <highcharts-chart *ngIf="!showLoader && fuelCTCWithFlight.data?.length" [Highcharts]="Highcharts"
-                                    [options]="carryChartOptions">
+                                    [options]="fuelCTCWithFlightOptions">
                                 </highcharts-chart>
-                                <div *ngIf="!showLoader && tradeChartData.length" class="xAsixlabel"></div>
+                                <div *ngIf="!showLoader && fuelCTCWithFlight.data?.length" class="xAsixlabel"></div>
                             </div>
                         </div>
                     </div>
@@ -40,10 +40,10 @@
                                 <div *ngIf="showLoader" class="loading">
                                     <div class="loaderbox">Loading...</div>
                                   </div>
-                                <highcharts-chart *ngIf="!showLoader && tradeChartData.length" [Highcharts]="Highcharts"
-                                    [options]="tradeChartOptions">
+                                <highcharts-chart *ngIf="!showLoader && consumptionPaxByFlightData.length" [Highcharts]="Highcharts"
+                                    [options]="consumptionPaxByFlightOptions">
                                 </highcharts-chart>
-                                <div *ngIf="!showLoader && tradeChartData.length" class="xAsixlabel"></div>
+                                <div *ngIf="!showLoader && consumptionPaxByFlightData.length" class="xAsixlabel"></div>
                             </div>
                         </div>
                     </div>

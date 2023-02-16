@@ -14,55 +14,54 @@ export class ExtraCostWithFlightComponent implements OnInit {
   title_data:string="Extra Cost With Flight";
   showLoader:boolean=false;
   Highcharts: typeof Highcharts = Highcharts;
-  rateChartOptions!: Highcharts.Options;
-  carryChartOptions!: Highcharts.Options;
-  tradeChartOptions!: Highcharts.Options;
-  rateChartData:  any[] = [];
-  carryChartData:  any[] = [];
-  tradeChartData:  any[] = [];
+  consumptionPaxByProductOptions!: Highcharts.Options;
+  fuelCTCWithFlightOptions!: Highcharts.Options;
+  consumptionPaxByFlightOptions!: Highcharts.Options;
+  consumptionPaxByProductData:any=[];
   fuelCTCWithFlight:any=[];
+  consumptionPaxByFlightData:any=[];
 
-  constructor(public communication:CommunicationService) {
-    this.rateChartData = this.createRateChartData(); 
-    this.tradeChartData = this.createTradeChartData();
+  constructor(public communication:CommunicationService) {    
     this.communication.apiDataLoading.subscribe((res:any)=> this.showLoader = res);
-   this.communication.dataAirlineFlightBeverage.subscribe((res:any)=>{
-       if(res && res.length){
-         this.makeData(res);
+    this.communication.dataAirlineFlightBeverage.subscribe((res:any)=>{
+       if(res && res.length){         
+          this.consumptionPaxByProductData = this.createConsumptionPaxByProductData(res);
           this.fuelCTCWithFlight = this.fuelCTCWithFlightProduct(res);
-          this.createcarryChart (this.fuelCTCWithFlight['data'], this.fuelCTCWithFlight['category']);
+          this.consumptionPaxByFlightData = this.createConsumptionPaxByFlightData(res);
+          this.createconsumptionPaxByProductChart(this.consumptionPaxByProductData);
+          this.createOBSCostToCarryChart (this.fuelCTCWithFlight['data'], this.fuelCTCWithFlight['category']);
+          this.createConsumptionPaxByFlightChart(this.consumptionPaxByFlightData);
        }
      })
   }
 
   ngOnInit(): void {
-    this.createTradeChart(this.tradeChartData);
-    this.createrateChart(this.rateChartData);
+   
   }
 
-  makeData(data:any){
+  // makeData(data:any){
    
-      let dataList: any = JSON.parse(JSON.stringify(data));
-      let dates = [...new Set(dataList.map((d: any) => d.departure.split('T')[0]))];  
-      let labourcost:any=[];
-      dates.forEach((item: any) => {
-        let l = dataList.filter((x: any) => x.departure.split('T')[0] == item).map((d:any)=> d.drawers).map((d:any)=> d.inbound *0.62).reduce((r: any, y: any) => r + y, 0); 
-        labourcost.push(Number(l.toFixed(1)));
-      })
-      let  dateInshort = dates.map((d:any)=> moment(d).format('MMM DD')); 
-      let chartData = [
-        { name: 'Labor Cost', data: labourcost, color: "#12239e" },    
-      ]
-      return { category: dateInshort, data: chartData }
-    }    
+  //     let dataList: any = JSON.parse(JSON.stringify(data));
+  //     let dates = [...new Set(dataList.map((d: any) => d.departure.split('T')[0]))];  
+  //     let labourcost:any=[];
+  //     dates.forEach((item: any) => {
+  //       let l = dataList.filter((x: any) => x.departure.split('T')[0] == item).map((d:any)=> d.drawers).map((d:any)=> d.inbound *0.62).reduce((r: any, y: any) => r + y, 0); 
+  //       labourcost.push(Number(l.toFixed(1)));
+  //     })
+  //     let  dateInshort = dates.map((d:any)=> moment(d).format('MMM DD')); 
+  //     let chartData = [
+  //       { name: 'Labor Cost', data: labourcost, color: "#12239e" },    
+  //     ]
+  //     return { category: dateInshort, data: chartData }
+  //   }    
   
-  createrateChart(data:any[]){
-    this.rateChartOptions = {
+  createconsumptionPaxByProductChart(data:any[]){
+    this.consumptionPaxByProductOptions = {
       chart: {
         type: 'bar',
         inverted: true,
         scrollablePlotArea: {
-            minHeight: 250        
+            minHeight: 360        
         },
         height:250,
         marginRight: 30,
@@ -101,8 +100,8 @@ yAxis: {
    series:data
     }
   }
-   createcarryChart(data:any[], category:any[]){
-    this.carryChartOptions = {
+  createOBSCostToCarryChart(data:any[], category:any[]){
+    this.fuelCTCWithFlightOptions = {
       chart: {
         type: 'bar',
         inverted: true,
@@ -143,8 +142,8 @@ yAxis: {
    series:data
     }
   }
-   createTradeChart(data:any[]){
-    this.tradeChartOptions =  {
+   createConsumptionPaxByFlightChart(data:any[]){
+    this.consumptionPaxByFlightOptions =  {
       chart: {
         type: "column",
         height:193,
@@ -204,7 +203,27 @@ yAxis: {
             enabled: false
           }
   }}
-    
+
+  createConsumptionPaxByProductData(data:any){
+    let dataList = JSON.parse(JSON.stringify(data)); 
+    let totalProduct = [...new Set(dataList.map((m:any)=> m.items).flat(1).map((d:any)=> d.name))];
+    let consumptionQty:any = [];
+    totalProduct.forEach((item:any)=>{
+      let commondata = dataList.map((d:any)=> d.items).flat(1).filter((d:any)=> d.name == item);
+      let outQty = commondata.map((x:any)=> x.quantity).map((d:any)=> d.outbound).reduce((a:any,b:any)=> a+b, 0);
+      let inbQty = commondata.map((x:any)=> x.quantity).map((d:any)=> d.inbound).reduce((a:any,b:any)=> a+b, 0);  
+      let consuption = outQty - inbQty
+      let passengers = dataList.map((d:any)=> d.passengers.total).reduce((a:any,b:any)=> a+b, 0); 
+      let result = Number((consuption/passengers).toFixed(2))
+      consumptionQty.push(result);
+    })   
+    console.log(consumptionQty);
+    return [{       
+        name: "Consumption/Pax by Product",
+        color:"#118dff",
+        data:consumptionQty,
+    }];  
+   }
   fuelCTCWithFlightProduct(data:any){   
     let dataList = JSON.parse(JSON.stringify(data));   
     let productItem = [...new Set(dataList.map((d:any)=> d.items).flat(1).map((m:any)=> m.name))];
@@ -217,34 +236,49 @@ yAxis: {
    let chartdata =  [{name: 'Fuel CTC with Flight', color:"#118dff",data: fuelcost}]
    return {data:chartdata, category:productItem};
   }
+  createConsumptionPaxByFlightData(data:any){
+    let dataList = JSON.parse(JSON.stringify(data));    
+    let totalflight = [...new Set(dataList.map((f:any)=> f.number))];
+    let consumptionQty:any = [];
+    totalflight.forEach((flight:any)=>{
+      let commondata = dataList.filter((d:any)=> d.number == flight)
+      let outQty = commondata.map((d:any)=> d.items).flat(1).map((x:any)=> x.quantity).map((d:any)=> d.outbound).reduce((a:any,b:any)=> a+b, 0);
+      let inbQty = commondata.map((d:any)=> d.items).flat(1).map((x:any)=> x.quantity).map((d:any)=> d.inbound).reduce((a:any,b:any)=> a+b, 0);  
+      let consuption = outQty - inbQty
+      let passengers = commondata.map((d:any)=> d.passengers.total).reduce((a:any,b:any)=> a+b, 0); 
+      let result = Number((consuption/passengers).toFixed(2))
+      consumptionQty.push(result);
+    })   
+    return [totalflight, consumptionQty];  
+   }
 
-  createTradeChartData(){
-    return [
-        [865,25,150,36,98,105,119,236,450,146,50,202,350,66,210,256,
-          352,9,47,274,35,308,125],
-        [0.35,0.34,0.88,0.12,0.31,0.35,0.13,0.00,0.73,0.62,
-          0.43,0.29,0.37,0.10,0.00,0.68,0.87,0.28,0.43,0.55,0.29,0.16,0.87],
-    ]
-  }
-  createRateChartData(){
-    return [{
-      type: 'bar',
-        name: 'Unemployed',
-        color:"#118dff",
-        data: [0.06, 0.04, 0.033, 0.032, 0.031, 0.03, 0.03, 0.03, 0.025],
-        showInLegend: false
-    }]
-  }
-  createCarryChartData(){
-    return [{
-      type: 'bar',
-        name: 'Unemployed',
-        color:"#118dff",
-        data: [5412, 4977, 4730, 4437, 3947, 3707, 4143, 3609,
-            3311, 3072],
-        showInLegend: false
-    }]
-  }
+  // createTradeChartData(){
+  //   return [
+  //       [865,25,150,36,98,105,119,236,450,146,50,202,350,66,210,256,
+  //         352,9,47,274,35,308,125],
+  //       [0.35,0.34,0.88,0.12,0.31,0.35,0.13,0.00,0.73,0.62,
+  //         0.43,0.29,0.37,0.10,0.00,0.68,0.87,0.28,0.43,0.55,0.29,0.16,0.87],
+  //   ]
+  // }
+  // createRateChartData(){
+  //   return [{
+  //     type: 'bar',
+  //       name: 'Unemployed',
+  //       color:"#118dff",
+  //       data: [0.06, 0.04, 0.033, 0.032, 0.031, 0.03, 0.03, 0.03, 0.025],
+  //       showInLegend: false
+  //   }]
+  // }
+  // createCarryChartData(){
+  //   return [{
+  //     type: 'bar',
+  //       name: 'Unemployed',
+  //       color:"#118dff",
+  //       data: [5412, 4977, 4730, 4437, 3947, 3707, 4143, 3609,
+  //           3311, 3072],
+  //       showInLegend: false
+  //   }]
+  // }
 
  
 }

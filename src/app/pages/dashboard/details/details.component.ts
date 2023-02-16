@@ -17,43 +17,50 @@ export class DetailsComponent implements OnInit {
   showLoader:boolean=false;
   Highcharts: typeof Highcharts = Highcharts;
   tradeChartOptions!: Highcharts.Options;
-  tradeChartData: any[] = [];
   rateChartOptions!: Highcharts.Options;
-  rateChartData: any;
-  weigthChartOptions!: Highcharts.Options;
-  weightChartData: any;
   rainChartOptions!: Highcharts.Options;
-  rainChartData: any[] = [];
+  weigthChartOptions!: Highcharts.Options;
+  // tradeChartData: any[] = [];
+  
+  // rateChartData: any;
+
+  // weightChartData: any;
+
+  // rainChartData: any[] = [];
   details!:FormGroup;
+
   totalBoardedAndInboundQtyData:any[]=[];
   totalBoundInboundWeight:any=[];
-  flightCountData:any=[];
+  consumptionPaxByProductData:any=[];
+  CPFcountByFlightData:any=[];
 
   constructor(
   private fb:FormBuilder,
-  public communication:CommunicationService) {
-    this.tradeChartData = this.createTradeChartData();
-    this.rainChartData = this.createRainChartData();
+   public communication:CommunicationService) {
+  //   this.tradeChartData = this.createTradeChartData();
+  //   this.rainChartData = this.createRainChartData();
     this.communication.apiDataLoading.subscribe((res:any)=> this.showLoader = res);
      this.communication.dataAirlineFlightBeverage
     .subscribe((res:any)=>{
       if(res && res.length){
         this.filterData(res);
-          let BIQty = this.totalBoardedAndInboundQtyByProduct(res);
-          this.totalBoardedAndInboundQtyData = BIQty;
-           this.createrateChart(this.totalBoardedAndInboundQtyData);
-           this.totalBoundInboundWeight = this.totalBoardedAndInboundWeigthDate(res);
-          this.createweightChart(this.totalBoundInboundWeight);
-          this.flightCountData = this.flightCount(res);  
-          this.createRainChart(this.flightCountData);
+        let BIQty = this.totalBoardedAndInboundQtyByProduct(res);
+        this.totalBoardedAndInboundQtyData = BIQty;
+        this.totalBoundInboundWeight = this.totalBoardedAndInboundWeigthDate(res);
+        this.consumptionPaxByProductData = this.createConsumptionPaxByProductData(res);
+        this.CPFcountByFlightData = this.createConsumptionPaxAndFlightCountByFlightData(res);
+        this.createInboundAndOutboundQytChart(this.totalBoardedAndInboundQtyData);
+        this.createInboundAndOutboundWeightChart(this.totalBoundInboundWeight); 
+        this.createConsumptionPaxByProductChart(this.consumptionPaxByProductData);        
+        this.createCPFcountByFlightChart(this.CPFcountByFlightData);
       }
     })
   }
 
   ngOnInit(): void {
-    this.createTradeChart(this.tradeChartData);
+    // this.createTradeChart(this.tradeChartData);
    //this.createrateChart(this.totalBoardedAndInboundQtyData);
-   this.createweightChart(this.totalBoundInboundWeight);
+  //  this.createweightChart(this.totalBoundInboundWeight);
   } 
   filterData(data:any){
     let datalist = JSON.parse(JSON.stringify(data));
@@ -62,7 +69,7 @@ export class DetailsComponent implements OnInit {
     .map((x:any)=> x.inbound).reduce((a:any,b:any)=> a+b);    
   }
 
-  createrateChart(data: any[]) {
+  createInboundAndOutboundQytChart(data: any[]) {
     this.rateChartOptions = {
       chart: {
         type: "bar",
@@ -121,7 +128,7 @@ export class DetailsComponent implements OnInit {
       series: data
     }
   }
-  createweightChart(data: any[]) {
+  createInboundAndOutboundWeightChart(data: any[]) {
     this.weigthChartOptions = {
       chart: {
         type: "bar",
@@ -170,19 +177,23 @@ export class DetailsComponent implements OnInit {
           dataLabels: {
             enabled: true
           },
+         
           pointWidth: 10,
-          pointPadding: 0,
-          groupPadding: 0.09,
+          pointPadding: 0.1,
+          groupPadding: 0.04,
         },
       },
       credits: { enabled: false },
       series: data
     }
   }
-  createTradeChart(data: any[]) {
+  createConsumptionPaxByProductChart(data: any[]) {
     this.tradeChartOptions = {
       chart: {
         type: 'bar',
+        scrollablePlotArea: {
+          minHeight:420 
+      },
         marginBottom: 40,
         height: 330,
       },
@@ -233,7 +244,7 @@ export class DetailsComponent implements OnInit {
       series: data
     }
   }
-  createRainChart(data: any[]) {
+  createCPFcountByFlightChart(data: any[]) {
     this.rainChartOptions = {
       chart: {
         height: 250,
@@ -302,6 +313,9 @@ export class DetailsComponent implements OnInit {
       }
     }
   }
+
+
+
   totalBoardedAndInboundQtyByProduct(data:any){
     let datalist = JSON.parse(JSON.stringify(data));
     let dd = datalist.map((item:any)=> item.items).flat(1);
@@ -351,98 +365,124 @@ export class DetailsComponent implements OnInit {
     }
     return [bound, inboud];
   }
-  flightCount(data:any){
-    let dataList: any = JSON.parse(JSON.stringify(data));
-    let boardedData:any=[]
-    let dates = [...new Set(dataList.map((a:any)=>a.number))];  
-    boardedData.push(dates);
-    let flight ={
-      name:"Flight  Count",
-      data:boardedData,
-      color:"#118dff"
-    };  
-    return [flight]
+  createConsumptionPaxByProductData(data:any){
+    let dataList = JSON.parse(JSON.stringify(data)); 
+    let totalProduct = [...new Set(dataList.map((m:any)=> m.items).flat(1).map((d:any)=> d.name))];
+    let consumptionQty:any = [];
+    totalProduct.forEach((item:any)=>{
+      let commondata = dataList.map((d:any)=> d.items).flat(1).filter((d:any)=> d.name == item);
+      let outQty = commondata.map((x:any)=> x.quantity).map((d:any)=> d.outbound).reduce((a:any,b:any)=> a+b, 0);
+      let inbQty = commondata.map((x:any)=> x.quantity).map((d:any)=> d.inbound).reduce((a:any,b:any)=> a+b, 0);  
+      let consuption = outQty - inbQty
+      let passengers = dataList.map((d:any)=> d.passengers.total).reduce((a:any,b:any)=> a+b, 0); 
+      let result = Number((consuption/passengers).toFixed(2))
+      consumptionQty.push([item, result]);
+    })   
+    return [{
+        name: "Consumption/Pax by Product",       
+        color: "#118dff",
+        data:consumptionQty
+    }];  
+   }
+  createConsumptionPaxAndFlightCountByFlightData(data:any){
+    let dataList = JSON.parse(JSON.stringify(data));
+    let totalflight = [...new Set(dataList.map((f:any)=> f.number))];
+    let consumptionQty:any = [];
+    let flightCount:any=[];
+    totalflight.forEach((flight:any)=>{
+      let commondata:any = dataList.filter((d:any)=> d.number == flight)
+      let outQty = commondata.map((d:any)=> d.items).flat(1).map((x:any)=> x.quantity).map((d:any)=> d.outbound).reduce((a:any,b:any)=> a+b, 0);
+      let inbQty = commondata.map((d:any)=> d.items).flat(1).map((x:any)=> x.quantity).map((d:any)=> d.inbound).reduce((a:any,b:any)=> a+b, 0);  
+      let consuption = outQty - inbQty
+      let passengers = commondata.map((d:any)=> d.passengers.total).reduce((a:any,b:any)=> a+b, 0); 
+      let result = Number((consuption/passengers).toFixed(2))
+      let flightlenght = dataList.filter((d:any)=> d.number == flight).length;
+      consumptionQty.push(result);
+      flightCount.push(flightlenght);
+    })   
+    return [totalflight, consumptionQty, flightCount];  
   }
   
 
-  createRateChartData() {
-    return [{
-      name: "Total Boarded Quantity",
-      data: [
-        ['Do Nord Vod..', 6.8],
-        ['Tip Top Marg..', 4.1],
-        ['Woodford W..', 3.5],
-        ['Coke', 2.9],
-        ['Diet Coke', 2.9],
-        ['Ginger Ale', 2.9],
-        ['Tip Top Old F..', 2.9],
-        ['Bombay Sap..', 2.3]],
-      color: "#118dff"
-    },
-    {
-      name: "Total Inbounded Quantity",
-      data: [['Do Nord Vod..', 6.0],
-      ['Tip Top Marg..', 3.6],
-      ['Woodford W..', 3.0],
-      ['Coke', 2.2],
-      ['Diet Coke', 2.3],
-      ['Ginger Ale', 1.9],
-      ['Tip Top Old F..', 2.9],
-      ['Bombay Sap..', 2.1]],
-      color: "#12239e"
-    }]
-  }
-  createWeightChartData() {
-    return [{
-      name: "Total Boarded Weight",
-      data: [
-        ['Coke', 2394],
-        ['Diet Coke', 2394],
-        ['Ginger Ale', 2394],
-        ['Sprite', 1402],
-        ['Red Win', 1285],
-        ['Tip Top Marge..', 1051],
-        ['Woodford Whi..', 1051],
-        ['Coke Zero', 934]],
-      color: "#118dff"
-    },
-    {
-      name: "Total Inbounded Weight",
-      data: [
-        ['Coke', 1793],
-        ['Diet Coke', 1935],
-        ['Ginger Ale', 1541],
-        ['Sprite', 1015],
-        ['Red Win', 994],
-        ['Tip Top Marge..', 950],
-        ['Woodford Whi..', 900],
-        ['Coke Zero', 850]],
-      color: "#12239e"
-    }]
-  }
-  createTradeChartData() {
-    return [{
-      name: "Consumption/Pax by Product",
-      data: [
-        ['Ginger Ale', 0.06],
-        ['Coke', 0.04,],
-        ['Du Nord Vodka', 0.033],
-        ['Diet Coke', 0.032],
-        ['Woodford Whisk..', 0.031],
-        ['Tip Top Margarita', 0.03],
-        ['Red Win', 0.03],
-        ['Bacardi Rum', 0.03],
-        ['Jack Daniels Whi..', 0.025]],
-      color: "#118dff",
-    }]
-  }
-  createRainChartData() {
-    return [
-      [1005, 650, 367, 475, 520, 672, 321, 369, 502, 548, 305, 375, 410, 426, 465, 1406, 309, 408, 434, 437, 441, 2452, 899],
-      [0.35, 0.34, 0.88, 0.12, 0.31, 0.35, 0.13, 0.00, 0.73, 0.62, 0.43, 0.29, 0.37, 0.10, 0.00, 0.68, 0.87, 0.28, 0.43, 0.55, 0.29, 0.16, 0.87],
-      [11, 9, 7, 6, 6, 6, 5, 5, 5, 5, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 1, 1]
-    ]
-  }
+
+  // createRateChartData() {
+  //   return [{
+  //     name: "Total Boarded Quantity",
+  //     data: [
+  //       ['Do Nord Vod..', 6.8],
+  //       ['Tip Top Marg..', 4.1],
+  //       ['Woodford W..', 3.5],
+  //       ['Coke', 2.9],
+  //       ['Diet Coke', 2.9],
+  //       ['Ginger Ale', 2.9],
+  //       ['Tip Top Old F..', 2.9],
+  //       ['Bombay Sap..', 2.3]],
+  //     color: "#118dff"
+  //   },
+  //   {
+  //     name: "Total Inbounded Quantity",
+  //     data: [['Do Nord Vod..', 6.0],
+  //     ['Tip Top Marg..', 3.6],
+  //     ['Woodford W..', 3.0],
+  //     ['Coke', 2.2],
+  //     ['Diet Coke', 2.3],
+  //     ['Ginger Ale', 1.9],
+  //     ['Tip Top Old F..', 2.9],
+  //     ['Bombay Sap..', 2.1]],
+  //     color: "#12239e"
+  //   }]
+  // }
+  // createWeightChartData() {
+  //   return [{
+  //     name: "Total Boarded Weight",
+  //     data: [
+  //       ['Coke', 2394],
+  //       ['Diet Coke', 2394],
+  //       ['Ginger Ale', 2394],
+  //       ['Sprite', 1402],
+  //       ['Red Win', 1285],
+  //       ['Tip Top Marge..', 1051],
+  //       ['Woodford Whi..', 1051],
+  //       ['Coke Zero', 934]],
+  //     color: "#118dff"
+  //   },
+  //   {
+  //     name: "Total Inbounded Weight",
+  //     data: [
+  //       ['Coke', 1793],
+  //       ['Diet Coke', 1935],
+  //       ['Ginger Ale', 1541],
+  //       ['Sprite', 1015],
+  //       ['Red Win', 994],
+  //       ['Tip Top Marge..', 950],
+  //       ['Woodford Whi..', 900],
+  //       ['Coke Zero', 850]],
+  //     color: "#12239e"
+  //   }]
+  // }
+  // createTradeChartData() {
+  //   return [{
+  //     name: "Consumption/Pax by Product",
+  //     data: [
+  //       ['Ginger Ale', 0.06],
+  //       ['Coke', 0.04,],
+  //       ['Du Nord Vodka', 0.033],
+  //       ['Diet Coke', 0.032],
+  //       ['Woodford Whisk..', 0.031],
+  //       ['Tip Top Margarita', 0.03],
+  //       ['Red Win', 0.03],
+  //       ['Bacardi Rum', 0.03],
+  //       ['Jack Daniels Whi..', 0.025]],
+  //     color: "#118dff",
+  //   }]
+  // }
+  // createRainChartData() {
+  //   return [
+  //     [1005, 650, 367, 475, 520, 672, 321, 369, 502, 548, 305, 375, 410, 426, 465, 1406, 309, 408, 434, 437, 441, 2452, 899],
+  //     [0.35, 0.34, 0.88, 0.12, 0.31, 0.35, 0.13, 0.00, 0.73, 0.62, 0.43, 0.29, 0.37, 0.10, 0.00, 0.68, 0.87, 0.28, 0.43, 0.55, 0.29, 0.16, 0.87],
+  //     [11, 9, 7, 6, 6, 6, 5, 5, 5, 5, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 1, 1]
+  //   ]
+  // }
 }
 
 
