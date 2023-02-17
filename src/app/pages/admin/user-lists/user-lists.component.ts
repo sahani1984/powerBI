@@ -10,8 +10,8 @@ import { PowerbiDbService } from 'src/app/services/powerbi-db.service';
 export class UserListsComponent implements OnInit {
   title_data: string = "User List"
   showloader: boolean = false;
-  searchTerms:any="";
-  page:number=0
+  searchTerms: any = "";
+  page: number = 0
   constructor(private router: Router,
     private powerbiDb: PowerbiDbService) {
 
@@ -23,7 +23,7 @@ export class UserListsComponent implements OnInit {
   }
 
 
- 
+
   usersLists: any[] = [];
   userLists() {
     this.showloader = true;
@@ -38,30 +38,32 @@ export class UserListsComponent implements OnInit {
           this.showloader = false
         }
       },
-      error: (err) => console.log(err),
-      complete: () => this.showloader = false
+      error: (err) => {
+      this.showloader = false
+      console.log(err)
+       }
     })
   }
   add_user() {
     this.router.navigate(['/dashboard/add-user']);
   }
-  enabled:any[]=[]
-  disabled(data:any){
-    data.enabled = !data.enabled;   
-    let obj: any={};
+  enabled: any[] = []
+  disabled(data: any) {
+    data.enabled = !data.enabled;
+    let obj: any = {};
     obj["data"] = {}
     obj["data"]["serviceEndpoint"] = "/enable-user";
     obj["data"]["serviceRequestType"] = "POST";
     obj["data"]["serviceRequestData"] = {};
     obj["data"]["serviceRequestData"]["data"] = {};
-    obj["data"]["serviceRequestData"]["data"]["_id"] =data._id ;
-    obj["data"]["serviceRequestData"]["data"]["enabled"]= data.enabled;
-     this.powerbiDb.enabled(obj).subscribe({
-      next:(res:any)=>{
-        if(res["statusCode"]==200){
-            console.log(res);
+    obj["data"]["serviceRequestData"]["data"]["_id"] = data._id;
+    obj["data"]["serviceRequestData"]["data"]["enabled"] = data.enabled;
+    this.powerbiDb.enabled(obj).subscribe({
+      next: (res: any) => {
+        if (res["statusCode"] == 200) {
+          console.log(res);
         }
       }
-     })
+    })
   }
 }

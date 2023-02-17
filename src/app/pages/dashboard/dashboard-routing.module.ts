@@ -11,18 +11,19 @@ import { NoFlightComponent } from './no-flight/no-flight.component';
 import { SummaryComponent } from './summary/summary.component';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent, children:[
-    {path:"", redirectTo:"by-day", pathMatch:"full"},
-    {path:"by-day", component:ByDayComponent },
-    {path:"details", component:DetailsComponent },
-    {path:"no-flight", component:NoFlightComponent },
-    {path:"extra-cost-with-flight", component:ExtraCostWithFlightComponent },
-    {path:"extra-cost-no-flight", component:ExtraCostNoFlightComponent},
-    {path:"summary", component:SummaryComponent },
-    {path:"user-list", component:UserListsComponent },
-    {path:"add-user", component:AddUserComponent },
-  ] 
- },
+  {
+    path: '', component: DashboardComponent, children: [
+      { path: "", redirectTo: "by-day", pathMatch: "full" },
+      { path: "by-day", component: ByDayComponent },
+      { path: "details", component: DetailsComponent },
+      { path: "no-flight", component: NoFlightComponent },
+      { path: "extra-cost-with-flight", component: ExtraCostWithFlightComponent },
+      { path: "extra-cost-no-flight", component: ExtraCostNoFlightComponent },
+      { path: "summary", component: SummaryComponent },
+      { path: "user-list", component: UserListsComponent },
+      { path: "add-user", component: AddUserComponent },
+    ]
+  },
 ];
 
 @NgModule({

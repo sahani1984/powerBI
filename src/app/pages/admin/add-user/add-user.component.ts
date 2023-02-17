@@ -9,29 +9,20 @@ import { PowerbiDbService } from 'src/app/services/powerbi-db.service';
   styleUrls: ['./add-user.component.scss']
 })
 export class AddUserComponent implements OnInit {
-  title_data:string="Add User"
-  loading: boolean = false 
+  title_data: string = "Add User"
+  loading: boolean = false
   registerForm!: FormGroup;
   constructor(
-    private powerbiDb:PowerbiDbService, 
-    private router:Router) {    
+    private powerbiDb: PowerbiDbService,
+    private router: Router) {
     this.clientLists();
     this.initform();
   }
 
-  ngOnInit(): void {
-  
-  }
-
-  onSubmit(data:any){
-    console.log(data);
-  }
-
-  
+  ngOnInit(): void { }
 
   register(data: any) {
     this.loading = true;
-    console.log(data);
     let obj: any = {};
     obj["data"] = {}
     obj["data"]["serviceEndpoint"] = "/register";
@@ -42,7 +33,6 @@ export class AddUserComponent implements OnInit {
     obj["data"]["serviceRequestData"]["data"]["password"] = data.password;
     obj["data"]["serviceRequestData"]["data"]["logo"] = data.logo;
     obj["data"]["serviceRequestData"]["data"]["type"] = data.type;
-    console.log(obj);   
     this.powerbiDb.register(obj).subscribe({
       next: (res: any) => {
         if (res["statusCode"] == 200) {
@@ -51,13 +41,13 @@ export class AddUserComponent implements OnInit {
         }
       },
       error: (err) => console.log(err),
-      complete:()=>this.loading = false
+      complete: () => this.loading = false
     })
   }
 
 
   clientList: any[] = [];
-  clientLists(){
+  clientLists() {
     let obj: any = {};
     obj["data"] = {};
     obj["data"]["serviceEndpoint"] = "/client-listing";
@@ -71,7 +61,7 @@ export class AddUserComponent implements OnInit {
       error: (err) => console.log(err)
     })
   }
- 
+
   initform() {
     this.registerForm = new FormGroup({
       'clientID': new FormControl("", [Validators.required]),

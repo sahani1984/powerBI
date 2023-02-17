@@ -4,11 +4,12 @@
 
 export const environment = {
   production: false,
-  baseUrl:"https://app.countifi.com/api/v2/reports/",
+  baseUrl:"http://countifi-webapp-dev-2094667571.us-east-1.elb.amazonaws.com:3001/v1/reports/",  
   loginAUrl:"https://m97vyvor6e.execute-api.us-east-1.amazonaws.com/"
 };
 
 /*
+baseUrl:"https://app.countifi.com/api/v2/reports/",
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
  *

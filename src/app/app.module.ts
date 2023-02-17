@@ -6,7 +6,6 @@ import { MaterialsModule } from './shared/materials.module';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
-import { SettingComponent } from './common/setting/setting.component';
 import { FooterComponent } from './common/footer/footer.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -19,7 +18,6 @@ import {AuthInterceptor} from './services/auth.interceptor';
   declarations: [
     AppComponent,
     LoginComponent,
-    SettingComponent,
     FooterComponent
 
     

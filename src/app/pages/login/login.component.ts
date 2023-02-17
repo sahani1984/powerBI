@@ -12,7 +12,7 @@ import { PowerbiDbService } from 'src/app/services/powerbi-db.service';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
-  loading:boolean =false;
+  loading: boolean = false;
   constructor(
     private router: Router,
     private powerDb: PowerbiDbService,
@@ -20,13 +20,10 @@ export class LoginComponent implements OnInit {
     this.initform();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
 
   login(data: any) {
-    this.authService.setUserLoggedIn();   
-    this.router.navigate(['/dashboard/by-day']);  
     let obj: any = {};
     this.loading = true;
     obj["data"] = {}
@@ -35,21 +32,23 @@ export class LoginComponent implements OnInit {
     obj["data"]["serviceRequestData"] = {};
     obj["data"]["serviceRequestData"]["data"] = {};
     obj["data"]["serviceRequestData"]["data"]["email"] = data.email;
-    obj["data"]["serviceRequestData"]["data"]["password"] = data.password;    
+    obj["data"]["serviceRequestData"]["data"]["password"] = data.password;
     this.powerDb.signIn(obj).subscribe({
       next: (res: any) => {
-        if(res["statusCode"]==200){
-        let obj:any={};
-        obj["_token"] = res["token"];
-        obj["email"] = res["email"];      
-        sessionStorage.setItem('user_info', JSON.stringify(obj));
-        this.authService.setUserLoggedIn();   
-        this.router.navigate(['/dashboard/by-day']);     
-        this.loading = false; 
-        } 
-       },
-      error: (err) => console.log(err),
-      complete:()=>this.loading = false
+        if (res["statusCode"] == 200) {
+          let obj: any = {};
+          obj["_token"] = res["token"];
+          obj["email"] = res["email"];
+          sessionStorage.setItem('user_info', JSON.stringify(obj));
+          this.authService.setUserLoggedIn();
+          this.router.navigate(['/dashboard/by-day']);
+          this.loading = false;
+        }
+      },
+      error: (err) => {
+        this.loading = false
+        console.log(err)
+      }
     })
   }
 

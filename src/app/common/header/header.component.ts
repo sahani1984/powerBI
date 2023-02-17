@@ -138,9 +138,9 @@ export class HeaderComponent implements OnInit {
     this.comunication.WeightOfProductReturnToKitchen = Number(wprk.toFixed(0));
     let FuelCTC = deltaItems.map((m: any) => (m.quantity.inbound * m.weight.value) * 0.07).reduce((a: any, b: any) => a + b, 0);
     this.comunication.FuelCTCwithFlight = Number(FuelCTC.toFixed(0));
-    let emissionWithLife =  deltaItems.map((m: any) => (m.quantity.inbound * m.weight.value) * 0.19).reduce((a: any, b: any) => a + b, 0);
-    this.comunication.Emissions_lbs_withFlight = Number(emissionWithLife.toFixed(0)); 
-    let labourcost = datalist.map((d:any)=> d.drawers.inbound * 0.62).reduce((a: any, b: any) => a + b, 0);
+    let emissionWithLife = deltaItems.map((m: any) => (m.quantity.inbound * m.weight.value) * 0.19).reduce((a: any, b: any) => a + b, 0);
+    this.comunication.Emissions_lbs_withFlight = Number(emissionWithLife.toFixed(0));
+    let labourcost = datalist.map((d: any) => d.drawers.inbound * 0.62).reduce((a: any, b: any) => a + b, 0);
     this.comunication.LaborCost = Number(labourcost.toFixed(0))
   }
 

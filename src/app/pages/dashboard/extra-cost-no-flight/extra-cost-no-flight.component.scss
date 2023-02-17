@@ -9,9 +9,14 @@
     
   .body_wrapper{background-color:#f0f0f0;}
   .box_info_wrapper{
-    .info-box{padding:0.9rem .5rem;}
+    .info-box{padding:1.015rem .5rem;}
   }
   .chart_wrapper{
-    .card{display:flex; height:100%;}
+    .card{display:flex; height:100%;
+    .card-body{padding: 0;}}
   }
   .loading.extcostnoflight{height:100%;}
+
+  .info-box{
+    .info-box-content{height: 100%;}
+  }

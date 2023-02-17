@@ -3,88 +3,104 @@
 <section class="content">
     <app-major-info [pageName]="'extraCostWidthFlight'"></app-major-info>
     <data-filter-form [filterCase]="'extracostwithflight'"></data-filter-form>
-
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card_body">
+    <div class="col-md-12 with_flight">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-md-6 ">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div *ngIf="showLoader" class="loading">
+                                        <div class="loaderbox">Loading...</div>
+                                    </div>
+                                    <highcharts-chart *ngIf="!showLoader && consumptionPaxByProductData.length"
+                                        [Highcharts]="Highcharts" [options]="consumptionPaxByProductOptions">
+                                    </highcharts-chart>
+                                    <div *ngIf="!showLoader && consumptionPaxByProductData.length" class="xAsixlabel">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-body ">
+                                    <div *ngIf="showLoader" class="loading">
+                                        <div class="loaderbox">Loading...</div>
+                                    </div>
+                                    <highcharts-chart *ngIf="!showLoader && fuelCTCWithFlight.data?.length"
+                                        [Highcharts]="Highcharts" [options]="fuelCTCWithFlightOptions">
+                                    </highcharts-chart>
+                                    <div *ngIf="!showLoader && fuelCTCWithFlight.data?.length" class="xAsixlabel"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div *ngIf="showLoader" class="loading">
+                                        <div class="loaderbox">Loading...</div>
+                                    </div>
+                                    <highcharts-chart *ngIf="!showLoader && consumptionPaxByFlightData.length"
+                                        [Highcharts]="Highcharts" [options]="consumptionPaxByFlightOptions">
+                                    </highcharts-chart>
+                                    <div *ngIf="!showLoader && consumptionPaxByFlightData.length" class="xAsixlabel">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
                 <div class="row">
-                    <div class="col-md-6 ">
-                        <div class="card">
-                            <div class="card-body">
-                                <div *ngIf="showLoader" class="loading">
-                                    <div class="loaderbox">Loading...</div>
-                                  </div>
-                                <highcharts-chart *ngIf="!showLoader && consumptionPaxByProductData.length" [Highcharts]="Highcharts"
-                                    [options]="consumptionPaxByProductOptions">
-                                </highcharts-chart>
-                                <div *ngIf="!showLoader && consumptionPaxByProductData.length" class="xAsixlabel"></div>
-                            </div>
+                    <div class="info-box  bg-warning">
+                        <div class="info-box-content">
+                            <span class="info-box-number text-center">
+                                <div *ngIf="showLoader" class="loading small">
+                                    <div class="loaderbox">loading...</div>
+                                </div>
+                                <h2><span *ngIf="!showLoader">{{communication.WeightOfProductReturnToKitchen}}</span>
+                                </h2>
+                            </span>
+                            <span class="info-box-text">Weight of Product Returned to Kitchen(lbs)</span>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body ">
-                                <div *ngIf="showLoader" class="loading">
-                                    <div class="loaderbox">Loading...</div>
-                                  </div>
-                                <highcharts-chart *ngIf="!showLoader && fuelCTCWithFlight.data?.length" [Highcharts]="Highcharts"
-                                    [options]="fuelCTCWithFlightOptions">
-                                </highcharts-chart>
-                                <div *ngIf="!showLoader && fuelCTCWithFlight.data?.length" class="xAsixlabel"></div>
-                            </div>
+                    <div class="info-box mb-3 bg-success">
+                        <div class="info-box-content">
+                            <span class="info-box-number text-center">
+                                <div *ngIf="showLoader" class="loading small">
+                                    <div class="loaderbox">loading...</div>
+                                </div>
+                                <h2><span *ngIf="!showLoader">{{communication.FuelCTCwithFlight | currency:'USD':
+                                        'symbol' : '1.0-0'}}</span></h2>
+                            </span>
+                            <span class="info-box-text text-center">Fuel CTC With Flight #</span>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div *ngIf="showLoader" class="loading">
-                                    <div class="loaderbox">Loading...</div>
-                                  </div>
-                                <highcharts-chart *ngIf="!showLoader && consumptionPaxByFlightData.length" [Highcharts]="Highcharts"
-                                    [options]="consumptionPaxByFlightOptions">
-                                </highcharts-chart>
-                                <div *ngIf="!showLoader && consumptionPaxByFlightData.length" class="xAsixlabel"></div>
-                            </div>
+                    <div class="info-box mb-3 bg-danger">
+                        <div class="info-box-content">
+                            <span class="info-box-number text-center">
+                                <div *ngIf="showLoader" class="loading small">
+                                    <div class="loaderbox">loading...</div>
+                                </div>
+                                <h2><span *ngIf="!showLoader">{{communication.Emissions_lbs_withFlight}}</span></h2>
+                            </span>
+                            <span class="info-box-text text-center">Emissions (lbs) With Flight #</span>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="info-box  bg-warning">
-                <div class="info-box-content" style="height: 97px; overflow: hidden">
-                    <span class="info-box-number text-center">
-                        <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-                        <h2><span  *ngIf="!showLoader" >{{communication.WeightOfProductReturnToKitchen}}</span></h2>
-                    </span>
-                    <span class="info-box-text">Weight of Product Returned to Kitchen(lbs)</span>
-                </div>
-            </div>
-            <div class="info-box mb-3 bg-success">
-                <div class="info-box-content" style="height: 97px; overflow: hidden">
-                    <span class="info-box-number text-center">
-                        <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-                        <h2><span *ngIf="!showLoader">{{communication.FuelCTCwithFlight | currency:'USD': 'symbol' : '1.0-0'}}</span></h2>
-                    </span>
-                    <span class="info-box-text text-center">Fuel CTC With Flight #</span>
-                </div>
-            </div>
-            <div class="info-box mb-3 bg-danger">
-                <div class="info-box-content" style="height: 97px; overflow: hidden">
-                    <span class="info-box-number text-center">
-                        <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-                        <h2><span *ngIf="!showLoader">{{communication.Emissions_lbs_withFlight}}</span></h2>
-                    </span>
-                    <span class="info-box-text text-center">Emissions (lbs) With Flight #</span>
-                </div>
-            </div>
-            <div class="info-box mb-3 bg-info w-125px">
-                <div class="info-box-content" style="height: 97px; overflow: hidden">
-                    <span class="info-box-number text-center">
-                        <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-                        <h2><span *ngIf="!showLoader">{{communication.LaborCost | currency:'USD': 'symbol' : '1.0-0'}}</span></h2>
-                    </span>
-                    <span class="info-box-text text-center">Labor Cost </span>
+                    <div class="info-box mb-3 bg-info w-125px">
+                        <div class="info-box-content">
+                            <span class="info-box-number text-center">
+                                <div *ngIf="showLoader" class="loading small">
+                                    <div class="loaderbox">loading...</div>
+                                </div>
+                                <h2><span *ngIf="!showLoader">{{communication.LaborCost | currency:'USD': 'symbol' :
+                                        '1.0-0'}}</span></h2>
+                            </span>
+                            <span class="info-box-text text-center">Labor Cost </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

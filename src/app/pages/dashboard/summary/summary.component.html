@@ -1,5 +1,4 @@
 <app-title-bar [titledata]="title_data"></app-title-bar>
-
 <section class="content">
   <app-major-info [pageName]="'summary'"></app-major-info>
   <data-filter-form [filterCase]="'summary'"></data-filter-form>
@@ -12,7 +11,7 @@
             <div class="loaderbox">Loading...</div>
           </div>
           <highcharts-chart *ngIf="!showLoader && totalFlightCountByData.length" [Highcharts]="Highcharts"
-            [options]="columnChartOptions">
+            [options]="allFlightOptions">
           </highcharts-chart>
         </div>
       </div>
@@ -25,7 +24,7 @@
             <div class="loaderbox">Loading...</div>
           </div>
           <highcharts-chart *ngIf="!showLoader && totalBoardedAndInboundQtyData.length" [Highcharts]="Highcharts"
-            [options]="rateChartOptions">
+            [options]="boardedAndInboundQtyOptions">
           </highcharts-chart>
           <div *ngIf="!showLoader && totalBoardedAndInboundQtyData.length" class="xAsixlabel">{{qtyxAsisLabel}} (Days)
           </div>
@@ -39,9 +38,10 @@
             <div class="loaderbox">Loading...</div>
           </div>
           <highcharts-chart *ngIf="!showLoader && totalBoardedAndInboundWeightData.length" [Highcharts]="Highcharts"
-            [options]="weightChartOptions">
+            [options]="boardedAndInboundWeightOptions">
           </highcharts-chart>
-          <div *ngIf="!showLoader && totalBoardedAndInboundWeightData.length" class="xAsixlabel">{{qtyxAsisLabel}} (Days)
+          <div *ngIf="!showLoader && totalBoardedAndInboundWeightData.length" class="xAsixlabel">{{qtyxAsisLabel}}
+            (Days)
           </div>
         </div>
       </div>

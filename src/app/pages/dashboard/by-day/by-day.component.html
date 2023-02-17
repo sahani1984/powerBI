@@ -1,7 +1,6 @@
 <app-title-bar [titledata]="title_data"></app-title-bar>
-
 <section class="content byday_content">
-  <data-filter-form [filterCase]="'byday'"></data-filter-form>  
+  <data-filter-form [filterCase]="'byday'"></data-filter-form>
   <div class="row">
     <div class="col-md-4">
       <div class="card">
@@ -9,10 +8,10 @@
           <div *ngIf="showLoader" class="loading">
             <div class="loaderbox">Loading...</div>
           </div>
-          <highcharts-chart *ngIf="!showLoader && totalBoundInboundData.data?.length"
-           [Highcharts]="Highcharts"[options]="barChartOptions">
+          <highcharts-chart *ngIf="!showLoader && totalBoundInboundData.data?.length" [Highcharts]="Highcharts"
+            [options]="totalBoundInboundOptions">
           </highcharts-chart>
-          <div *ngIf="!showLoader && totalBoundInboundData.length" class="xAsixlabel"> 
+          <div *ngIf="!showLoader && totalBoundInboundData.length" class="xAsixlabel">
           </div>
         </div>
       </div>
@@ -23,10 +22,10 @@
           <div *ngIf="showLoader" class="loading">
             <div class="loaderbox">Loading...</div>
           </div>
-          <highcharts-chart *ngIf="!showLoader && totalBoundInboundWeight.data?.length"          
-           [Highcharts]="Highcharts"[options]="weightChartOptions">
+          <highcharts-chart *ngIf="!showLoader && totalBoundInboundWeight.data?.length" [Highcharts]="Highcharts"
+            [options]="totalBoundInboundWeighOptions">
           </highcharts-chart>
-          <div *ngIf="!showLoader && totalBoundInboundData.length" class="xAsixlabel"> 
+          <div *ngIf="!showLoader && totalBoundInboundData.length" class="xAsixlabel">
           </div>
         </div>
       </div>
@@ -37,10 +36,10 @@
           <div *ngIf="showLoader" class="loading">
             <div class="loaderbox">Loading...</div>
           </div>
-          <highcharts-chart *ngIf="!showLoader && fuelAndLabourCostData.data?.length"  [Highcharts]="Highcharts"
-            [options]="stackedChartOptions">
+          <highcharts-chart *ngIf="!showLoader && fuelAndLabourCostData.data?.length" [Highcharts]="Highcharts"
+            [options]="fuelAndLabourCostOptions">
           </highcharts-chart>
-          <div *ngIf="!showLoader && totalBoundInboundData.length" class="xAsixlabel"> 
+          <div *ngIf="!showLoader && totalBoundInboundData.length" class="xAsixlabel">
           </div>
         </div>
       </div>

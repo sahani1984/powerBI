@@ -3,7 +3,7 @@
 <section class="content">
   <app-major-info [pageName]="'extraCostNoFlight'"></app-major-info>
   <data-filter-form [filterCase]="'extracostnoflight'"></data-filter-form>
-    
+
   <div class="row">
     <div class="col-md-8 chart_wrapper">
       <div class="card">
@@ -11,8 +11,8 @@
           <div *ngIf="showLoader" class="loading extcostnoflight">
             <div class="loaderbox">Loading...</div>
           </div>
-          <highcharts-chart *ngIf="!showLoader && fuelCTCnoFlightdata[0].data.length"  [Highcharts]="Highcharts"
-            [options]="columnChartOptions">
+          <highcharts-chart *ngIf="!showLoader && fuelCTCnoFlightdata[0].data.length" [Highcharts]="Highcharts"
+            [options]="fuelCTCnoFlightOptions">
           </highcharts-chart>
         </div>
       </div>
@@ -22,8 +22,11 @@
         <div class="info-box-content">
           <span class="info-box-number text-center">
             <h2>
-              <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-              <span *ngIf="!showLoader">{{communication.weightOfProductReturnToKitchenNoFlight}}</span></h2>
+              <div *ngIf="showLoader" class="loading small">
+                <div class="loaderbox">loading...</div>
+              </div>
+              <span *ngIf="!showLoader">{{communication.weightOfProductReturnToKitchenNoFlight}}</span>
+            </h2>
           </span>
           <span class="info-box-text">Weight of Product Returned to Kitchen No Flight(lbs)</span>
         </div>
@@ -32,17 +35,22 @@
         <div class="info-box-content">
           <span class="info-box-number text-center">
             <h2>
-              <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-              <span *ngIf="!showLoader">{{communication.fuelCTCnoFlight | currency:'USD': 'symbol' : '1.0-0'}}</span></h2>
+              <div *ngIf="showLoader" class="loading small">
+                <div class="loaderbox">loading...</div>
+              </div>
+              <span *ngIf="!showLoader">{{communication.fuelCTCnoFlight | currency:'USD': 'symbol' : '1.0-0'}}</span>
+            </h2>
           </span>
           <span class="info-box-text text-center">Fiel CTC No Flight</span>
         </div>
       </div>
       <div class="info-box mb-3 bg-danger">
-         <div class="info-box-content">
+        <div class="info-box-content">
           <span class="info-box-number text-center">
-            <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-            <h2><span *ngIf="!showLoader" >{{communication.emission_lbs_noFlight}}</span></h2>
+            <div *ngIf="showLoader" class="loading small">
+              <div class="loaderbox">loading...</div>
+            </div>
+            <h2><span *ngIf="!showLoader">{{communication.emission_lbs_noFlight}}</span></h2>
           </span>
           <span class="info-box-text text-center">Emissions (lbs) No Flight #</span>
         </div>
@@ -51,8 +59,11 @@
         <div class="info-box-content">
           <span class="info-box-number text-center">
             <h2>
-              <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-              <span *ngIf="!showLoader">{{communication.labourCostWithoutFlight | currency:'USD': 'symbol' : '1.0-0'}}</span>
+              <div *ngIf="showLoader" class="loading small">
+                <div class="loaderbox">loading...</div>
+              </div>
+              <span *ngIf="!showLoader">{{communication.labourCostWithoutFlight | currency:'USD': 'symbol' :
+                '1.0-0'}}</span>
             </h2>
           </span>
           <span class="info-box-text text-center">Labor Cost Without Flight #</span>

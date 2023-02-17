@@ -1,121 +1,137 @@
-<div class="card"  [class.collapsed-card]="cardCollapse">
-    <div class="card-header">
-        <h3 class="card-title">
-          <ng-template  [ngIf]="pagename=='details'">Details Info</ng-template>
-          <ng-template  [ngIf]="pagename=='extraCostNoFlight'">Extra Cost No Flight Info</ng-template>
-          <ng-template  [ngIf]="pagename=='extraCostWidthFlight'">Extra Cost With Flight Info</ng-template>
-          <ng-template  [ngIf]="pagename=='summary'">Summary Info</ng-template>
-         </h3>        
-        <div class="card-tools">
-          <button type="button" (click)="this.cardCollapse = !this.cardCollapse" class="btn btn-tool"
-          data-card-widget="collapse">
-          <i [class.fa-minus]="!cardCollapse" [class.fa-plus]="cardCollapse" class="fas"></i>
+<div class="card" [class.collapsed-card]="cardCollapse">
+  <div class="card-header">
+    <h3 class="card-title">
+      <ng-template [ngIf]="pagename=='details'">Details Info</ng-template>
+      <ng-template [ngIf]="pagename=='extraCostNoFlight'">Extra Cost No Flight Info</ng-template>
+      <ng-template [ngIf]="pagename=='extraCostWidthFlight'">Extra Cost With Flight Info</ng-template>
+      <ng-template [ngIf]="pagename=='summary'">Summary Info</ng-template>
+    </h3>
+    <div class="card-tools">
+      <button type="button" (click)="this.cardCollapse = !this.cardCollapse" class="btn btn-tool"
+        data-card-widget="collapse">
+        <i [class.fa-minus]="!cardCollapse" [class.fa-plus]="cardCollapse" class="fas"></i>
       </button>
-        </div>
     </div>
-<div class="card-body">      
-<div class="row">
-<div *ngIf="showFlightDrawers" class="col-md-4" >
-    <div class="small-box bg-info">
-        <div class="inner">
-        <div class="titleSet">
-          <h3>
-            <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-            <span *ngIf="!showLoader">{{communication.totalFlight }}</span>
-            </h3>
-          <p># Flight</p>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div *ngIf="showFlightDrawers" class="col-md-4">
+        <div class="small-box bg-info">
+          <div class="inner">
+            <div class="titleSet">
+              <h3>
+                <div *ngIf="showLoader" class="loading small">
+                  <div class="loaderbox">loading...</div>
+                </div>
+                <span *ngIf="!showLoader">{{communication.totalFlight }}</span>
+              </h3>
+              <p># Flight</p>
+            </div>
+            <div class="titleSet">
+              <h3>
+                <div *ngIf="showLoader" class="loading small">
+                  <div class="loaderbox">loading...</div>
+                </div>
+                <span *ngIf="!showLoader">{{communication.totalDrawers}}</span>
+              </h3>
+              <p># of Drawers</p>
+            </div>
+          </div>
+          <div class="icon">
+            <i class="ion ion-stats-bars"></i>
+          </div>
         </div>
-        <div class="titleSet">
+      </div>
+
+      <div *ngIf="showTotalBoardedInboundQty" class="col-md-4">
+        <div class="small-box bg-success">
+          <div class="inner">
+            <div class="titleSet">
+              <h3>
+                <div *ngIf="showLoader" class="loading small">
+                  <div class="loaderbox">loading...</div>
+                </div>
+                <span *ngIf="!showLoader">{{communication.totalBoardedQuantity}}</span>
+              </h3>
+              <p># Total Boarded Quantity</p>
+            </div>
+            <div class="titleSet">
+              <h3>
+                <div *ngIf="showLoader" class="loading small">
+                  <div class="loaderbox">loading...</div>
+                </div>
+                <span *ngIf="!showLoader">{{communication.totalInboundQuantity}}</span>
+              </h3>
+              <p># Total Inbound Quantity</p>
+            </div>
+          </div>
+          <div class="icon">
+            <i class="fas fa-chart-pie"></i>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showTotalBoardedInboundWeight" class="col-md-4">
+        <div class="small-box bg-warning">
+          <div class="inner">
+            <div class="titleSet">
+              <h3>
+                <div *ngIf="showLoader" class="loading small">
+                  <div class="loaderbox">loading...</div>
+                </div>
+                <span *ngIf="!showLoader">{{communication.totalBoardedWeight}}</span>
+              </h3>
+              <p># Total Boarded Weight</p>
+            </div>
+            <div class="titleSet">
+              <h3>
+                <div *ngIf="showLoader" class="loading small">
+                  <div class="loaderbox">loading...</div>
+                </div>
+                <span *ngIf="!showLoader">{{communication.totalInboundWeight}}</span>
+              </h3>
+              <p># Total Inbound Weight</p>
+            </div>
+          </div>
+          <div class="icon">
+            <i class="fas fa-chart-pie"></i>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showTotalDrawersNoFlight" class="col-md-4">
+        <div class="small-box bg-info">
+          <div class="inner">
             <h3>
-              <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
+              <div *ngIf="ShowLoader" class="loading small">
+                <div class="loaderbox">loading...</div>
+              </div>
+              <span *ngIf="!ShowLoader">{{communication.totalDrawersNoFlight}}</span>
+            </h3>
+            <p>#Total Drawers No Flight</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-stats-bars"></i>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showTotalDrawerseWithFlight" class="col-md-4">
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3>
+              <div *ngIf="showLoader" class="loading small">
+                <div class="loaderbox">loading...</div>
+              </div>
               <span *ngIf="!showLoader">{{communication.totalDrawers}}</span>
             </h3>
-            <p># of Drawers</p>
+            <p>Total Drawers with Flight #</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-stats-bars"></i>
           </div>
         </div>
-        <div class="icon">
-          <i class="ion ion-stats-bars"></i>
-        </div>           
       </div>
-</div>
-
-<div *ngIf="showTotalBoardedInboundQty" class="col-md-4">
-    <div class="small-box bg-success">
-        <div class="inner">
-        <div class="titleSet">
-          <h3>
-            <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-            <span *ngIf="!showLoader">{{communication.totalBoardedQuantity}}</span>
-          </h3>
-          <p># Total Boarded Quantity</p>
-        </div>
-        <div class="titleSet">
-            <h3>
-              <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-              <span *ngIf="!showLoader">{{communication.totalInboundQuantity}}</span>
-            </h3>
-            <p># Total Inbound Quantity</p>
-          </div>
-        </div>
-        <div class="icon">
-          <i class="fas fa-chart-pie"></i>
-        </div>           
-      </div>
-</div>
-
-<div *ngIf="showTotalBoardedInboundWeight" class="col-md-4">
-    <div class="small-box bg-warning">
-        <div class="inner">
-        <div class="titleSet">
-          <h3>
-            <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-            <span *ngIf="!showLoader">{{communication.totalBoardedWeight}}</span>
-          </h3>
-          <p># Total Boarded Weight</p>
-        </div>
-        <div class="titleSet">
-            <h3>
-              <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-              <span *ngIf="!showLoader">{{communication.totalInboundWeight}}</span>
-            </h3>
-            <p># Total Inbound Weight</p>
-          </div>
-        </div>
-        <div class="icon">
-          <i class="fas fa-chart-pie"></i>
-        </div>           
-      </div>
-</div>
-
-<div *ngIf="showTotalDrawersNoFlight" class="col-md-4">
-  <div class="small-box bg-info">
-    <div class="inner">              
-        <h3>
-          <div *ngIf="ShowLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-          <span *ngIf="!ShowLoader">{{communication.totalDrawersNoFlight}}</span>
-        </h3>
-        <p>#Total Drawers No Flight</p>            
-    </div>
-    <div class="icon">
-      <i class="ion ion-stats-bars"></i>
     </div>
   </div>
-</div>
-
-<div *ngIf="showTotalDrawerseWithFlight" class="col-md-4">
-  <div class="small-box bg-info">
-      <div class="inner">
-          <h3>
-            <div *ngIf="showLoader" class="loading small"><div class="loaderbox">loading...</div></div>
-            <span *ngIf="!showLoader">{{communication.totalDrawers}}</span>
-          </h3>
-          <p>Total Drawers with Flight #</p>
-      </div>
-      <div class="icon">
-          <i class="ion ion-stats-bars"></i>
-      </div>
-  </div>
-</div>
-</div>
-</div>
 </div>

@@ -7,47 +7,48 @@
           class="fas fa-bars"></i></a>
     </li>
     <li class="client_logo">
-      <img [hidden]="activeClient !== '3f6a2bc4-d190-411f-a41c-21c6d0e54855'"  src="./assets/images/client-1.jpg" class="logo" />
-      <img [hidden]="activeClient == '3f6a2bc4-d190-411f-a41c-21c6d0e54855'"  src="./assets/images/dummi-logo.jpg" class="logo" />
+      <img [hidden]="activeClient !== '3f6a2bc4-d190-411f-a41c-21c6d0e54855'" src="./assets/images/client-1.jpg"
+        class="logo" />
+      <img [hidden]="activeClient == '3f6a2bc4-d190-411f-a41c-21c6d0e54855'" src="./assets/images/dummi-logo.jpg"
+        class="logo" />
     </li>
     <li class="filter_form">
       <form [formGroup]="searchform">
         <div class="card_body">
-      <div class="row">
-        <div class="col-md-4">          
-          <div class="form-group">
-            <select class="form-control select2" style="width: 100%;"
-             formControlName="client" autocomplete="off">
-              <option value="">Select Clinet</option>
-              <option *ngFor="let item of this.clientList" [value]="item._id">{{item.name}}</option>             
-            </select>
-          </div>
-        </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <select class="form-control select2" style="width: 100%;" formControlName="client" autocomplete="off">
+                  <option value="">Select Clinet</option>
+                  <option *ngFor="let item of this.clientList" [value]="item._id">{{item.name}}</option>
+                </select>
+              </div>
+            </div>
 
-        <div class="col-md-4">
-          <div class="form-group">
-            <div class="input-group custom_datepicker">
-              <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
-              <mat-datepicker #startdate></mat-datepicker>
-              <input type="text" formControlName="start_date"   class="form-control" placeholder="DD/MM/YYYY"
-                name="start_Date" [matDatepicker]="startdate">
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group custom_datepicker">
+                  <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
+                  <mat-datepicker #startdate></mat-datepicker>
+                  <input type="text" formControlName="start_date" class="form-control" placeholder="DD/MM/YYYY"
+                    name="start_Date" [matDatepicker]="startdate">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <div class="input-group custom_datepicker">
+                  <mat-datepicker-toggle matSuffix [for]="enddatepicker"></mat-datepicker-toggle>
+                  <mat-datepicker #enddatepicker></mat-datepicker>
+                  <input type="text" formControlName="end_date" class="form-control" placeholder="DD/MM/YYYY"
+                    name="start_Date" [matDatepicker]="enddatepicker">
+                </div>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="col-md-4">
-          <div class="form-group">
-            <div class="input-group custom_datepicker">
-              <mat-datepicker-toggle matSuffix [for]="enddatepicker"></mat-datepicker-toggle>
-              <mat-datepicker #enddatepicker></mat-datepicker>
-              <input type="text" formControlName="end_date"   class="form-control" placeholder="DD/MM/YYYY"
-                name="start_Date" [matDatepicker]="enddatepicker">
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
-    </form>
+      </form>
     </li>
   </ul>
 
@@ -68,6 +69,3 @@
   </ul>
 </nav>
 
-<div class="res_767">
- 
-</div>

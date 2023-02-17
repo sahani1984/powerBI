@@ -1,4 +1,4 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { CommunicationService } from 'src/app/services/communication.service';
 
 @Component({
@@ -7,33 +7,33 @@ import { CommunicationService } from 'src/app/services/communication.service';
   styleUrls: ['./major-info.component.scss']
 })
 export class MajorInfoComponent implements OnInit {
-  showLoader:boolean=false;
-  ShowLoader:boolean=false;
-  cardCollapse:boolean=false;
+  showLoader: boolean = false;
+  ShowLoader: boolean = false;
+  cardCollapse: boolean = false;
 
-  @Input('pageName') pagename:any;
-  constructor(public communication:CommunicationService) { 
-    this.communication.apiDataLoading.subscribe((res:any)=> this.showLoader = res);   
-    this.communication.apiDataLoading.subscribe((res:any)=> this.ShowLoader = res);   
+  @Input('pageName') pagename: any;
+  constructor(public communication: CommunicationService) {
+    this.communication.apiDataLoading.subscribe((res: any) => this.showLoader = res);
+    this.communication.apiDataLoading.subscribe((res: any) => this.ShowLoader = res);
   }
 
   ngOnInit(): void {
     this.showInfoWidgit(this.pagename);
   }
 
-  showFlightDrawers:boolean=false;
-  showTotalDrawersNoFlight:boolean=false;
-  showTotalDrawerseWithFlight:boolean=false;
-  showTotalBoardedInboundQty:boolean=false;
-  showTotalBoardedInboundWeight:boolean=false;
-  showInfoWidgit(caseType:any){
-    if(caseType==='details' || caseType==='summary') this.showFlightDrawers = true; 
-    if(caseType==='extraCostNoFlight') this.showTotalDrawersNoFlight = true;      
-    if(caseType==='extraCostWidthFlight') this.showTotalDrawerseWithFlight = true;     
-    if(caseType == 'summary' ){
-      this.showTotalBoardedInboundQty=true; 
-      this.showTotalBoardedInboundWeight = true;      
-    }         
-}
+  showFlightDrawers: boolean = false;
+  showTotalDrawersNoFlight: boolean = false;
+  showTotalDrawerseWithFlight: boolean = false;
+  showTotalBoardedInboundQty: boolean = false;
+  showTotalBoardedInboundWeight: boolean = false;
+  showInfoWidgit(caseType: any) {
+    if (caseType === 'details' || caseType === 'summary') this.showFlightDrawers = true;
+    if (caseType === 'extraCostNoFlight') this.showTotalDrawersNoFlight = true;
+    if (caseType === 'extraCostWidthFlight') this.showTotalDrawerseWithFlight = true;
+    if (caseType == 'summary') {
+      this.showTotalBoardedInboundQty = true;
+      this.showTotalBoardedInboundWeight = true;
+    }
+  }
 
 }

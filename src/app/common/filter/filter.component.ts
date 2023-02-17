@@ -45,21 +45,8 @@ export class FilterComponent implements OnInit {
     })
 
     this.filterform.valueChanges.subscribe((res: any) => {    
-      let data = JSON.parse(JSON.stringify(this.airlineFltBevDataListOriginal));  
-      let result: any[] = []
-      result = data.filter((item: any) => new Date(item.departure).getTime() >= res["start_date"].getTime());
-      result = result.filter((item: any) => new Date(item.departure).getTime() <= res["end_date"].getTime());
-      if (res['week'] !== "") {
-        result = result.filter((item: any) => moment(item.departure).format('dddd').toLowerCase() === res["week"].toLowerCase())
-      }
-      if (res['product'] !== "") {
-        result.forEach((item: any) => item.items = item.items.filter((d: any) => d.name.toLowerCase() == res['product'].toLowerCase()));
-      }
-      if (res['flight'] !== "") {
-        result = result.filter((item: any) => item.number === res["flight"]);
-      }     
-    
-      this.communication.dataAirlineFlightBeverage.next(result);     
+         this.deltaItemsFilter(res);
+         this.deltaNoFlightFilter(res);
     })
   }
 
@@ -68,7 +55,67 @@ export class FilterComponent implements OnInit {
   }
 
 
+deltaItemsFilter(res:any){
+  let data = JSON.parse(JSON.stringify(this.airlineFltBevDataListOriginal));  
+  let result: any[] = []
+  result = data.filter((item: any) => new Date(item.departure).getTime() >= res["start_date"].getTime());
+  result = result.filter((item: any) => new Date(item.departure).getTime() <= res["end_date"].getTime());
+  if (res['week'] !== "") {
+    result = result.filter((item: any) => moment(item.departure).format('dddd').toLowerCase() === res["week"].toLowerCase())
+  }
+  if (res['product'] !== "") {
+    result.forEach((item: any) => item.items = item.items.filter((d: any) => d.name.toLowerCase() == res['product'].toLowerCase()));
+  }
+  if (res['flight'] !== "") {
+    result = result.filter((item: any) => item.number === res["flight"]);
+  }    
+  if (res['origin'] !== "") {
+    result = result.filter((item: any) => item.origin.toLowerCase() === res["origin"].toLowerCase());
+  } 
+  if (res['destinaton'] !== "") {
+    result = result.filter((item: any) => item.destination.toLowerCase() === res["destinaton"].toLowerCase());
+  } 
+  if (res['time'] !== "") {
+    result = result.filter((item: any) => this.getDayOfTime(item.departure).toLowerCase() === res["time"].toLowerCase());
+  } 
+ this.communication.dataAirlineFlightBeverage.next(result); 
+}
 
+
+
+deltaNoFlightFilter(res:any){  
+  let data = JSON.parse(JSON.stringify(this.alirlineBevDataListOriginal));
+  let result: any[] = []  
+  result = data.filter((item: any) => new Date(item.takenAt).getTime() >= res["start_date"].getTime());
+  result = result.filter((item: any) => new Date(item.takenAt).getTime() <= res["end_date"].getTime());
+  if (res['week'] !== "") {
+    result = result.filter((item: any) => moment(item.takenAt).format('dddd').toLowerCase() === res["week"].toLowerCase())
+  }
+  if (res['product'] !== "") {
+    result =  result.filter((d: any) => d.label.toLowerCase() == res['product'].toLowerCase());
+  }
+  if (res['time'] !== "") {
+    result = result.filter((item: any) => this.getDayOfTime(item.takenAt).toLowerCase() === res["time"].toLowerCase());
+  } 
+  this.communication.dataAirlineBeverage.next(result); 
+}
+
+
+  getDayOfTime(day: any) {
+    let d = new Date(day);
+    let hrs = d.getHours();
+    let mins = d.getMinutes();
+    let timeType: any = "morning";
+    if (hrs >= 5 && ((hrs == 5 && mins >= 30) || (hrs > 5 && hrs < 12))) timeType = 'morning'
+    else if (hrs >= 12 && hrs < 18) timeType = 'afternoon'
+    else if ((hrs >= 18 && hrs < 24) || hrs > 0) timeType = 'evening'
+    else timeType = 'midnight';
+    return timeType
+  }
+
+  
+
+  /*SHOW FILTER CONTROLS CONDTIONALY AS FILTER IS A GENERIC*/
   showProductfilter:boolean=false;
   showOriginfilter:boolean=false;
   showDestinationfilter:boolean=false;

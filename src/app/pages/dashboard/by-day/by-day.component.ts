@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as Highcharts from 'highcharts';
 import highcharts3D from 'highcharts/highcharts-3d';
 import * as moment from 'moment';
@@ -15,74 +14,76 @@ declare var $: any;
 })
 export class ByDayComponent implements OnInit {
   title_data: string = "By Day";
-  showLoader:boolean=false
+  showLoader: boolean = false
   Highcharts: typeof Highcharts = Highcharts;
-  barChartOptions!: Highcharts.Options;
-  stackedChartOptions!: Highcharts.Options;
-  weightChartOptions!: Highcharts.Options;
+  totalBoundInboundOptions!: Highcharts.Options;
+  totalBoundInboundWeighOptions!: Highcharts.Options;
+  fuelAndLabourCostOptions!: Highcharts.Options;
   totalBoundInboundData: any = [];
   totalBoundInboundWeight: any = [];
-  fuelAndLabourCostData:any=[];
+  fuelAndLabourCostData: any = [];
 
-  constructor(private powerbidb: PowerbiDbService,
-    private communication: CommunicationService) {
-    this.communication.apiDataLoading.subscribe((res:any)=> this.showLoader = res);
-    this.communication.dataAirlineBeverage.subscribe((res: any) => console.log(res));
+  constructor(private communication: CommunicationService) {
+    this.communication.apiDataLoading.subscribe((res: any) => this.showLoader = res);
     this.communication.dataAirlineFlightBeverage.subscribe((res: any) => {
       if (res && res.length) {
         this.totalBoundInboundData = this.createTotalBoardedInboundCostData(res);
         this.totalBoundInboundWeight = this.totalBoardedAndInboundWeigthDate(res);
-        this.fuelAndLabourCostData = this.createFuelAndLabourCostData(res);       
-        this.createBarChart(this.totalBoundInboundData['data'], this.totalBoundInboundData['category']);
-        this.createWeightChart(this.totalBoundInboundWeight['data'], this.totalBoundInboundWeight['category']);
-        this.createStackedChart(this.fuelAndLabourCostData['data'], this.fuelAndLabourCostData['category']);
+        this.fuelAndLabourCostData = this.createFuelAndLabourCostData(res);
+        this.createtotalBoundInboundQytChart(this.totalBoundInboundData['data'], this.totalBoundInboundData['category']);
+        this.createTotalBoundInboundWeighChart(this.totalBoundInboundWeight['data'], this.totalBoundInboundWeight['category']);
+        this.createFuelAndLabourCostChart(this.fuelAndLabourCostData['data'], this.fuelAndLabourCostData['category']);
+      } else {
+        this.createtotalBoundInboundQytChart([], []);
+        this.createTotalBoundInboundWeighChart([], []);
+        this.createFuelAndLabourCostChart([], []);
       }
-    });  
+    });
   }
 
   ngOnInit(): void {
   }
 
-  createBarChart(data: any[], category: any) {
-    this.barChartOptions = {
+  createtotalBoundInboundQytChart(data: any[], category: any) {
+    this.totalBoundInboundOptions = {
       chart: {
         type: 'column',
         inverted: true,
-        scrollablePlotArea:{
-        minHeight: 1400        
+        scrollablePlotArea: {
+          minHeight: 1400
         },
-        height:465,
-        marginRight: 30, 
-    },
+        height: 465,
+        marginRight: 30,
+      },
       title: {
-      text: ''
+        text: ''
       },
       xAxis: {
         categories: category,
         title: {
-        text: "Dates"
+          text: "Dates"
         }
       },
       yAxis: {
         min: 0,
         title: {
-        align: 'high'
+          align: 'high'
         },
         labels: {
-        format: '${text}',
+          format: '${text}',
         }
 
       },
       tooltip: {
-      valueSuffix: ' Thousands'
+        valueSuffix: ' Thousands'
       },
 
       plotOptions: {
         column: {
           dataLabels: {
             enabled: true,
-            formatter: function () {            
-            return Highcharts.numberFormat (this.y!/1000, 1)+"K";
+            formatter: function () {
+              return Highcharts.numberFormat(this.y! / 1000, 1) + "K";
             },
           },
           pointWidth: 16,
@@ -98,27 +99,27 @@ export class ByDayComponent implements OnInit {
         x: -10
       },
       credits: {
-      enabled: false
+        enabled: false
       },
       series: data
     }
   }
-  createWeightChart(data: any[], category:any) {
-    this.weightChartOptions = {
+  createTotalBoundInboundWeighChart(data: any[], category: any) {
+    this.totalBoundInboundWeighOptions = {
       chart: {
         type: 'column',
         inverted: true,
         scrollablePlotArea: {
-          minHeight: 1400 ,       
-      },
-      height:465,
-      marginRight: 30,
+          minHeight: 1400,
+        },
+        height: 465,
+        marginRight: 30,
       },
       title: {
         text: ''
       },
       xAxis: {
-        categories:category,
+        categories: category,
         title: {
           text: "Dates"
         }
@@ -139,11 +140,11 @@ export class ByDayComponent implements OnInit {
         column: {
           dataLabels: {
             enabled: true,
-            formatter: function () {            
-              return Highcharts.numberFormat (this.y!/1, 0);
+            formatter: function () {
+              return Highcharts.numberFormat(this.y! / 1, 0);
             },
           },
-          pointWidth:16,
+          pointWidth: 16,
           pointPadding: 0,
           groupPadding: .11,
         }
@@ -161,8 +162,8 @@ export class ByDayComponent implements OnInit {
       series: data
     }
   }
-  createStackedChart(data: any[], category:any) {
-    this.stackedChartOptions = {
+  createFuelAndLabourCostChart(data: any[], category: any) {
+    this.fuelAndLabourCostOptions = {
       chart: {
         type: 'bar',
         inverted: true,
@@ -176,14 +177,14 @@ export class ByDayComponent implements OnInit {
         text: ''
       },
       xAxis: {
-        categories:category
+        categories: category
       },
       yAxis: {
         min: 0,
         title: {
         },
         labels: {
-          format: '${text}',
+          format: '${}',
         }
 
       },
@@ -211,6 +212,7 @@ export class ByDayComponent implements OnInit {
     }
   }
 
+
   createTotalBoardedInboundCostData(data: any) {
     let dataList: any = JSON.parse(JSON.stringify(data));
     let dates = [...new Set(dataList.map((d: any) => d.departure.split('T')[0]))];
@@ -230,11 +232,8 @@ export class ByDayComponent implements OnInit {
     boardedActualData.forEach((d: any, i: number) => {
       let x = Number((d - inboundActualData[i]).toFixed(1))
       cosumedCost.push(x);
-      console.log(x)
     });
-
-    let  dateInshort = dates.map((d:any)=> moment(d).format('MMM DD'));
-
+    let dateInshort = dates.map((d: any) => moment(d).format('MMM DD'));
     let chartData = [
       { name: 'Total Boarded Cost', data: boardedActualData, color: "#118dff" },
       { name: 'Total Inbound Cost', data: inboundActualData, color: "#12239e" },
@@ -242,7 +241,9 @@ export class ByDayComponent implements OnInit {
     ]
     return { category: dateInshort, data: chartData }
   }
-  totalBoardedAndInboundWeigthDate(data:any){    
+
+
+  totalBoardedAndInboundWeigthDate(data: any) {
     let dataList: any = JSON.parse(JSON.stringify(data));
     let dates = [...new Set(dataList.map((d: any) => d.departure.split('T')[0]))];
     let boardedWeightdata: any = [];
@@ -262,7 +263,7 @@ export class ByDayComponent implements OnInit {
       let x = Number((d - inboundActualWeightData[i]).toFixed(1))
       cosumedWeigth.push(x);
     });
-    let  dateInshort = dates.map((d:any)=> moment(d).format('MMM DD'));
+    let dateInshort = dates.map((d: any) => moment(d).format('MMM DD'));
     let chartData = [
       { name: 'Total Boarded Weight', data: boardedActualWeightData, color: "#118dff" },
       { name: 'Total Inbound Weigth', data: inboundActualWeightData, color: "#12239e" },
@@ -270,79 +271,27 @@ export class ByDayComponent implements OnInit {
     ]
     return { category: dateInshort, data: chartData }
   }
-  createFuelAndLabourCostData(data:any){
+
+
+
+  createFuelAndLabourCostData(data: any) {
     let dataList: any = JSON.parse(JSON.stringify(data));
-    let dates = [...new Set(dataList.map((d: any) => d.departure.split('T')[0]))];  
+    let dates = [...new Set(dataList.map((d: any) => d.departure.split('T')[0]))];
     let fuelcost: any = [];
-    let labourcost:any=[];
+    let labourcost: any = [];
     dates.forEach((item: any) => {
       let f = dataList.filter((x: any) => x.departure.split('T')[0] == item).map((d: any) => d.items).flat(1)
-        .map((s: any) => (s.weight.value * s.quantity.inbound ) * 0.07).reduce((r: any, y: any) => r + y, 0);
-      let l = dataList.filter((x: any) => x.departure.split('T')[0] == item).map((d:any)=> d.drawers).map((d:any)=> d.inbound *0.62).reduce((r: any, y: any) => r + y, 0); 
+        .map((s: any) => (s.weight.value * s.quantity.inbound) * 0.07).reduce((r: any, y: any) => r + y, 0);
+      let l = dataList.filter((x: any) => x.departure.split('T')[0] == item).map((d: any) => d.drawers).map((d: any) => d.inbound * 0.62).reduce((r: any, y: any) => r + y, 0);
       fuelcost.push(Number(f.toFixed(1)));
       labourcost.push(Number(l.toFixed(1)));
     })
-    let  dateInshort = dates.map((d:any)=> moment(d).format('MMM DD')); 
+    let dateInshort = dates.map((d: any) => moment(d).format('MMM DD'));
     let chartData = [
-      { name: 'Labor Cost', data: labourcost, color: "#12239e" },    
+      { name: 'Labor Cost', data: labourcost, color: "#12239e" },
       { name: 'Fuel CTC With Flight', data: fuelcost, color: "#118dff" }
     ]
     return { category: dateInshort, data: chartData }
   }
-
-  createBarChartData() {
-    return [{
-      name: 'Total Boarded Cost',
-      data: [3.2, 2.6, 1.2, 0.8],
-      color: "#118dff"
-    }, {
-      name: 'Total Inbound Cost',
-      data: [2.6, 2.6, 1.0, 0.7],
-      color: "#12239e"
-    }, {
-      name: 'Consumed Cost',
-      data: [0.6, 0.1, 0.2, 0.1],
-      color: "#e66c37"
-    }]
-  }
-  createWeightChartData() {
-    return [{
-      name: 'Total Boarded Weight',
-      data: [1462, 677, 1786, 460],
-      color: "#118dff"
-    }, {
-      name: 'Total Inbound Weight',
-      data: [1346, 484, 1344, 324,],
-      color: "#12239e"
-    }, {
-      name: 'Consumed Cost',
-      data: [166, 193, 442, 136,],
-      color: "#e66c37"
-    }]
-  }
-
-  createStackedChartData() {
-    return [{
-      name: 'Fuel CTC With Flight',
-      data: [77, 30, 79, 20],
-      color: "#12239e",
-
-
-    }, {
-      name: 'Labor Cost',
-      data: [94, 34, 94, 23],
-      color: "#118dff"
-    },]
-  }
-
-  /*TITLE DATA*/
-  getTitleData() {
-    return {
-      title: "Extra Cost with Flight",
-      breadcrum: { name: "Dashboard", link: "/dashboard" }
-    }
-  }
-
-
 
 }

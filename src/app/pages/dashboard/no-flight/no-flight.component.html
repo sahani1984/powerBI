@@ -1,5 +1,4 @@
 <app-title-bar [titledata]="title_data"></app-title-bar>
-
 <section class="content">
   <data-filter-form [filterCase]="'noflight'"></data-filter-form>
   <div class="col-md-12">
@@ -11,9 +10,9 @@
               <div class="loaderbox">Loading...</div>
             </div>
             <highcharts-chart *ngIf=" !showLoader && countByProductData.length" [Highcharts]="Highcharts"
-              [options]="rateChartOptions">
+              [options]="countByProductOptions">
             </highcharts-chart>
-            <div *ngIf="!showLoader && countByProductData.length" class="xAsixlabel"></div> 
+            <div *ngIf="!showLoader && countByProductData.length" class="xAsixlabel"></div>
           </div>
         </div>
       </div>
@@ -23,10 +22,10 @@
             <div *ngIf="showLoader" class="loading">
               <div class="loaderbox">Loading...</div>
             </div>
-            <highcharts-chart *ngIf="!showLoader && costByProductData.length"  [Highcharts]="Highcharts"
-              [options]="costChartOptions">
+            <highcharts-chart *ngIf="!showLoader && costByProductData.length" [Highcharts]="Highcharts"
+              [options]="costByProductOptions">
             </highcharts-chart>
-            <div *ngIf="!showLoader && costByProductData.length" class="xAsixlabel"></div> 
+            <div *ngIf="!showLoader && costByProductData.length" class="xAsixlabel"></div>
           </div>
         </div>
       </div>
@@ -36,10 +35,10 @@
             <div *ngIf="showLoader" class="loading">
               <div class="loaderbox">Loading...</div>
             </div>
-            <highcharts-chart *ngIf="!showLoader && returnByProductData.length"
-             [Highcharts]="Highcharts"[options]="returnedChartOptions">
+            <highcharts-chart *ngIf="!showLoader && returnByProductData.length" [Highcharts]="Highcharts"
+              [options]="returnedByProductOptions">
             </highcharts-chart>
-            <div *ngIf="!showLoader && returnByProductData.length" class="xAsixlabel"></div> 
+            <div *ngIf="!showLoader && returnByProductData.length" class="xAsixlabel"></div>
           </div>
         </div>
       </div>
@@ -49,12 +48,11 @@
         <div *ngIf="showLoader" class="loading">
           <div class="loaderbox">Loading...</div>
         </div>
-        <highcharts-chart *ngIf="!showLoader && IORByMonthDayData.data.length"
-        [Highcharts]="Highcharts"[options]="inboundChartOptions">
-       </highcharts-chart>
-       <div *ngIf="!showLoader && IORByMonthDayData.data.length" class="xAsixlabel"></div> 
+        <highcharts-chart *ngIf="!showLoader && IORByMonthDayData.data.length" [Highcharts]="Highcharts"
+          [options]="IOROptions">
+        </highcharts-chart>
+        <div *ngIf="!showLoader && IORByMonthDayData.data.length" class="xAsixlabel"></div>
       </div>
     </div>
   </div>
 </section>
-
