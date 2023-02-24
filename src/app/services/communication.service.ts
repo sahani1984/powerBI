@@ -15,6 +15,7 @@ export class CommunicationService {
   public apiDataLoading = new BehaviorSubject<boolean>(false);
   public deltaNoFlightLoading = new BehaviorSubject<boolean>(false);
 
+
   /*AIRLINE FLIGHT BEVERAGE INFO*/
   public totalFlight: number = 0;
   public totalDrawers: number = 0;
@@ -36,8 +37,13 @@ export class CommunicationService {
   public labourCostWithoutFlight: number = 0;
   public totalDrawersNoFlight: number = 0;
 
+  
+
 
   constructor() { }
+
+  
+  
 
   setStartDate(date: any) {
     date.setMonth(date.getMonth() - 1)

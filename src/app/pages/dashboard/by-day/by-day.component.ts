@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import * as Highcharts from 'highcharts';
 import highcharts3D from 'highcharts/highcharts-3d';
 import * as moment from 'moment';
+import { filter } from 'rxjs';
 import { CommunicationService } from 'src/app/services/communication.service';
-import { PowerbiDbService } from 'src/app/services/powerbi-db.service';
 highcharts3D(Highcharts);
 declare var $: any;
 
@@ -23,7 +24,7 @@ export class ByDayComponent implements OnInit {
   totalBoundInboundWeight: any = [];
   fuelAndLabourCostData: any = [];
 
-  constructor(private communication: CommunicationService) {
+  constructor(private communication: CommunicationService, private router: Router) {
     this.communication.apiDataLoading.subscribe((res: any) => this.showLoader = res);
     this.communication.dataAirlineFlightBeverage.subscribe((res: any) => {
       if (res && res.length) {
@@ -39,9 +40,13 @@ export class ByDayComponent implements OnInit {
         this.createFuelAndLabourCostChart([], []);
       }
     });
+
   }
 
   ngOnInit(): void {
+        
+
+
   }
 
   createtotalBoundInboundQytChart(data: any[], category: any) {

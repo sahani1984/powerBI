@@ -73,8 +73,7 @@
               "browserTarget": "powerbi:build:production"
             },
             "development": {
-              "browserTarget": "powerbi:build:development",
-              "proxyConfig": "src/proxy.conf.json"
+              "browserTarget": "powerbi:build:development"
             }
           },
           "defaultConfiguration": "development"

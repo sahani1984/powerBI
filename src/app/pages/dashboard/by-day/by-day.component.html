@@ -8,12 +8,12 @@
           <div *ngIf="showLoader" class="loading">
             <div class="loaderbox">Loading...</div>
           </div>
-          <highcharts-chart *ngIf="!showLoader && totalBoundInboundData.data?.length" [Highcharts]="Highcharts"
+          <highcharts-chart *ngIf="!showLoader && totalBoundInboundData?.data?.length" [Highcharts]="Highcharts"
             [options]="totalBoundInboundOptions">
           </highcharts-chart>
-          <div *ngIf="!showLoader && totalBoundInboundData.length" class="xAsixlabel">
+          <div *ngIf="!showLoader && totalBoundInboundData?.length" class="xAsixlabel">
           </div>
-          <div *ngIf="!showLoader && !totalBoundInboundData.length" class="nodatafound">No Record Found</div>
+          <div *ngIf="!showLoader && !totalBoundInboundData?.data?.length" class="nodatafound">No Record Found</div>
         </div>
       </div>
     </div>
@@ -23,12 +23,12 @@
           <div *ngIf="showLoader" class="loading">
             <div class="loaderbox">Loading...</div>
           </div>
-          <highcharts-chart *ngIf="!showLoader && totalBoundInboundWeight.data?.length" [Highcharts]="Highcharts"
+          <highcharts-chart *ngIf="!showLoader && totalBoundInboundWeight?.data?.length" [Highcharts]="Highcharts"
             [options]="totalBoundInboundWeighOptions">
           </highcharts-chart>
-          <div *ngIf="!showLoader && totalBoundInboundData.length" class="xAsixlabel">
+          <div *ngIf="!showLoader && totalBoundInboundData?.length" class="xAsixlabel">
           </div>
-          <div *ngIf="!showLoader && !totalBoundInboundWeight.length" class="nodatafound">No Record Found</div>
+          <div *ngIf="!showLoader && !totalBoundInboundWeight?.data?.length" class="nodatafound">No Record Found</div>
         </div>
       </div>
     </div>
@@ -38,12 +38,12 @@
           <div *ngIf="showLoader" class="loading">
             <div class="loaderbox">Loading...</div>
           </div>
-          <highcharts-chart *ngIf="!showLoader && fuelAndLabourCostData.data?.length" [Highcharts]="Highcharts"
+          <highcharts-chart *ngIf="!showLoader && fuelAndLabourCostData?.data?.length" [Highcharts]="Highcharts"
             [options]="fuelAndLabourCostOptions">
           </highcharts-chart>
-          <div *ngIf="!showLoader && totalBoundInboundData.length" class="xAsixlabel">
+          <div *ngIf="!showLoader && totalBoundInboundData?.length" class="xAsixlabel">
           </div>
-          <div *ngIf="!showLoader && !totalBoundInboundData.length" class="nodatafound">No Record Found</div>
+          <div *ngIf="!showLoader && !fuelAndLabourCostData?.data?.length" class="nodatafound">No Record Found</div>
         </div>
       </div>
     </div>

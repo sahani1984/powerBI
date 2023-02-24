@@ -1,6 +1,4 @@
-import { TemplateLiteral } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import * as Highcharts from 'highcharts';
 import highcharts3D from 'highcharts/highcharts-3d';
 import { CommunicationService } from 'src/app/services/communication.service';
@@ -23,7 +21,6 @@ export class DetailsComponent implements OnInit {
   totalBoundInboundWeight: any = [];
   consumptionPaxByProductData: any = [];
   CPFcountByFlightData: any = [];
-
   constructor(public communication: CommunicationService) {
     this.communication.apiDataLoading.subscribe((res: any) => this.showLoader = res);
     this.communication.dataAirlineFlightBeverage
