@@ -103,6 +103,7 @@ body, .highcharts-title {
     }
   } 
 }
+
 @keyframes loaderAnimate{
     0%{transform:rotate(0deg);}
     100%{transform:rotate(360deg);}    
@@ -117,3 +118,5 @@ body, .highcharts-title {
     text-align: center;
 }
 a{cursor: pointer;}
+
+.nodatafound{width:100%; height:auto; min-height: 200px; display:flex; align-items:center; border-radius:4px; justify-content: center; border:1px solid #ccc; font-size:1rem;}

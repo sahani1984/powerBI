@@ -11,10 +11,11 @@
           <div *ngIf="showLoader" class="loading extcostnoflight">
             <div class="loaderbox">Loading...</div>
           </div>
-          <highcharts-chart *ngIf="!showLoader && fuelCTCnoFlightdata[0].data.length" [Highcharts]="Highcharts"
+          <highcharts-chart *ngIf="!showLoader && fuelCTCnoFlightdata[0]?.data?.length" [Highcharts]="Highcharts"
             [options]="fuelCTCnoFlightOptions">
           </highcharts-chart>
         </div>
+        <div *ngIf="!showLoader && !fuelCTCnoFlightdata[0]?.data?.length" class="nodatafound h-100">No Record Found</div>
       </div>
     </div>
     <div class="col-md-4 box_info_wrapper">

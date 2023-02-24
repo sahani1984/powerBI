@@ -36,6 +36,8 @@ export class UserListsComponent implements OnInit {
         if (res["statusCode"] == 200) {
           this.usersLists = res["data"];
           this.showloader = false
+        }else{
+          this.showloader = false
         }
       },
       error: (err) => {

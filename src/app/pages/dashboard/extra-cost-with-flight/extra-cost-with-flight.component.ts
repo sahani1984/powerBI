@@ -110,6 +110,10 @@ export class ExtraCostWithFlightComponent implements OnInit {
         marginBottom: 45,
         marginRight: 30
       },
+      tooltip: {
+        headerFormat: '<b>{point.key}</b><br>',
+        pointFormat: 'Fuel CTC Flight: {point.y} $'
+      },
       title: {
         text: '',
         align: 'left'
@@ -153,7 +157,10 @@ export class ExtraCostWithFlightComponent implements OnInit {
       chart: {
         type: "column",
         height: 193,
-
+      },
+      tooltip: {
+        headerFormat: '<b>{point.key}</b><br>',
+        pointFormat: 'Consumption Flight: {point.y} $'
       },
       title: {
         text: "Consumption/Pax by Flight #",
@@ -198,9 +205,6 @@ export class ExtraCostWithFlightComponent implements OnInit {
         },
 
       ],
-      tooltip: {
-        shared: true
-      },
       legend: {
         backgroundColor: "#ececec",
         shadow: true

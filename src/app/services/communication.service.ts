@@ -40,7 +40,7 @@ export class CommunicationService {
   constructor() { }
 
   setStartDate(date: any) {
-    date.setMonth(date.getMonth() - 6)
+    date.setMonth(date.getMonth() - 1)
     date.setDate(1);
     return date;
   }

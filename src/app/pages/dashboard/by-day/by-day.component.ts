@@ -14,7 +14,7 @@ declare var $: any;
 })
 export class ByDayComponent implements OnInit {
   title_data: string = "By Day";
-  showLoader: boolean = false
+  showLoader: boolean = false;
   Highcharts: typeof Highcharts = Highcharts;
   totalBoundInboundOptions!: Highcharts.Options;
   totalBoundInboundWeighOptions!: Highcharts.Options;

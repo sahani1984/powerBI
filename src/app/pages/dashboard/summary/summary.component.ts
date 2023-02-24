@@ -53,6 +53,10 @@ export class SummaryComponent implements OnInit {
         type: 'column',
         height: 300,
       },
+      tooltip: {
+        headerFormat: '<b>{point.key}</b><br>',
+        pointFormat: 'Total Flights counted by Date: {point.y}'
+      },
       title: {
         text: 'Total flights counted by Date'
       },
@@ -102,6 +106,7 @@ export class SummaryComponent implements OnInit {
         marginBottom: 40
 
       },
+      
       title: {
         text: "Total Boarded Quantity and Total Inbound Quantity by Date",
       },

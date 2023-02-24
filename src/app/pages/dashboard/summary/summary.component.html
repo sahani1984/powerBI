@@ -13,6 +13,7 @@
           <highcharts-chart *ngIf="!showLoader && totalFlightCountByData.length" [Highcharts]="Highcharts"
             [options]="allFlightOptions">
           </highcharts-chart>
+          <div *ngIf="!showLoader && !totalFlightCountByData.length" class="nodatafound">No Record Found</div>
         </div>
       </div>
     </div>
@@ -28,6 +29,7 @@
           </highcharts-chart>
           <div *ngIf="!showLoader && totalBoardedAndInboundQtyData.length" class="xAsixlabel">{{qtyxAsisLabel}} (Days)
           </div>
+          <div *ngIf="!showLoader && !totalBoardedAndInboundQtyData.length" class="nodatafound">No Record Found</div>
         </div>
       </div>
     </div>
@@ -43,6 +45,7 @@
           <div *ngIf="!showLoader && totalBoardedAndInboundWeightData.length" class="xAsixlabel">{{qtyxAsisLabel}}
             (Days)
           </div>
+          <div *ngIf="!showLoader && !totalBoardedAndInboundWeightData.length" class="nodatafound">No Record Found</div>
         </div>
       </div>
     </div>

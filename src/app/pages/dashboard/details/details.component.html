@@ -13,8 +13,8 @@
             <highcharts-chart *ngIf="!showLoader && totalBoardedAndInboundQtyData.length" [Highcharts]="Highcharts"
               [options]="inboundAndOutboundQytOptions">
             </highcharts-chart>
-            <div *ngIf="!showLoader && totalBoardedAndInboundQtyData.length" class="xAsixlabel">
-            </div>
+            <div *ngIf="!showLoader && totalBoardedAndInboundQtyData.length" class="xAsixlabel"></div>
+              <div *ngIf="!showLoader && !totalBoardedAndInboundQtyData.length" class="nodatafound">No Record Found</div>
           </div>
         </div>
       </div>
@@ -27,8 +27,8 @@
             <highcharts-chart *ngIf="!showLoader && totalBoundInboundWeight.length" [Highcharts]="Highcharts"
               [options]="inboundAndOutboundWeightOptions">
             </highcharts-chart>
-            <div *ngIf="!showLoader && totalBoundInboundWeight.length" class="xAsixlabel">
-            </div>
+            <div *ngIf="!showLoader && totalBoundInboundWeight.length" class="xAsixlabel"></div>
+              <div *ngIf="!showLoader && !totalBoundInboundWeight.length" class="nodatafound">No Record Found</div>
           </div>
         </div>
       </div>
@@ -41,8 +41,8 @@
             <highcharts-chart *ngIf="!showLoader && consumptionPaxByProductData.length" [Highcharts]="Highcharts"
               [options]="consumptionPaxByProductOptions">
             </highcharts-chart>
-            <div *ngIf="!showLoader && consumptionPaxByProductData.length" class="xAsixlabel">
-            </div>
+            <div *ngIf="!showLoader && consumptionPaxByProductData.length" class="xAsixlabel"></div>
+              <div *ngIf="!showLoader && !consumptionPaxByProductData.length" class="nodatafound">No Record Found</div>
           </div>
         </div>
       </div>
@@ -57,6 +57,7 @@
             </highcharts-chart>
             <div *ngIf="!showLoader && CPFcountByFlightData.length" class="xAsixlabel">
             </div>
+            <div *ngIf="!showLoader && !CPFcountByFlightData.length" class="nodatafound">No Record Found</div>
           </div>
         </div>
       </div>

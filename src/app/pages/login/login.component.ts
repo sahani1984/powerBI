@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators, } from '@angular/forms';
 import { Router } from '@angular/router';
+import { timer } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { PowerbiDbService } from 'src/app/services/powerbi-db.service';
 
@@ -39,17 +40,34 @@ export class LoginComponent implements OnInit {
           let obj: any = {};
           obj["_token"] = res["token"];
           obj["email"] = res["email"];
+          this.authService.USER_INFO = obj;
           sessionStorage.setItem('user_info', JSON.stringify(obj));
           this.authService.setUserLoggedIn();
           this.router.navigate(['/dashboard/by-day']);
+          this.loading = false;        
+        }else{
           this.loading = false;
+          this.showErrMsg(res.body)
         }
       },
       error: (err) => {
         this.loading = false
-        console.log(err)
+        this.showErrMsg(err)
       }
     })
+  }
+
+  resMsg:any="";
+  showResMsg:boolean=false;
+  showErrMsg(data:any){   
+    if(!data) return;
+    data = JSON.parse(data);
+    this.showResMsg = true;
+     this.resMsg = data.message;
+      timer(4000).subscribe((res:any)=> {     
+        this.showResMsg = false;
+        this.resMsg = "";
+      }); 
   }
 
   initform() {

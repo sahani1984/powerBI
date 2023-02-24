@@ -61,7 +61,7 @@ export class ExtraCostNoFlightComponent implements OnInit {
         enabled: false
       },
       tooltip: {
-        pointFormat: 'Total OBS: <b>{point.y:.1f} USD</b>'
+        pointFormat: 'Total OBS Cost: <b>{point.y:.1f} $</b>'
       },
       plotOptions: {
         bar: {

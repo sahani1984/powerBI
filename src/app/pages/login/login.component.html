@@ -21,6 +21,11 @@
           </div>
           <div class="col-md-6 bg-white sign-in-page-data pt-4">
             <div class="sign-in-from">
+              <div *ngIf="showResMsg" class="alert alert-danger w-100">
+                <button (click)="showResMsg=false" type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                {{resMsg}}
+              </div>
               <h1 class="mb-0 text-left w-100">Login in</h1>
               <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)" class="mt-4">
                 <div class="form-group">

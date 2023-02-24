@@ -12,16 +12,18 @@ highcharts3D(Highcharts);
 export class NoFlightComponent implements OnInit {
   title_data: string = "No Flight";
   showLoader: boolean = false;
+  cardCollapse: boolean = false;
   Highcharts: typeof Highcharts = Highcharts;
   countByProductOptions!: Highcharts.Options;
   costByProductOptions!: Highcharts.Options;
   returnedByProductOptions!: Highcharts.Options;
   IOROptions!: Highcharts.Options;
+  drawersByGroupOptions!: Highcharts.Options;
   countByProductData: any = [];
   costByProductData: any = [];
   returnByProductData: any = [];
   IORByMonthDayData: any = {};
-
+  drawersByGroupData: any = [];
 
   constructor(public communication: CommunicationService) {
     this.communication.deltaNoFlightLoading.subscribe((res: any) => this.showLoader = res);
@@ -31,10 +33,13 @@ export class NoFlightComponent implements OnInit {
         this.costByProductData = this.createCostByProductData(res);
         this.returnByProductData = this.createReturnByProductData(res);
         this.IORByMonthDayData = this.createInboundOutboundAndReturnByMonthDayData(res);
+        console.log(this.IORByMonthDayData);
+        this.drawersByGroupData = this.createdDawersByGroupData(res);
         this.createCountByProductChart(this.countByProductData);
         this.createCostByProductChart(this.costByProductData);
         this.createReturnedByProductChart(this.returnByProductData);
         this.createIORChart(this.IORByMonthDayData['data'], this.IORByMonthDayData['category']);
+        this.createdDawersByGroupChart(this.drawersByGroupData);
       } else {
         this.createCountByProductChart([]);
         this.createCostByProductChart([]);
@@ -44,7 +49,9 @@ export class NoFlightComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.createdDawersByGroupChart(this.drawersByGroupOptions);
+  }
 
   createCountByProductChart(data: any[]) {
     this.countByProductOptions = {
@@ -247,6 +254,53 @@ export class NoFlightComponent implements OnInit {
       series: data
     }
   }
+  createdDawersByGroupChart(data: any) {
+    this.drawersByGroupOptions = {
+      chart: {
+        type: 'column',
+        inverted: false,
+        scrollablePlotArea: {
+          minHeight: 200
+        },
+        height: 200,
+
+      },
+      title: {
+        text: ''
+      },
+      xAxis: {
+        categories: ['Soda', 'Liquor']
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Total Drawers'
+        }
+      },
+      legend: {
+        layout: "horizontal",
+        width: "100%",
+        verticalAlign: "top",
+        x: 0
+      },
+      plotOptions: {
+        column: {
+          stacking: 'normal',
+          dataLabels: {
+            enabled: true,
+            format: '{point.y:,.0f}',
+          },
+          pointWidth: 45,
+        },
+      },
+      credits: {
+        enabled: false
+      },
+
+      series: data
+    }
+  }
+
 
   createCountByProductData(data: any[]) {
     let dataList = JSON.parse(JSON.stringify(data));
@@ -259,7 +313,6 @@ export class NoFlightComponent implements OnInit {
     return [{ color: "#118dff", data: countByProduct, showInLegend: false }]
   }
 
-
   createCostByProductData(data: any[]) {
     let dataList = JSON.parse(JSON.stringify(data));
     let productItems = [...new Set(dataList.map((k: any) => k.label))];
@@ -271,6 +324,7 @@ export class NoFlightComponent implements OnInit {
     })
     return [{ color: "#12239e", data: costByProduct, showInLegend: false }]
   }
+
   createReturnByProductData(data: any[]) {
     let dataList = JSON.parse(JSON.stringify(data));
     let productItems = [...new Set(dataList.map((k: any) => k.label))];
@@ -285,6 +339,7 @@ export class NoFlightComponent implements OnInit {
     })
     return [{ color: "#e66c37", data: returnedByProduct, showInLegend: false }];
   }
+
   createInboundOutboundAndReturnByMonthDayData(data: any[]) {
     let dataList = JSON.parse(JSON.stringify(data));
     let dates = [...new Set(dataList.map((k: any) => k.takenAt.split('T')[0]))];
@@ -306,7 +361,18 @@ export class NoFlightComponent implements OnInit {
       { type: 'column', name: 'Outbound', color: "#12239e", data: outboundData }
     ]
     return { data: chartdata, category: category };
+  }
 
+  createdDawersByGroupData(data: any) {
+    console.log(data)
+    let dataList = JSON.parse(JSON.stringify(data));
+    let sodaLength = dataList.filter((d: any) => d.group === 'soda').length;
+    let liqurLength = dataList.filter((d: any) => d.group === 'liquor').length;
+    return [{
+      name: 'Total Drawers by group',
+      data: [sodaLength, liqurLength],
+      color: "#118dff",
+    }]
   }
 }
 
