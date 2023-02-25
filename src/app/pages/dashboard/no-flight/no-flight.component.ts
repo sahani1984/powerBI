@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import * as Highcharts from 'highcharts';
 import highcharts3D from 'highcharts/highcharts-3d';
+import { filter } from 'rxjs';
 import { CommunicationService } from 'src/app/services/communication.service';
 highcharts3D(Highcharts);
 
@@ -24,33 +26,47 @@ export class NoFlightComponent implements OnInit {
   returnByProductData: any = [];
   IORByMonthDayData: any = {};
   drawersByGroupData: any = [];
-
-  constructor(public communication: CommunicationService) {
+  datalist: any = [];
+  constructor(public communication: CommunicationService, private router: Router) {
     this.communication.deltaNoFlightLoading.subscribe((res: any) => this.showLoader = res);
     this.communication.dataAirlineBeverage.subscribe((res: any) => {
-      if (res && res.length) {
-        this.countByProductData = this.createCountByProductData(res);
-        this.costByProductData = this.createCostByProductData(res);
-        this.returnByProductData = this.createReturnByProductData(res);
-        this.IORByMonthDayData = this.createInboundOutboundAndReturnByMonthDayData(res);
-        console.log(this.IORByMonthDayData);
-        this.drawersByGroupData = this.createdDawersByGroupData(res);
-        this.createCountByProductChart(this.countByProductData);
-        this.createCostByProductChart(this.costByProductData);
-        this.createReturnedByProductChart(this.returnByProductData);
-        this.createIORChart(this.IORByMonthDayData['data'], this.IORByMonthDayData['category']);
-        this.createdDawersByGroupChart(this.drawersByGroupData);
-      } else {
-        this.createCountByProductChart([]);
-        this.createCostByProductChart([]);
-        this.createReturnedByProductChart([]);
-        this.createIORChart([], []);
+      if (res) {
+        this.datalist = res;
+        if (router.url == '/dashboard/no-flight') this.initializeCharts(this.datalist);
       }
     })
   }
 
   ngOnInit(): void {
     this.createdDawersByGroupChart(this.drawersByGroupOptions);
+    this.router.events.pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe((res: any) => {
+        if (res["url"] == '/dashboard/no-flight') {
+          this.initializeCharts(this.datalist);
+        }
+      })
+    this.initializeCharts(this.datalist);
+  }
+
+  initializeCharts(data: any) {
+    console.log(data);
+    if (data.length) {
+      this.countByProductData = this.createCountByProductData(data);
+      this.costByProductData = this.createCostByProductData(data);
+      this.returnByProductData = this.createReturnByProductData(data);
+      this.IORByMonthDayData = this.createInboundOutboundAndReturnByMonthDayData(data);
+      this.drawersByGroupData = this.createdDawersByGroupData(data);
+      this.createCountByProductChart(this.countByProductData);
+      this.createCostByProductChart(this.costByProductData);
+      this.createReturnedByProductChart(this.returnByProductData);
+      this.createIORChart(this.IORByMonthDayData['data'], this.IORByMonthDayData['category']);
+      this.createdDawersByGroupChart(this.drawersByGroupData);
+    } else {
+      this.createCountByProductChart([]);
+      this.createCostByProductChart([]);
+      this.createReturnedByProductChart([]);
+      this.createIORChart([], []);
+    }
   }
 
   createCountByProductChart(data: any[]) {

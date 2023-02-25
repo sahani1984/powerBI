@@ -23,31 +23,47 @@ export class ByDayComponent implements OnInit {
   totalBoundInboundData: any = [];
   totalBoundInboundWeight: any = [];
   fuelAndLabourCostData: any = [];
+  datalist: any = [];
 
-  constructor(private communication: CommunicationService, private router: Router) {
+
+
+  constructor(public communication: CommunicationService, private router: Router) {
     this.communication.apiDataLoading.subscribe((res: any) => this.showLoader = res);
     this.communication.dataAirlineFlightBeverage.subscribe((res: any) => {
-      if (res && res.length) {
-        this.totalBoundInboundData = this.createTotalBoardedInboundCostData(res);
-        this.totalBoundInboundWeight = this.totalBoardedAndInboundWeigthDate(res);
-        this.fuelAndLabourCostData = this.createFuelAndLabourCostData(res);
-        this.createtotalBoundInboundQytChart(this.totalBoundInboundData['data'], this.totalBoundInboundData['category']);
-        this.createTotalBoundInboundWeighChart(this.totalBoundInboundWeight['data'], this.totalBoundInboundWeight['category']);
-        this.createFuelAndLabourCostChart(this.fuelAndLabourCostData['data'], this.fuelAndLabourCostData['category']);
-      } else {
-        this.createtotalBoundInboundQytChart([], []);
-        this.createTotalBoundInboundWeighChart([], []);
-        this.createFuelAndLabourCostChart([], []);
+      if (res) {       
+        this.datalist = res;
+        if (router.url == '/dashboard/by-day') this.initializeCharts(this.datalist);
       }
     });
-
   }
+
 
   ngOnInit(): void {
-        
-
-
+    this.router.events.pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe((res: any) => {   
+        if (res["url"] == '/dashboard/by-day') {
+          this.initializeCharts(this.datalist);
+        }
+      })
+    this.initializeCharts(this.datalist);
   }
+
+
+  initializeCharts(data: any) { 
+    if (data.length) {
+      this.totalBoundInboundData = this.createTotalBoardedInboundCostData(data);
+      this.totalBoundInboundWeight = this.totalBoardedAndInboundWeigthDate(data);
+      this.fuelAndLabourCostData = this.createFuelAndLabourCostData(data);
+      this.createtotalBoundInboundQytChart(this.totalBoundInboundData['data'], this.totalBoundInboundData['category']);
+      this.createTotalBoundInboundWeighChart(this.totalBoundInboundWeight['data'], this.totalBoundInboundWeight['category']);
+      this.createFuelAndLabourCostChart(this.fuelAndLabourCostData['data'], this.fuelAndLabourCostData['category']);
+    } else {
+      this.createtotalBoundInboundQytChart([], []);
+      this.createTotalBoundInboundWeighChart([], []);
+      this.createFuelAndLabourCostChart([], []);
+    }
+  }
+
 
   createtotalBoundInboundQytChart(data: any[], category: any) {
     this.totalBoundInboundOptions = {

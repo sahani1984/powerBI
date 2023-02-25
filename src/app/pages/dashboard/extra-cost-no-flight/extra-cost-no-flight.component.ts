@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import * as Highcharts from 'highcharts';
 import highcharts3D from 'highcharts/highcharts-3d';
+import { filter } from 'rxjs';
 import { CommunicationService } from 'src/app/services/communication.service';
 highcharts3D(Highcharts);
 
@@ -15,18 +17,34 @@ export class ExtraCostNoFlightComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   fuelCTCnoFlightOptions!: Highcharts.Options;
   fuelCTCnoFlightdata: any[] = [];
-  constructor(public communication: CommunicationService) {
+  datalist: any = [];
+  constructor(public communication: CommunicationService, private router: Router) {
     this.communication.deltaNoFlightLoading.subscribe((res: any) => this.showLoader = res);
     this.communication.dataAirlineBeverage.subscribe((res: any) => {
-      if (res && res.length) {
-        this.fuelCTCnoFlightdata = this.createFuelCTCnoFlightdata(res);
-        this.createFuelCTCnoFlightChart(this.fuelCTCnoFlightdata);
-      } else {
-        this.createFuelCTCnoFlightChart([]);
+      if (res) {
+        this.datalist = res;
+        if (router.url == '/dashboard/extra-cost-no-flight') this.initializeCharts(this.datalist);
       }
     })
   }
   ngOnInit(): void {
+    this.router.events.pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe((res: any) => {
+        if (res["url"] == '/dashboard/extra-cost-no-flight') {
+          this.initializeCharts(this.datalist);
+        }
+      })
+    this.initializeCharts(this.datalist);
+  }
+
+  initializeCharts(data: any) {
+    console.log(data);
+    if (data.length) {
+      this.fuelCTCnoFlightdata = this.createFuelCTCnoFlightdata(data);
+      this.createFuelCTCnoFlightChart(this.fuelCTCnoFlightdata);
+    } else {
+      this.createFuelCTCnoFlightChart([]);
+    }
   }
 
   createFuelCTCnoFlightChart(data: any[]) {

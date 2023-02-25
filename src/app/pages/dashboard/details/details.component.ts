@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import * as Highcharts from 'highcharts';
 import highcharts3D from 'highcharts/highcharts-3d';
 import { CommunicationService } from 'src/app/services/communication.service';
 highcharts3D(Highcharts);
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-details',
@@ -21,30 +23,45 @@ export class DetailsComponent implements OnInit {
   totalBoundInboundWeight: any = [];
   consumptionPaxByProductData: any = [];
   CPFcountByFlightData: any = [];
-  constructor(public communication: CommunicationService) {
+  datalist: any = [];
+  constructor(public communication: CommunicationService, private router: Router) {
     this.communication.apiDataLoading.subscribe((res: any) => this.showLoader = res);
     this.communication.dataAirlineFlightBeverage
       .subscribe((res: any) => {
-        if (res && res.length) {
-          let BIQty = this.totalBoardedAndInboundQtyByProduct(res);
-          this.totalBoardedAndInboundQtyData = BIQty;
-          this.totalBoundInboundWeight = this.totalBoardedAndInboundWeigthDate(res);
-          this.consumptionPaxByProductData = this.createConsumptionPaxByProductData(res);
-          this.CPFcountByFlightData = this.createConsumptionPaxAndFlightCountByFlightData(res);
-          this.createInboundAndOutboundQytChart(this.totalBoardedAndInboundQtyData);
-          this.createInboundAndOutboundWeightChart(this.totalBoundInboundWeight);
-          this.createConsumptionPaxByProductChart(this.consumptionPaxByProductData);
-          this.createCPFcountByFlightChart(this.CPFcountByFlightData);
-        }else{
-          this.createInboundAndOutboundQytChart([]);
-          this.createInboundAndOutboundWeightChart([]);
-          this.createConsumptionPaxByProductChart([]);
-          this.createCPFcountByFlightChart([]);
+        if (res) {      
+          this.datalist = res;
+          if (router.url == '/dashboard/details') this.initializeCharts(this.datalist);
         }
       })
   }
 
   ngOnInit(): void {
+    this.router.events.pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe((res: any) => {
+        if (res["url"] == '/dashboard/details') {
+          this.initializeCharts(this.datalist);
+        }
+      })
+    this.initializeCharts(this.datalist);
+  }
+
+  initializeCharts(data: any) {   
+    if (data.length) {
+      let BIQty = this.totalBoardedAndInboundQtyByProduct(data);
+      this.totalBoardedAndInboundQtyData = BIQty;
+      this.totalBoundInboundWeight = this.totalBoardedAndInboundWeigthDate(data);
+      this.consumptionPaxByProductData = this.createConsumptionPaxByProductData(data);
+      this.CPFcountByFlightData = this.createConsumptionPaxAndFlightCountByFlightData(data);
+      this.createInboundAndOutboundQytChart(this.totalBoardedAndInboundQtyData);
+      this.createInboundAndOutboundWeightChart(this.totalBoundInboundWeight);
+      this.createConsumptionPaxByProductChart(this.consumptionPaxByProductData);
+      this.createCPFcountByFlightChart(this.CPFcountByFlightData);
+    } else {
+      this.createInboundAndOutboundQytChart([]);
+      this.createInboundAndOutboundWeightChart([]);
+      this.createConsumptionPaxByProductChart([]);
+      this.createCPFcountByFlightChart([]);
+    }
   }
 
   createInboundAndOutboundQytChart(data: any[]) {

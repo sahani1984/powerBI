@@ -8,10 +8,10 @@
           <div *ngIf="showLoader" class="loading">
             <div class="loaderbox">Loading...</div>
           </div>
-          <highcharts-chart *ngIf="!showLoader && totalBoundInboundData?.data?.length" [Highcharts]="Highcharts"
+          <highcharts-chart *ngIf="!showLoader  && totalBoundInboundData?.data?.length" [Highcharts]="Highcharts"
             [options]="totalBoundInboundOptions">
           </highcharts-chart>
-          <div *ngIf="!showLoader && totalBoundInboundData?.length" class="xAsixlabel">
+          <div *ngIf="!showLoader  && totalBoundInboundData?.length" class="xAsixlabel">
           </div>
           <div *ngIf="!showLoader && !totalBoundInboundData?.data?.length" class="nodatafound">No Record Found</div>
         </div>

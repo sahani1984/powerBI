@@ -37,13 +37,13 @@ export class CommunicationService {
   public labourCostWithoutFlight: number = 0;
   public totalDrawersNoFlight: number = 0;
 
-  
+  public currentActiveRoute:any="";
 
 
   constructor() { }
 
-  
-  
+
+
 
   setStartDate(date: any) {
     date.setMonth(date.getMonth() - 1)

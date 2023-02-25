@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import * as Highcharts from 'highcharts';
 import highcharts3D from 'highcharts/highcharts-3d';
+import { filter } from 'rxjs';
 import { CommunicationService } from 'src/app/services/communication.service';
 highcharts3D(Highcharts);
 
@@ -19,26 +21,41 @@ export class ExtraCostWithFlightComponent implements OnInit {
   consumptionPaxByProductData: any = [];
   fuelCTCWithFlight: any = [];
   consumptionPaxByFlightData: any = [];
-
-  constructor(public communication: CommunicationService) {
+  datalist: any = [];
+  constructor(public communication: CommunicationService, private router: Router) {
     this.communication.apiDataLoading.subscribe((res: any) => this.showLoader = res);
     this.communication.dataAirlineFlightBeverage.subscribe((res: any) => {
-      if (res && res.length) {
-        this.consumptionPaxByProductData = this.createConsumptionPaxByProductData(res);
-        this.fuelCTCWithFlight = this.fuelCTCWithFlightProduct(res);
-        this.consumptionPaxByFlightData = this.createConsumptionPaxByFlightData(res);
-        this.createconsumptionPaxByProductChart(this.consumptionPaxByProductData);
-        this.createOBSCostToCarryChart(this.fuelCTCWithFlight['data'], this.fuelCTCWithFlight['category']);
-        this.createConsumptionPaxByFlightChart(this.consumptionPaxByFlightData);
-      } else {
-        this.createconsumptionPaxByProductChart([]);
-        this.createOBSCostToCarryChart([], []);
-        this.createConsumptionPaxByFlightChart([]);
+      if (res) {
+        this.datalist = res;
+        if (router.url == '/dashboard/extra-cost-with-flight') this.initializeCharts(this.datalist);
       }
     })
   }
 
   ngOnInit(): void {
+    this.router.events.pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe((res: any) => {
+        if (res["url"] == '/dashboard/extra-cost-with-flight') {
+          this.initializeCharts(this.datalist);
+        }
+      })
+    this.initializeCharts(this.datalist);
+  }
+
+  initializeCharts(data: any) {
+    console.log(data);
+    if (data.length) {
+      this.consumptionPaxByProductData = this.createConsumptionPaxByProductData(data);
+      this.fuelCTCWithFlight = this.fuelCTCWithFlightProduct(data);
+      this.consumptionPaxByFlightData = this.createConsumptionPaxByFlightData(data);
+      this.createconsumptionPaxByProductChart(this.consumptionPaxByProductData);
+      this.createOBSCostToCarryChart(this.fuelCTCWithFlight['data'], this.fuelCTCWithFlight['category']);
+      this.createConsumptionPaxByFlightChart(this.consumptionPaxByFlightData);
+    } else {
+      this.createconsumptionPaxByProductChart([]);
+      this.createOBSCostToCarryChart([], []);
+      this.createConsumptionPaxByFlightChart([]);
+    }
   }
 
   createconsumptionPaxByProductChart(data: any[]) {

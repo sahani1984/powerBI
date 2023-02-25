@@ -32,7 +32,6 @@ export class FilterComponent implements OnInit {
     this.initform();
     this.communication.dataAirlineFlightBeverageOriginal.subscribe((res: any) => this.airlineFltBevDataListOriginal = res);
     this.communication.dataAirlineBeverageOriginal.subscribe((res: any) => this.alirlineBevDataListOriginal = res);
-
     this.communication.filterOptions.subscribe((res: any) => {
       this.productList = res["product"];
       this.originList = res["origin"];
@@ -54,14 +53,15 @@ export class FilterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.router.events.pipe(filter((e: any) => e instanceof NavigationEnd))
-    //   .subscribe((res: any) => {          
-    //     if (res) {         
-    //       this.deltaItemsFilter(this.filterform.value);
-    //       this.deltaNoFlightFilter(this.filterform.value);
-    //     }
-    //   })
     this.showFilterControls(this.filter_case);
+    this.router.events.pipe(filter((e: any) => e instanceof NavigationEnd))
+      .subscribe((res: any) => {          
+        if (res) {         
+          this.deltaItemsFilter(this.filterform.value);
+          this.deltaNoFlightFilter(this.filterform.value);
+        }
+      })
+   
   }
 
 
@@ -69,6 +69,7 @@ export class FilterComponent implements OnInit {
 
   deltaItemsFilter(res: any) {
     let data = JSON.parse(JSON.stringify(this.airlineFltBevDataListOriginal));
+    console.log(data);
     let result: any[] = []
     result = data.filter((item: any) => new Date(item.departure).getTime() >= res["start_date"].getTime());
     result = result.filter((item: any) => new Date(item.departure).getTime() <= res["end_date"].getTime());

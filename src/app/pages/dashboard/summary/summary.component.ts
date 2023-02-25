@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import * as Highcharts from 'highcharts';
 import highcharts3D from 'highcharts/highcharts-3d';
 highcharts3D(Highcharts);
 import * as moment from 'moment';
+import { filter } from 'rxjs';
 import { CommunicationService } from 'src/app/services/communication.service';
 
 @Component({
@@ -20,31 +22,47 @@ export class SummaryComponent implements OnInit {
   totalFlightCountByData: any = [];
   totalBoardedAndInboundQtyData: any = [];
   totalBoardedAndInboundWeightData: any = [];
-
-  constructor(public communication: CommunicationService) {
+  datalist: any = [];
+  constructor(public communication: CommunicationService, private router: Router) {
     this.communication.apiDataLoading.subscribe((res: any) => this.showLoader = res);
     this.communication.dataAirlineFlightBeverage.subscribe((res: any) => {
       if (res) {
-        if (res.length) {
-          this.totalFlightCountByData = this.createDataForAllFlightByDate(res);
-          let BIQty = this.totalBoardedAndInboundQtyByDate(res);
-          let BIWeigt = this.totalBoardedAndInboundWeightByDate(res);
-          this.totalBoardedAndInboundQtyData = BIQty["data"];
-          this.totalBoardedAndInboundWeightData = BIWeigt["data"];
-          this.allFlightChart(this.totalFlightCountByData);
-          this.createBoardedAndInboundQtyChart(this.totalBoardedAndInboundQtyData, BIQty["startdate"]);
-          this.createBoardedAndInboundWeightChart(this.totalBoardedAndInboundWeightData, BIWeigt["startdate"])
-        } else {
-          this.allFlightChart([]);
-          this.createBoardedAndInboundQtyChart([]);
-          this.createBoardedAndInboundWeightChart([]);
+        if (res) {
+          this.datalist = res
+          if (router.url == '/dashboard/summary') this.initializeCharts(this.datalist);
         }
       }
     })
   }
 
   ngOnInit(): void {
+    this.router.events.pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe((res: any) => {
+        if (res["url"] == '/dashboard/summary') {
+          this.initializeCharts(this.datalist);
+        }
+      })
+    this.initializeCharts(this.datalist);
   }
+
+  initializeCharts(data: any) {
+    console.log(data);
+    if (data?.length) {
+      this.totalFlightCountByData = this.createDataForAllFlightByDate(data);
+      let BIQty = this.totalBoardedAndInboundQtyByDate(data);
+      let BIWeigt = this.totalBoardedAndInboundWeightByDate(data);
+      this.totalBoardedAndInboundQtyData = BIQty["data"];
+      this.totalBoardedAndInboundWeightData = BIWeigt["data"];
+      this.allFlightChart(this.totalFlightCountByData);
+      this.createBoardedAndInboundQtyChart(this.totalBoardedAndInboundQtyData, BIQty["startdate"]);
+      this.createBoardedAndInboundWeightChart(this.totalBoardedAndInboundWeightData, BIWeigt["startdate"])
+    } else {
+      this.allFlightChart([]);
+      this.createBoardedAndInboundQtyChart([]);
+      this.createBoardedAndInboundWeightChart([]);
+    }
+  }
+
 
 
   allFlightChart(data: any[]) {
@@ -106,7 +124,7 @@ export class SummaryComponent implements OnInit {
         marginBottom: 40
 
       },
-      
+
       title: {
         text: "Total Boarded Quantity and Total Inbound Quantity by Date",
       },

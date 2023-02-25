@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit {
         this.getBeverage();
         this.getFlightBeverage();
       }
-    )
+    )   
   }
 
 
